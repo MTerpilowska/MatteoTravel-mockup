@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Matteo Travel — System ERP/CRM</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+		rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+	<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+	<!-- Sidebar -->
+	<aside class="sidebar" id="sidebar">
+		<div class="sidebar-header">
+			<div class="logo">
+				<div class="logo-icon"><i class="fa-solid fa-earth-europe"></i></div>
+				<div class="logo-text">
+					<span class="logo-name">Matteo Travel</span>
+					<span class="logo-sub">System ERP/CRM</span>
+				</div>
+			</div>
+			<button class="sidebar-toggle" id="sidebarToggle" type="button" title="Zwiń lub rozwiń menu"><i
+					class="fa-solid fa-angles-left"></i></button>
+		</div>
+
+		<div class="sidebar-role-selector">
+			<label class="role-label">Widok roli</label>
+			<div class="role-dropdown" id="roleDropdown">
+				<button class="role-dropdown-btn" id="roleDropdownBtn">
+					<i class="fa-solid fa-shield-halved"></i>
+					<span id="currentRoleName">Administrator</span>
+					<i class="fa-solid fa-chevron-down role-chevron"></i>
+				</button>
+				<div class="role-dropdown-menu" id="roleDropdownMenu">
+					<div class="role-option active" data-role="admin"><i class="fa-solid fa-shield-halved"></i>
+						Administrator / Właściciel</div>
+					<div class="role-option" data-role="ofertowanie"><i class="fa-solid fa-file-invoice"></i>
+						Ofertowanie</div>
+					<div class="role-option" data-role="bok"><i class="fa-solid fa-headset"></i> Biuro Obsługi Klienta
+					</div>
+					<div class="role-option" data-role="booking"><i class="fa-solid fa-hotel"></i> Booking / Hotele
+					</div>
+					<div class="role-option" data-role="bilety"><i class="fa-solid fa-plane"></i> Bilety Lotnicze</div>
+					<div class="role-option" data-role="ksiegowosc"><i class="fa-solid fa-calculator"></i> Księgowość
+					</div>
+					<div class="role-option" data-role="marketing"><i class="fa-solid fa-bullhorn"></i> Sprzedaż /
+						Marketing</div>
+					<div class="role-option" data-role="pilot"><i class="fa-solid fa-user-tie"></i> Pilot</div>
+				</div>
+			</div>
+		</div>
+
+		<nav class="sidebar-nav">
+			<div class="nav-section-label">GŁÓWNE</div>
+			<a href="#" class="nav-item active" data-page="dashboard">
+				<i class="fa-solid fa-gauge-high"></i><span>Dashboard</span>
+			</a>
+			<a href="#" class="nav-item" data-page="crm">
+				<i class="fa-solid fa-address-book"></i><span>CRM / Klienci</span>
+			</a>
+			<a href="#" class="nav-item" data-page="zapytania">
+				<i class="fa-solid fa-paper-plane"></i><span>Zapytania i Oferty</span>
+				<span class="nav-badge">12</span>
+			</a>
+			<a href="#" class="nav-item" data-page="grupy">
+				<i class="fa-solid fa-people-group"></i><span>Grupy / Imprezy</span>
+			</a>
+			<a href="#" class="nav-item" data-page="rezerwacje">
+				<i class="fa-solid fa-clipboard-list"></i><span>Rezerwacje</span>
+			</a>
+
+			<div class="nav-section-label">OPERACJE</div>
+			<a href="#" class="nav-item" data-page="umowy">
+				<i class="fa-solid fa-file-contract"></i><span>Umowy i Dokumenty</span>
+			</a>
+			<a href="#" class="nav-item" data-page="platnosci">
+				<i class="fa-solid fa-credit-card"></i><span>Płatności</span>
+				<span class="nav-badge warning">5</span>
+			</a>
+			<a href="#" class="nav-item" data-page="ksiegowosc">
+				<i class="fa-solid fa-calculator"></i><span>Księgowość</span>
+			</a>
+			<a href="#" class="nav-item" data-page="bilety">
+				<i class="fa-solid fa-plane-departure"></i><span>Bilety Lotnicze</span>
+			</a>
+			<a href="#" class="nav-item" data-page="hotele">
+				<i class="fa-solid fa-bed"></i><span>Booking / Hotele</span>
+			</a>
+			<a href="#" class="nav-item" data-page="msze">
+				<i class="fa-solid fa-church"></i><span>Msze Święte</span>
+			</a>
+
+			<div class="nav-section-label">LOGISTYKA</div>
+			<a href="#" class="nav-item" data-page="wysylki">
+				<i class="fa-solid fa-truck-fast"></i><span>Wysyłki / Logistyka</span>
+			</a>
+			<a href="#" class="nav-item" data-page="teczka">
+				<i class="fa-solid fa-folder-open"></i><span>Teczka Pilota</span>
+			</a>
+
+			<div class="nav-section-label">KOMUNIKACJA</div>
+			<a href="#" class="nav-item" data-page="poczta">
+				<i class="fa-solid fa-envelope"></i><span>Poczta</span>
+				<span class="nav-badge">3</span>
+			</a>
+			<a href="#" class="nav-item" data-page="sms">
+				<i class="fa-solid fa-comment-sms"></i><span>SMS</span>
+			</a>
+			<a href="#" class="nav-item" data-page="czat">
+				<i class="fa-solid fa-comments"></i><span>Czat wewnętrzny</span>
+			</a>
+			<a href="#" class="nav-item" data-page="kalendarz">
+				<i class="fa-solid fa-calendar-days"></i><span>Kalendarz</span>
+			</a>
+
+			<div class="nav-section-label">MARKETING</div>
+			<a href="#" class="nav-item" data-page="leady">
+				<i class="fa-solid fa-filter"></i><span>Leady</span>
+			</a>
+			<a href="#" class="nav-item" data-page="kampanie">
+				<i class="fa-solid fa-bullhorn"></i><span>Kampanie</span>
+			</a>
+			<a href="#" class="nav-item" data-page="social">
+				<i class="fa-solid fa-share-nodes"></i><span>Social Media</span>
+			</a>
+
+			<div class="nav-section-label">ANALITYKA</div>
+			<a href="#" class="nav-item" data-page="raporty">
+				<i class="fa-solid fa-chart-bar"></i><span>Raporty</span>
+			</a>
+		</nav>
+
+		<div class="sidebar-footer">
+			<div class="nav-section-label">SYSTEM</div>
+			<a href="#" class="nav-item" data-page="ustawienia">
+				<i class="fa-solid fa-gear"></i><span>Ustawienia</span>
+			</a>
+			<div class="sidebar-user">
+				<div class="user-avatar">AK</div>
+				<div class="user-info">
+					<span class="user-name">Anna Kowalczyk</span>
+					<span class="user-role">Administrator</span>
+				</div>
+				<button class="user-menu-btn" type="button" title="Menu użytkownika"><i
+						class="fa-solid fa-ellipsis-vertical"></i></button>
+			</div>
+		</div>
+	</aside>
+
+	<!-- Main Content -->
+	<main class="main-content" id="mainContent">
+		<!-- Top Bar -->
+		<header class="topbar">
+			<div class="topbar-left">
+				<button class="mobile-toggle" id="mobileToggle" type="button" title="Otwórz menu"><i
+						class="fa-solid fa-bars"></i></button>
+				<div class="search-box">
+					<i class="fa-solid fa-magnifying-glass"></i>
+					<input type="text" placeholder="Szukaj klientów, grup, rezerwacji..." id="globalSearch">
+					<kbd>Ctrl+K</kbd>
+				</div>
+			</div>
+			<div class="topbar-right">
+				<div class="topbar-date">
+					<i class="fa-regular fa-calendar"></i>
+					<span id="currentDate"></span>
+				</div>
+				<div class="topbar-actions">
+					<button class="topbar-btn" title="Szybkie dodawanie" id="quickAddBtn">
+						<i class="fa-solid fa-plus"></i>
+					</button>
+					<div class="topbar-btn notification-btn" id="notificationBtn">
+						<i class="fa-solid fa-bell"></i>
+						<span class="notification-dot"></span>
+					</div>
+					<div class="notification-panel" id="notificationPanel">
+						<div class="notif-header">
+							<h3>Powiadomienia</h3>
+							<button class="notif-mark-all">Oznacz wszystkie jako przeczytane</button>
+						</div>
+						<div class="notif-tabs">
+							<button class="notif-tab active">Wszystkie</button>
+							<button class="notif-tab">Płatności</button>
+							<button class="notif-tab">Rezerwacje</button>
+							<button class="notif-tab">System</button>
+						</div>
+						<div class="notif-list">
+							<div class="notif-item unread">
+								<div class="notif-icon warning"><i class="fa-solid fa-clock"></i></div>
+								<div class="notif-content">
+									<p>Termin wpłaty depozytu za lot <strong>TK 1832</strong> mija jutro</p>
+									<span class="notif-time">12 min temu</span>
+								</div>
+							</div>
+							<div class="notif-item unread">
+								<div class="notif-icon success"><i class="fa-solid fa-check"></i></div>
+								<div class="notif-content">
+									<p>Zaksięgowano wpłatę <strong>2 450 PLN</strong> — Maria Nowak (ZS-2026-042)</p>
+									<span class="notif-time">34 min temu</span>
+								</div>
+							</div>
+							<div class="notif-item unread">
+								<div class="notif-icon danger"><i class="fa-solid fa-triangle-exclamation"></i></div>
+								<div class="notif-content">
+									<p>Brak paszportu: <strong>3 uczestników</strong> — Ziemia Święta 25.04</p>
+									<span class="notif-time">1 godz. temu</span>
+								</div>
+							</div>
+							<div class="notif-item">
+								<div class="notif-icon info"><i class="fa-solid fa-envelope"></i></div>
+								<div class="notif-content">
+									<p>Nowe zapytanie z formularza WWW — ks. Marcin Olszewski</p>
+									<span class="notif-time">2 godz. temu</span>
+								</div>
+							</div>
+							<div class="notif-item">
+								<div class="notif-icon info"><i class="fa-solid fa-user-plus"></i></div>
+								<div class="notif-content">
+									<p>Nowy zapis online: <strong>Fatima i Santiago</strong> — Jan Malinowski</p>
+									<span class="notif-time">3 godz. temu</span>
+								</div>
+							</div>
+						</div>
+						<div class="notif-footer">
+							<a href="#">Zobacz wszystkie powiadomienia</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<!-- Quick Add Modal -->
+		<div class="modal-overlay" id="quickAddModal">
+			<div class="modal">
+				<div class="modal-header">
+					<h2>Szybkie dodawanie</h2>
+					<button class="modal-close" id="quickAddClose" type="button" title="Zamknij okno"><i
+							class="fa-solid fa-xmark"></i></button>
+				</div>
+				<div class="quick-add-grid">
+					<button class="quick-add-item">
+						<i class="fa-solid fa-user-plus"></i>
+						<span>Nowy klient</span>
+					</button>
+					<button class="quick-add-item">
+						<i class="fa-solid fa-paper-plane"></i>
+						<span>Nowe zapytanie</span>
+					</button>
+					<button class="quick-add-item">
+						<i class="fa-solid fa-people-group"></i>
+						<span>Nowa grupa</span>
+					</button>
+					<button class="quick-add-item">
+						<i class="fa-solid fa-clipboard-list"></i>
+						<span>Nowa rezerwacja</span>
+					</button>
+					<button class="quick-add-item">
+						<i class="fa-solid fa-file-contract"></i>
+						<span>Nowa umowa</span>
+					</button>
+					<button class="quick-add-item">
+						<i class="fa-solid fa-credit-card"></i>
+						<span>Rejestruj wpłatę</span>
+					</button>
+					<button class="quick-add-item">
+						<i class="fa-solid fa-calendar-plus"></i>
+						<span>Nowe spotkanie</span>
+					</button>
+					<button class="quick-add-item">
+						<i class="fa-solid fa-note-sticky"></i>
+						<span>Notatka</span>
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Dashboard Content Area -->
+		<div class="content-area" id="contentArea">
+			<!-- Dynamic content loaded by JS -->
+		</div>
+
+		<button class="feedback-tab" id="feedbackTab" type="button" data-html2canvas-ignore="true">
+			<span class="feedback-tab-icon"><i class="fa-solid fa-message"></i></span>
+			<span class="feedback-tab-copy">
+				<strong>Uwagi do widoku</strong>
+				<small>Kliknij, aby otworzyć listę</small>
+			</span>
+			<span class="feedback-tab-badge" id="feedbackTabBadge">0</span>
+		</button>
+
+		<div class="feedback-capture-hint" id="feedbackCaptureHint" data-html2canvas-ignore="true">
+			<div class="feedback-capture-hint-inner">
+				<i class="fa-solid fa-crosshairs"></i>
+				<div>
+					<strong>Tryb oznaczania miejsca</strong>
+					<p>Kliknij dokładnie w miejscu, którego dotyczy uwaga. System zapisze punkt, kontekst widoku i
+						podgląd ekranu.</p>
+				</div>
+				<button class="btn btn-outline" id="feedbackCancelCapture" type="button">Anuluj</button>
+			</div>
+		</div>
+
+		<aside class="feedback-panel" id="feedbackPanel" data-html2canvas-ignore="true" aria-hidden="true">
+			<div class="feedback-panel-header">
+				<div>
+					<span class="feedback-kicker">Matteo Feedback Hub</span>
+					<h2>Lista uwag</h2>
+					<p id="feedbackContextLabel">Dashboard / Administrator</p>
+				</div>
+				<div class="feedback-panel-actions">
+					<button class="btn btn-outline" id="feedbackSyncCurrentBtn" type="button">
+						<i class="fa-solid fa-location-crosshairs"></i>
+						Bieżący widok
+					</button>
+					<button class="btn btn-primary" id="feedbackNewBtn" type="button">
+						<i class="fa-solid fa-plus"></i>
+						Dodaj uwagę
+					</button>
+					<button class="feedback-close" id="feedbackCloseBtn" type="button" aria-label="Zamknij panel uwag">
+						<i class="fa-solid fa-xmark"></i>
+					</button>
+				</div>
+			</div>
+
+			<div class="feedback-panel-body">
+				<section class="feedback-controls">
+					<div class="feedback-control-grid">
+						<label class="feedback-control-field feedback-control-field-wide">
+							<span>Twoje imię</span>
+							<input id="feedbackAuthorInput" type="text" placeholder="Np. Anna z Matteo Travel">
+						</label>
+						<label class="feedback-control-field">
+							<span>Rola</span>
+							<select id="feedbackRoleFilter"></select>
+						</label>
+						<label class="feedback-control-field">
+							<span>Widok</span>
+							<select id="feedbackPageFilter"></select>
+						</label>
+					</div>
+					<div class="feedback-controls-actions">
+						<button class="btn btn-outline" id="feedbackToggleMarkersBtn" type="button">
+							<i class="fa-solid fa-location-dot"></i>
+							Pokaż punkty
+						</button>
+						<button class="btn btn-outline" id="feedbackToggleHistoryBtn" type="button">
+							<i class="fa-regular fa-clock"></i>
+							Pokaż historię
+						</button>
+						<button class="btn btn-outline" id="feedbackApplyViewBtn" type="button">
+							<i class="fa-solid fa-list"></i>
+							Pokaż wybrany widok
+						</button>
+					</div>
+				</section>
+
+				<section class="feedback-summary" id="feedbackSummary"></section>
+
+				<section class="feedback-inbox">
+					<div class="feedback-section-head">
+						<h3>Uwagi dla wybranego widoku</h3>
+						<span id="feedbackCountLabel">0 aktywnych</span>
+					</div>
+					<div class="feedback-list" id="feedbackList"></div>
+				</section>
+
+				<section class="feedback-thread" id="feedbackThread"></section>
+			</div>
+		</aside>
+
+		<div class="feedback-draft-modal" id="feedbackDraftModal" data-html2canvas-ignore="true" hidden
+			aria-hidden="true">
+			<div class="feedback-draft-backdrop" data-action="close-draft-modal"></div>
+			<div class="feedback-draft-dialog" id="feedbackDraftDialog"></div>
+		</div>
+
+		<div class="feedback-toast" id="feedbackToast" data-html2canvas-ignore="true" hidden aria-hidden="true"
+			aria-live="polite"></div>
+
+		<!-- Search Modal (Ctrl+K) -->
+		<div class="search-modal-overlay" id="searchModal" aria-hidden="true" data-html2canvas-ignore="true">
+			<div class="search-modal" role="dialog" aria-label="Wyszukiwarka globalna">
+				<div class="search-modal-input-wrap">
+					<i class="fa-solid fa-magnifying-glass search-modal-icon"></i>
+					<input type="text" id="searchModalInput" placeholder="Szukaj klientów, grup, rezerwacji, modułów…" autocomplete="off" spellcheck="false" aria-label="Szukaj">
+					<kbd class="search-modal-esc">Esc</kbd>
+				</div>
+				<div class="search-modal-body" id="searchModalBody"></div>
+				<div class="search-modal-footer">
+					<span><kbd>↑</kbd><kbd>↓</kbd> nawigacja</span>
+					<span><kbd>↵</kbd> otwórz</span>
+					<span><kbd>Esc</kbd> zamknij</span>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<script src="src/shared/config/app-config.js"></script>
+	<script src="src/shared/ui/shared-ui.js"></script>
+	<script src="src/app/dom.js"></script>
+	<script src="src/app/state.js"></script>
+	<script src="src/views/dashboards.js"></script>
+	<script src="src/views/placeholders.js"></script>
+	<script src="src/views/crm.js"></script>
+	<script src="src/views/zapytania.js"></script>
+	<script src="src/views/grupy.js"></script>
+	<script src="src/views/rezerwacje.js"></script>
+	<script src="src/views/finanse.js"></script>
+	<script src="src/views/operacje.js"></script>
+	<script src="src/views/logistyka.js"></script>
+	<script src="src/views/komunikacja.js"></script>
+	<script src="src/views/kalendarz.js"></script>
+	<script src="src/views/marketing.js"></script>
+	<script src="src/views/raporty.js"></script>
+	<script src="src/features/views/registry.js"></script>
+	<script src="src/features/demo/interactions.js"></script>
+	<script src="src/features/layout/controller.js"></script>
+	<script src="src/features/navigation/controller.js"></script>
+	<script src="src/features/search/controller.js"></script>
+	<script src="src/features/feedback/api.js"></script>
+	<script src="src/features/feedback/panel.js"></script>
+	<script src="src/features/feedback/toast.js"></script>
+	<script src="src/features/feedback/controller.js"></script>
+	<script src="src/app/bootstrap.js"></script>
+</body>
+
+</html>
