@@ -5,7 +5,10 @@
 		const { formatSummary, listMarkup, historyMarkup, draftMarkup, threadMarkup, emptyThreadMarkup } = panel;
 
 		function getAuthorName() {
-			return dom.feedbackAuthorInput.value.trim() || 'Anonim';
+			if (dom.feedbackAuthorInput) {
+				return dom.feedbackAuthorInput.value.trim() || ROLE_OPTIONS.find(r => r.key === state.currentRole)?.label || state.currentRole;
+			}
+			return ROLE_OPTIONS.find(r => r.key === state.currentRole)?.label || state.currentRole;
 		}
 
 		function persistAuthorName() {
@@ -13,7 +16,9 @@
 		}
 
 		function restoreAuthorName() {
-			dom.feedbackAuthorInput.value = localStorage.getItem(STORAGE_KEYS.authorName) || '';
+			if (dom.feedbackAuthorInput) {
+				dom.feedbackAuthorInput.value = localStorage.getItem(STORAGE_KEYS.authorName) || '';
+			}
 		}
 
 		function populateSelect(select, items, selectedKey) {
@@ -84,9 +89,9 @@
 			dom.feedbackContextLabel.textContent = getCurrentContextLabel();
 			dom.feedbackSummary.innerHTML = formatSummary(activeItems);
 			dom.feedbackCountLabel.textContent = `${activeItems.length} aktywnych`;
-			dom.feedbackTabBadge.textContent = String(activeItems.length);
-			dom.feedbackToggleMarkersBtn.innerHTML = state.markersVisible ? '<i class="fa-solid fa-location-crosshairs"></i> Ukryj punkty' : '<i class="fa-solid fa-location-dot"></i> Pokaż punkty';
-			dom.feedbackToggleHistoryBtn.innerHTML = state.historyVisible ? '<i class="fa-regular fa-clock"></i> Ukryj historię' : '<i class="fa-regular fa-clock"></i> Pokaż historię';
+			if (dom.feedbackTabBadge) dom.feedbackTabBadge.textContent = String(activeItems.length);
+			if (dom.feedbackToggleMarkersBtn) dom.feedbackToggleMarkersBtn.innerHTML = state.markersVisible ? '<i class="fa-solid fa-location-crosshairs"></i> Ukryj punkty' : '<i class="fa-solid fa-location-dot"></i> Pokaż punkty';
+			if (dom.feedbackToggleHistoryBtn) dom.feedbackToggleHistoryBtn.innerHTML = state.historyVisible ? '<i class="fa-regular fa-clock"></i> Ukryj historię' : '<i class="fa-regular fa-clock"></i> Pokaż historię';
 
 			const activeMarkup = listMarkup(activeItems, state.selectedFeedbackId, formatRelativeTime);
 			const historySectionMarkup = state.historyVisible
@@ -200,7 +205,8 @@
 			const reply = formData.get('reply').toString().trim();
 			if (!reply) return;
 			try {
-				await addReply(selected.id, { author: getAuthorName(), role: 'Uzytkownik', text: reply });
+				const roleLabel = ROLE_OPTIONS.find(r => r.key === state.currentRole)?.label || 'Użytkownik';
+				await addReply(selected.id, { author: getAuthorName(), role: roleLabel, text: reply });
 				await loadFeedback();
 				state.selectedFeedbackId = selected.id;
 				toast.show('Dodano odpowiedz.', 'success');
@@ -243,8 +249,8 @@
 		}
 
 		function applySelectedView() {
-			state.selectedRoleFilter = dom.feedbackRoleFilter.value;
-			state.selectedPageFilter = dom.feedbackPageFilter.value;
+			if (dom.feedbackRoleFilter) state.selectedRoleFilter = dom.feedbackRoleFilter.value;
+			if (dom.feedbackPageFilter) state.selectedPageFilter = dom.feedbackPageFilter.value;
 			state.selectedFeedbackId = null;
 			resetDraft();
 			loadFeedback();
@@ -253,8 +259,8 @@
 		function syncToCurrentView() {
 			state.selectedRoleFilter = state.currentRole;
 			state.selectedPageFilter = state.currentPage;
-			dom.feedbackRoleFilter.value = state.currentRole;
-			dom.feedbackPageFilter.value = state.currentPage;
+			if (dom.feedbackRoleFilter) dom.feedbackRoleFilter.value = state.currentRole;
+			if (dom.feedbackPageFilter) dom.feedbackPageFilter.value = state.currentPage;
 			state.selectedFeedbackId = null;
 			loadFeedback();
 		}
@@ -278,18 +284,18 @@
 				resetDraft();
 				renderPanel();
 			});
-			dom.feedbackApplyViewBtn.addEventListener('click', applySelectedView);
+			if (dom.feedbackApplyViewBtn) dom.feedbackApplyViewBtn.addEventListener('click', applySelectedView);
 			dom.feedbackSyncCurrentBtn.addEventListener('click', syncToCurrentView);
-			dom.feedbackToggleMarkersBtn.addEventListener('click', () => {
+			if (dom.feedbackToggleMarkersBtn) dom.feedbackToggleMarkersBtn.addEventListener('click', () => {
 				state.markersVisible = !state.markersVisible;
 				renderFeedbackLayer();
 				renderPanel();
 			});
-			dom.feedbackToggleHistoryBtn.addEventListener('click', () => {
+			if (dom.feedbackToggleHistoryBtn) dom.feedbackToggleHistoryBtn.addEventListener('click', () => {
 				state.historyVisible = !state.historyVisible;
 				renderPanel();
 			});
-			dom.feedbackAuthorInput.addEventListener('change', persistAuthorName);
+			if (dom.feedbackAuthorInput) dom.feedbackAuthorInput.addEventListener('change', persistAuthorName);
 			dom.mainContentArea.addEventListener('click', beginDraftAtPoint);
 			dom.mainContentArea.addEventListener('click', (event) => {
 				const marker = event.target.closest('.feedback-marker');
@@ -360,13 +366,14 @@
 		}
 
 		function onViewContextChange() {
+			syncToCurrentView();
 			renderFeedbackLayer();
 			renderPanel();
 		}
 
 		function init() {
-			populateSelect(dom.feedbackRoleFilter, ROLE_OPTIONS, state.selectedRoleFilter);
-			populateSelect(dom.feedbackPageFilter, PAGE_OPTIONS, state.selectedPageFilter);
+			if (dom.feedbackRoleFilter) populateSelect(dom.feedbackRoleFilter, ROLE_OPTIONS, state.selectedRoleFilter);
+			if (dom.feedbackPageFilter) populateSelect(dom.feedbackPageFilter, PAGE_OPTIONS, state.selectedPageFilter);
 			restoreAuthorName();
 			bindEvents();
 			renderPanel();
