@@ -156,7 +156,7 @@
 			title: 'Nowa umowa',
 			fields: [
 				{ label: 'Numer umowy', placeholder: 'np. UM/2026/042' },
-				{ label: 'Organizator / Klient', placeholder: 'Imię, nazwisko lub nazwa' },
+				{ label: 'Organizator / Uczestnik', placeholder: 'Imię, nazwisko lub nazwa' },
 				{ label: 'Impreza (kod)', placeholder: 'np. MT-2026-WL-01' },
 				{ label: 'Data zawarcia', placeholder: 'DD.MM.RRRR' },
 				{ label: 'Kwota całkowita', placeholder: 'np. 9 000 PLN' },
@@ -589,7 +589,7 @@
 				'</div>',
 				'<div class="form-row-2">',
 				'  <div class="form-field"><span>Autor oferty</span><select><option>Anna K.</option><option>Marek W.</option><option>Piotr S.</option></select></div>',
-				'  <div class="form-field"><span>BOK (obsługa klienta)</span><select><option>Kamila (K)</option><option>Paulina (P)</option></select></div>',
+				'  <div class="form-field"><span>BOK (obsługa uczestnika)</span><select><option>Kamila (K)</option><option>Paulina (P)</option></select></div>',
 				'</div>',
 				'<div class="form-row-2">',
 				'  <div class="form-field"><span>Bilety (dział biletowy)</span><select><option>Edyta (E)</option><option>Monika (M)</option></select></div>',
@@ -757,7 +757,8 @@
 	function handleQuickAddItem(item) {
 		var label = item.querySelector('span')?.textContent?.trim() || 'Nowy wpis';
 		var pageMap = {
-			'Nowy klient': 'crm',
+			'Nowy organizator': 'crm',
+			'Nowy uczestnik': 'crm',
 			'Nowe zapytanie': 'zapytania',
 			'Nowa grupa': 'grupy',
 			'Nowa rezerwacja': 'rezerwacje',

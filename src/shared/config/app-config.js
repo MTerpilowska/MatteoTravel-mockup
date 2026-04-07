@@ -2,7 +2,7 @@
         const ROLE_OPTIONS = [
                 { key: 'admin', label: 'Administrator / Właściciel' },
                 { key: 'ofertowanie', label: 'Ofertowanie' },
-                { key: 'bok', label: 'Biuro Obsługi Klienta' },
+                { key: 'bok', label: 'Biuro Obsługi Uczestnika' },
                 { key: 'booking', label: 'Booking / Hotele' },
                 { key: 'bilety', label: 'Bilety Lotnicze' },
                 { key: 'ksiegowosc', label: 'Księgowość' },
@@ -23,7 +23,7 @@
 
         const PAGE_OPTIONS = [
                 { key: 'dashboard', label: 'Dashboard' },
-                { key: 'crm', label: 'CRM / Klienci' },
+                { key: 'crm', label: 'CRM / Uczestnicy' },
                 { key: 'zapytania', label: 'Zapytania i Oferty' },
                 { key: 'grupy', label: 'Grupy / Imprezy' },
                 { key: 'rezerwacje', label: 'Rezerwacje' },
@@ -72,20 +72,20 @@
         };
 
         const FEEDBACK_SUMMARY = [
-                { key: 'open', label: 'Otwarte', caption: 'Do doprecyzowania z klientem', cardClassName: 'accent' },
+                { key: 'open', label: 'Otwarte', caption: 'Do doprecyzowania z uczestnikiem', cardClassName: 'accent' },
                 { key: 'in_review', label: 'W analizie', caption: 'W pracy zespołu wdrożeniowego', cardClassName: '' },
                 { key: 'resolved', label: 'Zakończone', caption: 'Uzgodnione i zamknięte', cardClassName: 'success' }
         ];
 
         const PLACEHOLDER_STEPS = [
                 { title: 'Widok jest gotowy do akceptacji', description: 'Ta sekcja pokazuje, jak wygląda makieta procesu dla wybranej roli i funkcjonalności.' },
-                { title: 'Klient dodaje uwagę lub komentarz', description: 'Każda uwaga zapisuje się w jednym wspólnym pliku JSON obsługiwanym przez lokalny backend.' },
+                { title: 'Uczestnik dodaje uwagę lub komentarz', description: 'Każda uwaga zapisuje się w jednym wspólnym pliku JSON obsługiwanym przez lokalny backend.' },
                 { title: 'Zespół odpowiada i zamyka temat', description: 'Wątek komunikacji i status uwagi są wspólne dla wszystkich osób, które wejdą pod ten sam link.' }
         ];
 
         const PLACEHOLDER_DISCUSSION_POINTS = [
                 'Które pola muszą być obowiązkowe na starcie procesu.',
-                'Jakie akcje mają być widoczne dla klienta, a jakie tylko dla zespołu Matteo.',
+                'Jakie akcje mają być widoczne dla uczestnika, a jakie tylko dla zespołu Matteo.',
                 'Jak ma wyglądać logika walidacji, blokad i statusów.'
         ];
 

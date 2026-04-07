@@ -4,19 +4,19 @@
 	/* Mock data — pełna baza do wyszukiwania                              */
 	/* ------------------------------------------------------------------ */
 	var MOCK_DATA = [
-		/* Klienci */
-		{ type: 'client', icon: 'fa-user', title: 'Anna Kowalska', sub: 'ul. Kwiatowa 12, Warszawa · +48 500 100 200', page: 'crm', cat: 'Klienci', badge: 'CRM', badgeCls: 'badge-crm' },
-		{ type: 'client', icon: 'fa-user', title: 'Jan Malinowski', sub: 'ul. Lipowa 3, Kraków · +48 600 200 300', page: 'crm', cat: 'Klienci', badge: 'CRM', badgeCls: 'badge-crm' },
-		{ type: 'client', icon: 'fa-user', title: 'Maria Wiśniewska', sub: 'ul. Różana 7, Wrocław · +48 700 300 400', page: 'crm', cat: 'Klienci', badge: 'CRM', badgeCls: 'badge-crm' },
-		{ type: 'client', icon: 'fa-user', title: 'Tomasz Jabłoński', sub: 'Gdańsk · RES-2026-051', page: 'crm', cat: 'Klienci', badge: 'CRM', badgeCls: 'badge-crm' },
-		{ type: 'client', icon: 'fa-user', title: 'Katarzyna Zielińska', sub: 'Łódź · ZS-2026-067', page: 'crm', cat: 'Klienci', badge: 'CRM', badgeCls: 'badge-crm' },
-		{ type: 'client', icon: 'fa-user', title: 'Paweł Dąbrowski', sub: 'Poznań · pielgrzymka Ziemia Święta', page: 'crm', cat: 'Klienci', badge: 'CRM', badgeCls: 'badge-crm' },
-		{ type: 'client', icon: 'fa-user', title: 'Elżbieta Wróbel', sub: 'Szczecin · RES-2026-019', page: 'crm', cat: 'Klienci', badge: 'CRM', badgeCls: 'badge-crm' },
-		{ type: 'client', icon: 'fa-user', title: 'Michał Kowalczyk', sub: 'Lublin · depozyt do zapłaty', page: 'crm', cat: 'Klienci', badge: 'CRM', badgeCls: 'badge-crm' },
-		{ type: 'client', icon: 'fa-user', title: 'Barbara Lewandowska', sub: 'Kraków · 3 rezerwacje', page: 'crm', cat: 'Klienci', badge: 'CRM', badgeCls: 'badge-crm' },
-		{ type: 'client', icon: 'fa-user', title: 'ks. Marcin Olszewski', sub: 'Warszawa · zapytanie z formularza WWW', page: 'crm', cat: 'Klienci', badge: 'CRM', badgeCls: 'badge-crm' },
-		{ type: 'client', icon: 'fa-user', title: 'Joanna Kwiatkowska', sub: 'Rzeszów · +48 510 900 111', page: 'crm', cat: 'Klienci', badge: 'CRM', badgeCls: 'badge-crm' },
-		{ type: 'client', icon: 'fa-user', title: 'Rafał Nowakowski', sub: 'Białystok · 2 rezerwacje · ZS-2026-089', page: 'crm', cat: 'Klienci', badge: 'CRM', badgeCls: 'badge-crm' },
+		/* Uczestnicy */
+		{ type: 'client', icon: 'fa-user', title: 'Anna Kowalska', sub: 'ul. Kwiatowa 12, Warszawa · +48 500 100 200', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm' },
+		{ type: 'client', icon: 'fa-user', title: 'Jan Malinowski', sub: 'ul. Lipowa 3, Kraków · +48 600 200 300', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm' },
+		{ type: 'client', icon: 'fa-user', title: 'Maria Wiśniewska', sub: 'ul. Różana 7, Wrocław · +48 700 300 400', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm' },
+		{ type: 'client', icon: 'fa-user', title: 'Tomasz Jabłoński', sub: 'Gdańsk · RES-2026-051', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm' },
+		{ type: 'client', icon: 'fa-user', title: 'Katarzyna Zielińska', sub: 'Łódź · ZS-2026-067', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm' },
+		{ type: 'client', icon: 'fa-user', title: 'Paweł Dąbrowski', sub: 'Poznań · pielgrzymka Ziemia Święta', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm' },
+		{ type: 'client', icon: 'fa-user', title: 'Elżbieta Wróbel', sub: 'Szczecin · RES-2026-019', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm' },
+		{ type: 'client', icon: 'fa-user', title: 'Michał Kowalczyk', sub: 'Lublin · depozyt do zapłaty', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm' },
+		{ type: 'client', icon: 'fa-user', title: 'Barbara Lewandowska', sub: 'Kraków · 3 rezerwacje', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm' },
+		{ type: 'client', icon: 'fa-user', title: 'ks. Marcin Olszewski', sub: 'Warszawa · zapytanie z formularza WWW', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm' },
+		{ type: 'client', icon: 'fa-user', title: 'Joanna Kwiatkowska', sub: 'Rzeszów · +48 510 900 111', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm' },
+		{ type: 'client', icon: 'fa-user', title: 'Rafał Nowakowski', sub: 'Białystok · 2 rezerwacje · ZS-2026-089', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm' },
 
 		/* Grupy */
 		{ type: 'group', icon: 'fa-people-group', title: 'Ziemia Święta z Jordanią — kwiecień 2026', sub: 'GR-2026-008 · 34 uczestników · od 8 590 PLN', page: 'grupy', cat: 'Grupy / Imprezy', badge: 'Grupy', badgeCls: 'badge-grupy' },
@@ -45,7 +45,7 @@
 
 		/* Moduły */
 		{ type: 'module', icon: 'fa-gauge-high',       title: 'Dashboard',            sub: 'Pulpit główny z KPI i aktywnością',        page: 'dashboard',  cat: 'Moduły', badge: 'Moduł', badgeCls: 'badge-modul' },
-		{ type: 'module', icon: 'fa-address-book',     title: 'CRM / Klienci',        sub: 'Baza klientów i kontaktów',                 page: 'crm',        cat: 'Moduły', badge: 'Moduł', badgeCls: 'badge-modul' },
+		{ type: 'module', icon: 'fa-address-book',     title: 'CRM / Uczestnicy',        sub: 'Baza uczestników i kontaktów',                 page: 'crm',        cat: 'Moduły', badge: 'Moduł', badgeCls: 'badge-modul' },
 		{ type: 'module', icon: 'fa-paper-plane',      title: 'Zapytania i Oferty',   sub: 'Zarządzanie zapytaniami i wycenami',        page: 'zapytania',  cat: 'Moduły', badge: 'Moduł', badgeCls: 'badge-modul' },
 		{ type: 'module', icon: 'fa-people-group',     title: 'Grupy / Imprezy',      sub: 'Zarządzanie wyjazdami grupowymi',           page: 'grupy',      cat: 'Moduły', badge: 'Moduł', badgeCls: 'badge-modul' },
 		{ type: 'module', icon: 'fa-clipboard-list',   title: 'Rezerwacje',           sub: 'Lista wszystkich rezerwacji',               page: 'rezerwacje', cat: 'Moduły', badge: 'Moduł', badgeCls: 'badge-modul' },
@@ -64,7 +64,7 @@
 	/* domyślnie pokazywane gdy pole puste */
 	var DEFAULT_ITEMS = [
 		MOCK_DATA.find(function (d) { return d.title === 'Dashboard'; }),
-		MOCK_DATA.find(function (d) { return d.title === 'CRM / Klienci'; }),
+		MOCK_DATA.find(function (d) { return d.title === 'CRM / Uczestnicy'; }),
 		MOCK_DATA.find(function (d) { return d.title === 'Zapytania i Oferty'; }),
 		MOCK_DATA.find(function (d) { return d.title === 'Grupy / Imprezy'; }),
 		MOCK_DATA.find(function (d) { return d.title === 'Rezerwacje'; }),

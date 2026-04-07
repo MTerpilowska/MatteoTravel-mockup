@@ -32,7 +32,7 @@
 		return [
 			dashboardHeader({
 				title: 'Poczta elektroniczna',
-				subtitle: 'Centralna skrzynka — wiadomości automatycznie przypisywane do klientów i imprez',
+				subtitle: 'Centralna skrzynka — wiadomości automatycznie przypisywane do uczestników i imprez',
 				actions: [
 					button({ label: 'Odświeź', icon: 'fa-solid fa-rotate', variant: 'outline' }),
 					button({ label: 'Nowa wiadomość', icon: 'fa-solid fa-pen-to-square' })

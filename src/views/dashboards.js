@@ -54,7 +54,7 @@
 
 		bok: [
 			dashboardHeader({
-				title: 'Biuro Obsługi Klienta',
+				title: 'Biuro Obsługi Uczestnika',
 				subtitle: 'Obsługa uczestników, dokumenty, płatności, komunikacja',
 				actions: [button({ label: 'Nowy uczestnik', icon: 'fa-solid fa-user-plus' })]
 			}),
@@ -110,7 +110,7 @@
 				statCard({ title: 'Przychód miesiąc', value: '195 400 PLN', icon: 'fa-solid fa-sack-dollar', iconTone: 'green', trend: '+22% vs. marzec 2025', trendTone: 'positive' }),
 				statCard({ title: 'Faktury do wystawienia', value: '8', icon: 'fa-solid fa-file-invoice', iconTone: 'orange' }),
 				statCard({ title: 'TFG/TFP — kwiecień', value: '3 420 PLN', icon: 'fa-solid fa-shield-halved', iconTone: 'blue' }),
-				statCard({ title: 'Zaległe należności', value: '12 300 PLN', icon: 'fa-solid fa-circle-exclamation', iconTone: 'red', trend: '3 klientów', trendTone: 'negative' })
+				statCard({ title: 'Zaległe należności', value: '12 300 PLN', icon: 'fa-solid fa-circle-exclamation', iconTone: 'red', trend: '3 uczestników', trendTone: 'negative' })
 			]),
 			panel({ title: 'Do rozliczenia — kwiecień 2026', body: '<div class="table-container"><table><thead><tr><th>Impreza</th><th>Pax</th><th>Brutto UAB</th><th>Koszty</th><th>Marża</th><th>TFG</th><th>VAT marża</th><th>Status</th></tr></thead><tbody><tr><td><strong>WL-01 Ziemia Święta</strong></td><td>42</td><td>378 000</td><td>308 000</td><td>70 000</td><td>2 100</td><td>5 691</td><td>' + statusBadge('Zatwierdzone', 'success') + '</td></tr><tr><td><strong>IT-03 Rzym</strong></td><td>44</td><td>396 000</td><td>318 000</td><td>78 000</td><td>2 200</td><td>6 342</td><td>' + statusBadge('W opracowaniu', 'info') + '</td></tr></tbody></table></div>' })
 		].join(''),

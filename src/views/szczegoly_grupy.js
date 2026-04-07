@@ -504,7 +504,7 @@ window.showAddPassengerModal = function() {
                 '</div>' +
               '</div>' +
             '</div>' +
-            '<button class="btn btn-primary" title="Utwórz nowego klienta" style="padding: 0.6rem 1rem;" data-no-demo="true" onclick="event.stopPropagation(); window.showNewPassengerForm();"><i class="fa-solid fa-plus"></i></button>' +
+            '<button class="btn btn-primary" title="Utwórz nowego uczestnika" style="padding: 0.6rem 1rem;" data-no-demo="true" onclick="event.stopPropagation(); window.showNewPassengerForm();"><i class="fa-solid fa-plus"></i></button>' +
           '</div>' +
         '</div>' +
       '</div>' +

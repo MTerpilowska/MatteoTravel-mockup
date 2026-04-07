@@ -21,7 +21,7 @@
 				title: pageName,
 				subtitle: `Makieta procesu dla roli ${roleName}. Widok jest gotowy do zbierania i omawiania uwag.`,
 				actions: [
-					button({ label: 'Widok klienta', icon: 'fa-solid fa-eye', variant: 'outline' }),
+					button({ label: 'Widok uczestnika', icon: 'fa-solid fa-eye', variant: 'outline' }),
 					button({ label: 'Akcja glowna', icon: 'fa-solid fa-list-check' })
 				]
 			}).replace('dashboard-header"', 'dashboard-header feedback-page-header"'),
@@ -40,7 +40,7 @@
 					body: `
 						<label class="feedback-field"><span>Nazwa procesu</span><input type="text" value="${escapeHtml(pageName)}" readonly></label>
 						<label class="feedback-field"><span>Wlasciciel biznesowy</span><input type="text" value="Matteo Travel" readonly></label>
-						<label class="feedback-field full"><span>Opis dzialania</span><textarea rows="4" readonly>To miejsce pokazuje, gdzie klient bedzie najczesciej zostawiac doprecyzowania dotyczace przebiegu procesu, walidacji formularza albo kolejnosci akcji.</textarea></label>
+						<label class="feedback-field full"><span>Opis dzialania</span><textarea rows="4" readonly>To miejsce pokazuje, gdzie uczestnik bedzie najczesciej zostawiac doprecyzowania dotyczace przebiegu procesu, walidacji formularza albo kolejnosci akcji.</textarea></label>
 						<div class="feedback-field-card"><strong>Punkty do uzgodnienia</strong><ul>${pointsMarkup}</ul></div>
 						<div class="feedback-field-card accent"><strong>Dlaczego ten widok jest skalowalny</strong><p>Karty, panele i logika feedbacku sa skladane z jednego systemu UI oraz wspolnych modulow aplikacji.</p></div>
 					`

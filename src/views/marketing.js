@@ -84,11 +84,11 @@ function renderKampanie() {
 const campaigns = [
 {
 id: 'KAM-001',
-name: 'Retencja 2026 — starzy klienci',
+name: 'Retencja 2026 — starzy uczestnicy',
 type: 'Retencja',
 typeTone: 'purple',
 typeIcon: 'fa-solid fa-rotate-left',
-rule: 'Klient z wyjazdami 2022–2024, brak rezerwacji 2025–2026',
+rule: 'Uczestnik z wyjazdami 2022–2024, brak rezerwacji 2025–2026',
 segment: 'Proboszczowie i wikariusze · ostatni wyjazd ≤2024',
 assigned: 'Anna K.',
 contacts: 147,

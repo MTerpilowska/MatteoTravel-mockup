@@ -63,7 +63,7 @@
 				<i class="fa-solid fa-gauge-high"></i><span>Dashboard</span>
 			</a>
 			<a href="#" class="nav-item" data-page="crm">
-				<i class="fa-solid fa-address-book"></i><span>CRM / Klienci</span>
+				<i class="fa-solid fa-address-book"></i><span>CRM / Uczestnicy</span>
 			</a>
 			<a href="#" class="nav-item" data-page="zapytania">
 				<i class="fa-solid fa-paper-plane"></i><span>Zapytania i Oferty</span>
@@ -163,7 +163,7 @@
 						class="fa-solid fa-bars"></i></button>
 				<div class="search-box">
 					<i class="fa-solid fa-magnifying-glass"></i>
-					<input type="text" placeholder="Szukaj klientów, grup, rezerwacji..." id="globalSearch">
+					<input type="text" placeholder="Szukaj uczestników, grup, rezerwacji..." id="globalSearch">
 					<kbd>Ctrl+K</kbd>
 				</div>
 			</div>
@@ -246,8 +246,12 @@
 				</div>
 				<div class="quick-add-grid">
 					<button class="quick-add-item">
+						<i class="fa-solid fa-user-tie"></i>
+						<span>Nowy organizator</span>
+					</button>
+					<button class="quick-add-item">
 						<i class="fa-solid fa-user-plus"></i>
-						<span>Nowy klient</span>
+						<span>Nowy uczestnik</span>
 					</button>
 					<button class="quick-add-item">
 						<i class="fa-solid fa-paper-plane"></i>
@@ -359,7 +363,7 @@
 			<div class="search-modal" role="dialog" aria-label="Wyszukiwarka globalna">
 				<div class="search-modal-input-wrap">
 					<i class="fa-solid fa-magnifying-glass search-modal-icon"></i>
-					<input type="text" id="searchModalInput" placeholder="Szukaj klientów, grup, rezerwacji, modułów…" autocomplete="off" spellcheck="false" aria-label="Szukaj">
+					<input type="text" id="searchModalInput" placeholder="Szukaj uczestników, grup, rezerwacji, modułów…" autocomplete="off" spellcheck="false" aria-label="Szukaj">
 					<kbd class="search-modal-esc">Esc</kbd>
 				</div>
 				<div class="search-modal-body" id="searchModalBody"></div>

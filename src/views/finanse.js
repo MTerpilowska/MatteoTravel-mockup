@@ -64,11 +64,11 @@
 						<div class="doc-path-list">
 							<div class="doc-path-item active">
 								<div class="doc-path-icon online"><i class="fa-solid fa-globe"></i></div>
-								<div><strong>Online — link do podpisu</strong><p>Klient otrzymuje e-mail z linkiem i akceptuje warunki online. Najszybsza ścieżka.</p></div>
+								<div><strong>Online — link do podpisu</strong><p>Uczestnik otrzymuje e-mail z linkiem i akceptuje warunki online. Najszybsza ścieżka.</p></div>
 							</div>
 							<div class="doc-path-item">
 								<div class="doc-path-icon scan"><i class="fa-solid fa-file-image"></i></div>
-								<div><strong>Skan podpisanego dokumentu</strong><p>Klient drukuje, podpisuje i dostarcza skan mailem lub osobiście.</p></div>
+								<div><strong>Skan podpisanego dokumentu</strong><p>Uczestnik drukuje, podpisuje i dostarcza skan mailem lub osobiście.</p></div>
 							</div>
 							<div class="doc-path-item">
 								<div class="doc-path-icon paper"><i class="fa-solid fa-print"></i></div>
