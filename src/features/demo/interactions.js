@@ -481,6 +481,10 @@
 		}
 
 		if (action === 'karta_grupy') {
+                    window.AppNavigation.setActivePage('szczegoly_grupy');
+                    return;
+            }
+            if (action === 'karta_grupy_old') {
 			var card = document.querySelector('.group-card-detail');
 			if (card) {
 				card.style.display = 'block';

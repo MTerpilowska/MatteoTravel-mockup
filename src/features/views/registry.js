@@ -8,6 +8,7 @@
 			crm:         function () { return window.CRMView.renderCRM(); },
 			zapytania:   function () { return window.ZapytaniaView.renderZapytania(); },
 			grupy:       function () { return window.GrupyView.renderGrupy(); },
+            szczegoly_grupy: function () { return window.SzczegolyGrupyView.renderSzczegolyGrupy(); },
 			rezerwacje:  function () { return window.RezerwacjeView.renderRezerwacje(); },
 			umowy:       function () { return window.UmowyView.renderUmowy(); },
 			platnosci:   function () { return window.PlatnosciView.renderPlatnosci(); },

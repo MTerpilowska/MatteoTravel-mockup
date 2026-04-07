@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	layout.init();
 	feedback.init();
 	navigation.init();
-	window.SearchController.createSearchController().init();
+	window.AppNavigation = navigation;
+        window.SearchController.createSearchController().init();
 	window.DemoInteractions.init();
 });
