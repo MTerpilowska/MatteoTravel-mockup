@@ -333,6 +333,7 @@ panel({ title: 'Transport — szczegóły Egipt 24–31.01.2026', body:
 '<div class="group-tab-panel" data-panel="pasazerowie">' +
 panel({ title: 'Pasażerowie — 44 / 45 (Egipt Żebrowska / Lipka)', action:
   '<div style="display:flex;gap:0.5rem">' +
+  button({ label: 'Dodaj pasażera', icon: 'fa-solid fa-plus', variant: 'primary', attrs: { 'data-no-demo': 'true', onclick: 'event.stopPropagation(); window.showAddPassengerModal()' } }) +
   button({ label: 'Import z Excela', icon: 'fa-solid fa-file-excel', variant: 'outline' }) +
   button({ label: 'Eksport listy', icon: 'fa-solid fa-download', variant: 'ghost' }) +
   '</div>',
@@ -472,5 +473,84 @@ window.showEditPaymentModal = function(type, amount, date, method, status, note)
   }, 10);
 };
 
+window.showAddPassengerModal = function() {
+  var overlay = document.createElement('div');
+  overlay.className = 'demo-modal-overlay';
+  overlay.id = 'demo-add-passenger-modal';
+  
+  var modalHtml = 
+    '<div class="demo-modal" style="max-width: 500px; width: 95%; pointer-events: auto; overflow: visible;">' +
+      '<div class="demo-modal-header">' +
+        '<h2>Dodaj pasażera</h2>' +
+        '<button class="demo-modal-close" onclick="document.getElementById(\'demo-add-passenger-modal\').classList.remove(\'show\'); setTimeout(() => document.getElementById(\'demo-add-passenger-modal\').remove(), 250);">&times;</button>' +
+      '</div>' +
+      '<div class="demo-modal-body" id="passenger-modal-body" style="padding: 1.5rem; background: #fff; min-height: 250px;">' +
+        '<div style="display: flex; flex-direction: column; gap: 0.5rem;">' +
+          '<label style="font-weight:500;font-size:0.9rem;">Wyszukaj po nazwisku</label>' +
+          '<div style="display: flex; gap: 0.5rem; justify-content: space-between; align-items: stretch;">' +
+            '<div style="position: relative; flex: 1;">' +
+              '<i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>' +
+              '<input type="text" id="passenger-search-input" placeholder="Wpisz nazwisko..." value="Kowa" style="width:100%;padding:0.6rem 0.6rem 0.6rem 2.2rem;border:1px solid #cbd5e1;border-radius:6px;font-size:0.9rem;" oninput="document.getElementById(\'passenger-dropdown\').style.display = this.value ? \'block\' : \'none\'">' +
+              '<div id="passenger-dropdown" style="position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid var(--border-color);border-radius:6px;margin-top:0.25rem;box-shadow:0 10px 15px -3px rgba(0,0,0,0.1);z-index:50;">' +
+                '<div style="padding:0.5rem 1rem;border-bottom:1px solid var(--border-color);cursor:pointer;display:flex;justify-content:space-between;align-items:center;" onmouseover="this.style.background=\'#f8fafc\'" onmouseout="this.style.background=\'#fff\'">' +
+                  '<div><strong>Jan Kowalski</strong><br><small style="color:var(--text-muted)">92031500000 · jan.kowalski@email.com</small></div>' +
+                  '<i class="fa-solid fa-check" style="color:var(--text-muted); font-size:0.8rem; display:none;"></i>' +
+                '</div>' +
+                '<div style="padding:0.5rem 1rem;border-bottom:1px solid var(--border-color);cursor:pointer;display:flex;justify-content:space-between;align-items:center;" onmouseover="this.style.background=\'#f8fafc\'" onmouseout="this.style.background=\'#fff\'">' +
+                  '<div><strong>Anna Kowalczyk</strong><br><small style="color:var(--text-muted)">88052100000 · a.kowalczyk@email.com</small></div>' +
+                '</div>' +
+                '<div style="padding:0.5rem 1rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;" onmouseover="this.style.background=\'#f8fafc\'" onmouseout="this.style.background=\'#fff\'">' +
+                  '<div><strong>Michał Kowal</strong><br><small style="color:var(--text-muted)">75010100000 · brak email</small></div>' +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+            '<button class="btn btn-primary" title="Utwórz nowego klienta" style="padding: 0.6rem 1rem;" data-no-demo="true" onclick="event.stopPropagation(); window.showNewPassengerForm();"><i class="fa-solid fa-plus"></i></button>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="demo-modal-footer" id="passenger-modal-footer" style="margin-top:auto;">' +
+        '<button onclick="document.getElementById(\'demo-add-passenger-modal\').classList.remove(\'show\'); setTimeout(() => document.getElementById(\'demo-add-passenger-modal\').remove(), 250);" class="btn btn-outline" style="margin-right:0.5rem;">Cofnij</button>' +
+        '<button onclick="document.getElementById(\'demo-add-passenger-modal\').classList.remove(\'show\'); setTimeout(() => document.getElementById(\'demo-add-passenger-modal\').remove(), 250); window.AppNavigation.setActivePage(\'szczegoly_grupy\');" class="btn btn-primary">Zapisz wybranego</button>' +
+      '</div>' +
+    '</div>';
+    
+  overlay.innerHTML = modalHtml;
+  document.body.appendChild(overlay);
+  
+  setTimeout(function() {
+    overlay.classList.add('show');
+  }, 10);
+};
+
+window.showNewPassengerForm = function() {
+  document.querySelector('#demo-add-passenger-modal h2').innerText = 'Nowy uczestnik / pasażer';
+  var body = document.getElementById('passenger-modal-body');
+  if (body) {
+    var searchVal = document.getElementById('passenger-search-input') ? document.getElementById('passenger-search-input').value : '';
+    var split = searchVal.split(' ');
+    var name = split[0] || '';
+    var last = split.slice(1).join(' ') || (split.length === 1 ? split[0] : '');
+    if (split.length === 1) { name = ''; last = split[0]; }
+    
+    body.innerHTML = 
+      '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">' +
+        '<div><label style="display:block;margin-bottom:0.25rem;font-weight:500;font-size:0.9rem;">Imię</label><input type="text" placeholder="Imię" value="' + name + '" style="width:100%;padding:0.5rem;border:1px solid #cbd5e1;border-radius:4px;"></div>' +
+        '<div><label style="display:block;margin-bottom:0.25rem;font-weight:500;font-size:0.9rem;">Nazwisko</label><input type="text" placeholder="Nazwisko" value="' + last + '" style="width:100%;padding:0.5rem;border:1px solid #cbd5e1;border-radius:4px;"></div>' +
+        '<div><label style="display:block;margin-bottom:0.25rem;font-weight:500;font-size:0.9rem;">Data urodzenia</label><input type="date" style="width:100%;padding:0.5rem;border:1px solid #cbd5e1;border-radius:4px;"></div>' +
+        '<div><label style="display:block;margin-bottom:0.25rem;font-weight:500;font-size:0.9rem;">PESEL / Nr dokumentu</label><input type="text" placeholder="Wpisz numer" style="width:100%;padding:0.5rem;border:1px solid #cbd5e1;border-radius:4px;"></div>' +
+        '<div style="grid-column: span 2;"><label style="display:block;margin-bottom:0.25rem;font-weight:500;font-size:0.9rem;">Email</label><input type="email" placeholder="adres@email.com" style="width:100%;padding:0.5rem;border:1px solid #cbd5e1;border-radius:4px;"></div>' +
+        '<div style="grid-column: span 2;"><label style="display:block;margin-bottom:0.25rem;font-weight:500;font-size:0.9rem;">Telefon</label><input type="tel" placeholder="+48 XXX XXX XXX" style="width:100%;padding:0.5rem;border:1px solid #cbd5e1;border-radius:4px;"></div>' +
+        '<div style="grid-column: span 2;"><label style="display:block;margin-bottom:0.25rem;font-weight:500;font-size:0.9rem;">Typ pokoju</label><select style="width:100%;padding:0.5rem;border:1px solid #cbd5e1;border-radius:4px;"><option>DBL (do uzup.)</option><option>SGL</option><option>TPL</option></select></div>' +
+        '<div style="grid-column: span 2;"><label style="display:block;margin-bottom:0.25rem;font-weight:500;font-size:0.9rem;">Uwagi specjalne</label><textarea placeholder="np. Dieta wegetariańska..." style="width:100%;padding:0.5rem;border:1px solid #cbd5e1;border-radius:4px;min-height:60px;"></textarea></div>' +
+      '</div>';
+  }
+  
+  var footer = document.getElementById('passenger-modal-footer');
+  if (footer) {
+    footer.innerHTML = 
+      '<button onclick="document.getElementById(\'demo-add-passenger-modal\').classList.remove(\'show\'); setTimeout(() => document.getElementById(\'demo-add-passenger-modal\').remove(), 250);" class="btn btn-outline" style="margin-right:0.5rem;">Cofnij</button>' +
+      '<button onclick="document.getElementById(\'demo-add-passenger-modal\').classList.remove(\'show\'); setTimeout(() => document.getElementById(\'demo-add-passenger-modal\').remove(), 250); window.AppNavigation.setActivePage(\'szczegoly_grupy\');" class="btn btn-primary">Zapisz i dodaj</button>';
+  }
+};
 
 })();

@@ -274,6 +274,7 @@
 		var iconEl = btn.querySelector('i');
 		if (iconEl) icon = iconEl.className;
 
+		if (btn.getAttribute('data-action') === 'ignore' || btn.getAttribute('data-no-demo') === 'true') return 'ignore';
 		if (/^(nowy|nowa|nowe|dodaj|nowy lead|nowa rezerwacja|nowy pnr|nowa impreza|nowe zapytanie|nowe zdarzenie)$/i.test(label.trim()) || (/fa-plus/i.test(icon) && label.length < 4)) return 'new';
 		if (/nowy|nowa|nowe|dodaj/i.test(label)) return 'new';
 		if (/wyślij sms|wyślij email|wyślij wiadomość|wyślij sms|wyślij/i.test(label)) return 'send';
