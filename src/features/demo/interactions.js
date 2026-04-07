@@ -297,7 +297,7 @@
 		if (/filtruj|filtr/i.test(label) || /fa-filter/i.test(icon)) return 'filter';
 		if (/wydruk|drukuj/i.test(label) || /fa-print/i.test(icon)) return 'print';
 		if (btn.getAttribute('data-action') === 'karta_grupy' || /^karta$/i.test(label.trim())) return 'karta_grupy';
-		if (/^kartoteka$/i.test(label.trim())) return 'kartoteka';
+		if (/^kartoteka$/i.test(label.trim())) return 'karta_kontaktu';
 		if (/→ crm|dodaj do crm|powi.{0,4}z z crm/i.test(label)) return 'dodaj_crm';
 		if (/^(zaloguj wynik|wynik rozmowy)$/i.test(label.trim())) return 'call_log';
 		if (/^(zadzwoń|dzwoń|oddzwoń|call)$/i.test(label.trim()) || /fa-phone/i.test(icon)) return 'call';
@@ -347,7 +347,7 @@
 		generic:        ['Akcja zarejestrowana.', 'info'],
 		calc:           null, // open calc modal
 		karta_grupy:    null, // scroll to group card
-		kartoteka:      null, // open kartoteka modal
+		kartoteka:      'karta_kontaktu', // go to szczegoly_kontaktu
 		dodaj_crm:      null, // open CRM add form
 		call:           null, // open call modal
 		call_log:       null, // open call-log modal
@@ -445,39 +445,8 @@
 			return;
 		}
 
-		if (action === 'kartoteka') {
-			var kRow = btn.closest('tr');
-			var kName = kRow ? (kRow.querySelector('td strong') || {}).textContent || 'Organizator' : 'Organizator';
-			var kParish = kRow ? (kRow.querySelector('td small') || {}).textContent || '' : '';
-			var kBody = [
-				'<div class="form-mockup">',
-				'  <div style="display:flex;gap:1rem;align-items:center;margin-bottom:1.25rem">',
-				'    <div style="width:52px;height:52px;border-radius:50%;background:var(--primary-light);color:var(--primary-color);display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:700;flex-shrink:0">' + (kName.match(/\b(\S)/g) || []).slice(0,2).join('') + '</div>',
-				'    <div><strong style="font-size:1rem">' + kName + '</strong><br><small style="color:var(--text-muted)">' + kParish + '</small></div>',
-				'  </div>',
-				'  <div class="info-table">',
-				'    <div class="info-row"><span>Parafia</span><strong>' + (kParish || '—') + '</strong></div>',
-				'    <div class="info-row"><span>Diecezja</span><strong>Sandomierska</strong></div>',
-				'    <div class="info-row"><span>Funkcja</span><strong>Proboszcz</strong></div>',
-				'    <div class="info-row"><span>Telefon</span><strong>502 597 835</strong></div>',
-				'    <div class="info-row"><span>E-mail</span><strong>kontakt@parafia.pl</strong></div>',
-				'    <div class="info-row"><span>Opiekun CRM</span><strong>Anna K.</strong></div>',
-				'  </div>',
-				'  <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border-color)">',
-				'    <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);font-weight:700;margin-bottom:0.75rem">Historia wyjazdow</div>',
-				'    <div style="display:flex;gap:0.4rem;flex-wrap:wrap">',
-				'      <span style="background:#f59e0b18;border:1px solid #f59e0b40;color:#f59e0b;padding:0.15rem 0.5rem;border-radius:4px;font-size:0.72rem;font-weight:700">2020</span>',
-				'      <span style="background:#3b82f618;border:1px solid #3b82f640;color:#3b82f6;padding:0.15rem 0.5rem;border-radius:4px;font-size:0.72rem;font-weight:700">2022</span>',
-				'      <span style="background:#10b98118;border:1px solid #10b98140;color:#10b981;padding:0.15rem 0.5rem;border-radius:4px;font-size:0.72rem;font-weight:700">2023</span>',
-				'      <span style="background:#0ea5e918;border:1px solid #0ea5e940;color:#0ea5e9;padding:0.15rem 0.5rem;border-radius:4px;font-size:0.72rem;font-weight:700">2024</span>',
-				'      <span style="background:#f43f5e18;border:1px solid #f43f5e40;color:#f43f5e;padding:0.15rem 0.5rem;border-radius:4px;font-size:0.72rem;font-weight:700">2025</span>',
-				'    </div>',
-				'  </div>',
-				'</div>'
-			].join('');
-			openModal('Kartoteka — ' + kName, kBody, 'Edytuj dane', function () {
-				showToast('Kartoteka zaktualizowana.', 'success');
-			});
+		if (action === 'karta_kontaktu') {
+			window.AppNavigation.setActivePage('szczegoly_kontaktu');
 			return;
 		}
 

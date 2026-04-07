@@ -223,7 +223,7 @@ return '<tr>' +
 '<td style="text-align:center"><span class="trips-badge">' + tc + '</span></td>' +
 '<td>' + statusBadge(st.label, st.tone) + '</td>' +
 '<td><div style="display:flex;gap:0.3rem">' +
-button({ label: 'Kartoteka', variant: 'outline' }) +
+button({ label: 'Kartoteka', variant: 'outline', attrs: { onclick: "window.AppNavigation.setActivePage('kartoteka')" } }) +
 (p.telefon ? button({ label: '', icon: 'fa-solid fa-phone', variant: 'ghost', attrs: { title: 'Zadzwon' } }) : '') +
 (p.email ? button({ label: '', icon: 'fa-solid fa-envelope', variant: 'ghost', attrs: { title: 'E-mail' } }) : '') +
 '</div></td>' +
@@ -306,52 +306,7 @@ button({ label: 'Zaplanuj', variant: 'outline' }) +
 '</div>'
 }) +
 '</div>' +
-'</div>',
-panel({
-title: '\uD83D\uDC64 Przyk\u0142adowa kartoteka \u2014 ' + demoFullName,
-body: '<div class="kartoteka-grid">' +
-'<div class="kartoteka-col">' +
-'<div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem">' +
-'<div style="width:60px;height:60px;border-radius:50%;background:var(--primary-light);color:var(--primary-color);display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:700;flex-shrink:0">' + initials(demo) + '</div>' +
-'<div><h3 style="margin:0 0 0.3rem;font-size:1.05rem">' + escapeHtml(demoFullName) + '</h3>' +
-'<div style="display:flex;gap:0.4rem;flex-wrap:wrap">' + statusBadge(demoSt.label, demoSt.tone) + ' ' + statusBadge(demo.funkcja, 'neutral') + '</div></div>' +
-'</div>' +
-'<div class="info-table">' +
-'<div class="info-row"><span>Parafia</span><strong>' + escapeHtml(demo.parafia || '\u2014') + '</strong></div>' +
-'<div class="info-row"><span>Diecezja</span><strong>' + escapeHtml(demo.diecezja || '\u2014') + '</strong></div>' +
-'<div class="info-row"><span>Adres</span><strong>' + escapeHtml(demo.adres || '\u2014') + '</strong></div>' +
-'<div class="info-row"><span>Telefon</span><strong>' + escapeHtml(demo.telefon) + '</strong></div>' +
-'<div class="info-row"><span>E-mail</span><strong>' + escapeHtml(demo.email || '\u2014') + '</strong></div>' +
-'<div class="info-row"><span>Opiekun CRM</span><strong>Anna K.</strong></div>' +
-'<div class="info-row"><span>Poprz. parafie</span><strong>' + escapeHtml(demo.popParafie || '\u2014') + '</strong></div>' +
-'<div class="info-row"><span>Uwagi</span><strong>' + escapeHtml(demo.uwagi || '\u2014') + '</strong></div>' +
-'</div>' +
-'<div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap">' +
-button({ label: 'Edytuj', icon: 'fa-solid fa-pen', variant: 'outline' }) +
-button({ label: 'SMS', icon: 'fa-solid fa-comment-sms', variant: 'outline' }) +
-button({ label: 'E-mail', icon: 'fa-solid fa-envelope', variant: 'outline' }) +
-button({ label: 'Nowe zapytanie', icon: 'fa-solid fa-file-pen', variant: 'ghost' }) +
-'</div>' +
-'</div>' +
-'<div class="kartoteka-col">' +
-'<h4 style="margin:0 0 1rem;font-size:0.82rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)">Historia wyjazdow (' + tripCount(demo) + ')</h4>' +
-tripTimeline(demo.wyjazdy) +
-'<div style="margin-top:1.25rem;border-top:1px solid var(--border-color);padding-top:1rem">' +
-'<h4 style="margin:0 0 0.75rem;font-size:0.82rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)">Aktualne zainteresowanie</h4>' +
-'<div class="note-item" style="border-left-color:var(--success-color)"><strong>Sycylia 2026</strong> \u00b7 wstepne zainteresowanie<br><small style="color:var(--text-muted)">Oferta w przygotowaniu</small></div>' +
-'</div>' +
-'</div>' +
-'<div class="kartoteka-col">' +
-'<h4 style="margin:0 0 1rem;font-size:0.82rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)">Historia kontaktow</h4>' +
-'<div class="notes-list">' +
-'<div class="note-item"><span style="font-size:0.72rem;color:var(--text-muted);display:block;margin-bottom:0.2rem"><i class="fa-solid fa-phone"></i> Telefon \u00b7 24.03.2026</span>Omowiono Sycylie 2026. Ks. Adamczyk potwierdza zainteresowanie \u2014 czeka na oferte.</div>' +
-'<div class="note-item"><span style="font-size:0.72rem;color:var(--text-muted);display:block;margin-bottom:0.2rem"><i class="fa-solid fa-envelope"></i> E-mail \u00b7 18.03.2026</span>Przeslano katalog 2026/2027. Zainteresowanie Sycylia i Malta.</div>' +
-'<div class="note-item"><span style="font-size:0.72rem;color:var(--text-muted);display:block;margin-bottom:0.2rem"><i class="fa-solid fa-comment-sms"></i> SMS \u00b7 01.01.2026</span>Zyczenia noworoczne \u2014 wyslane automatycznie z szablonu.</div>' +
-'</div>' +
-'<div style="margin-top:1rem">' + button({ label: 'Zaloguj kontakt', icon: 'fa-solid fa-plus', variant: 'outline' }) + '</div>' +
-'</div>' +
 '</div>'
-})
 ].join('');
 }
 

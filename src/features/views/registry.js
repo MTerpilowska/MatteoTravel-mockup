@@ -9,6 +9,7 @@
 			zapytania:   function () { return window.ZapytaniaView.renderZapytania(); },
 			grupy:       function () { return window.GrupyView.renderGrupy(); },
             szczegoly_grupy: function () { return window.SzczegolyGrupyView.renderSzczegolyGrupy(); },
+            kartoteka:   function () { return window.SzczegolyKontaktuView.renderSzczegolyKontaktu(); },
 			rezerwacje:  function () { return window.RezerwacjeView.renderRezerwacje(); },
 			umowy:       function () { return window.UmowyView.renderUmowy(); },
 			platnosci:   function () { return window.PlatnosciView.renderPlatnosci(); },
