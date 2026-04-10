@@ -816,6 +816,10 @@
 			// Terminarz row click → show group card
 			var row = target.closest('tbody tr');
 			if (row && !target.closest('button') && !target.closest('a')) {
+				if (row.getAttribute('data-no-demo') === 'true') {
+					// row has its own inline onclick — let it handle navigation
+					return;
+				}
 				if (row.closest('.terminarz-table')) {
 					var card = document.querySelector('.group-card-detail');
 					if (card) {
@@ -854,6 +858,7 @@
 			if (!contentArea || !contentArea.contains(e.target)) return;
 			var row = e.target.closest('tbody tr');
 			if (!row) return;
+			if (row.getAttribute('data-no-demo') === 'true') return;
 
 			var cells = row.querySelectorAll('td');
 			var page = getActivePage();

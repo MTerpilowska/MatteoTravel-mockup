@@ -7,6 +7,7 @@
 			dashboard:   function () { return dashboards[roleKey] || createPlaceholderPage(pageKey, roleKey); },
 			crm:         function () { return window.CRMView.renderCRM(); },
 			zapytania:   function () { return window.ZapytaniaView.renderZapytania(); },
+            szczegoly_zapytania: function () { return window.ZapytaniaView.renderSzczegolyZapytania(); },
 			grupy:       function () { return window.GrupyView.renderGrupy(); },
             szczegoly_grupy: function () { return window.SzczegolyGrupyView.renderSzczegolyGrupy(); },
             kartoteka:   function () { return window.SzczegolyKontaktuView.renderSzczegolyKontaktu(); },

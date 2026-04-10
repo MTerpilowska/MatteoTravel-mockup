@@ -33,7 +33,7 @@
 				title: 'Wysyłki / Logistyka',
 				subtitle: 'Kompletowanie i śledzenie paczek przedwyjazdowych, zwrot sprzętu, teczki pilota',
 				actions: [
-					button({ label: 'Nowa wysyłka', icon: 'fa-solid fa-plus' })
+					button({ label: 'Nowa wysyłka', icon: 'fa-solid fa-plus', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('nowa-wysylka-modal').classList.add('show')" } })
 				]
 			}),
 			`<div class="stats-grid">
@@ -51,29 +51,47 @@
 					</table>
 				</div>`
 			}),
-			panel({ title: 'Formularz kompletowania paczki — WYS-2026-019 (Ziemia Święta)', body: `
-				<div class="form-mockup">
-					<div class="form-row-3">
-						<label class="form-field"><span><i class="fa-solid fa-radio"></i> Radioodbiornicy (szt.)</span><input type="number" value="8" min="0" /></label>
-						<label class="form-field"><span><i class="fa-solid fa-folder-open"></i> Teczki pilota (szt.)</span><input type="number" value="42" min="0" /></label>
-						<label class="form-field"><span><i class="fa-solid fa-book-open"></i> Śpiewniki (szt.)</span><input type="number" value="42" min="0" /></label>
+			`<div id="nowa-wysylka-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove('show')">
+				<div class="demo-modal" style="max-width:640px">
+					<div class="demo-modal-header">
+						<h3 style="margin:0;font-size:1.1rem;font-weight:600">Nowa wysyłka — kompletowanie paczki</h3>
+						<button class="demo-modal-close" data-no-demo="true" onclick="document.getElementById('nowa-wysylka-modal').classList.remove('show')">×</button>
 					</div>
-					<div class="form-row-3">
-						<label class="form-field"><span><i class="fa-solid fa-id-badge"></i> Smycze (szt.)</span><input type="number" value="42" min="0" /></label>
-						<label class="form-field"><span><i class="fa-solid fa-flag"></i> Inne materiały</span><input type="text" value="Mapy lokalne x42" /></label>
-						<label class="form-field"><span>Firma kurierska</span>
-							<select><option>DPD</option><option>InPost</option><option>DHL</option><option>Poczta Polska</option></select>
-						</label>
+					<div class="demo-modal-body">
+						<div class="form-mockup">
+							<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin-bottom:0.75rem">Impreza / odbiorca</div>
+							<div class="form-row-2">
+								<label class="form-field"><span>Impreza</span>
+									<select><option>MT-2026-WL-01 — Ziemia Święta</option><option>MT-2026-IT-03 — Włochy</option><option>MT-2026-GR-02 — Grecja</option></select>
+								</label>
+								<label class="form-field"><span>Odbiorca (pilot)</span><input type="text" value="Krzysztof Tomaszewski" /></label>
+							</div>
+							<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:1rem 0 0.75rem">Zawartość paczki</div>
+							<div class="form-row-3">
+								<label class="form-field"><span><i class="fa-solid fa-radio"></i> Radioodbiornicy (szt.)</span><input type="number" value="8" min="0" /></label>
+								<label class="form-field"><span><i class="fa-solid fa-folder-open"></i> Teczki pilota (szt.)</span><input type="number" value="42" min="0" /></label>
+								<label class="form-field"><span><i class="fa-solid fa-book-open"></i> Śpiewniki (szt.)</span><input type="number" value="42" min="0" /></label>
+							</div>
+							<div class="form-row-3">
+								<label class="form-field"><span><i class="fa-solid fa-id-badge"></i> Smycze (szt.)</span><input type="number" value="42" min="0" /></label>
+								<label class="form-field"><span><i class="fa-solid fa-flag"></i> Inne materiały</span><input type="text" value="Mapy lokalne x42" /></label>
+								<label class="form-field"><span>Firma kurierska</span>
+									<select><option>DPD</option><option>InPost</option><option>DHL</option><option>Poczta Polska</option></select>
+								</label>
+							</div>
+							<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:1rem 0 0.75rem">Kurier / śledzenie</div>
+							<div class="form-row-2">
+								<label class="form-field"><span>Nr listu przewozowego (wyjazd)</span><input type="text" placeholder="np. 1234567890" /></label>
+								<label class="form-field"><span>Nr etykiety zwrotnej</span><input type="text" placeholder="np. 0987654321" /></label>
+							</div>
+						</div>
 					</div>
-					<div class="form-row-2">
-						<label class="form-field"><span>Nr listu przewozowego (wyjazd)</span><input type="text" placeholder="np. 1234567890" /></label>
-						<label class="form-field"><span>Nr etykyiety zwrotnej</span><input type="text" placeholder="np. 0987654321" /></label>
-					</div>
-					<div style="margin-top:1rem;display:flex;gap:0.5rem">
+					<div class="demo-modal-footer">
+						<button class="btn btn-outline" data-no-demo="true" onclick="document.getElementById('nowa-wysylka-modal').classList.remove('show')">Anuluj</button>
 						${button({ label: 'Zapisz i generuj etykietę', icon: 'fa-solid fa-print' })}
 					</div>
 				</div>
-			` })
+			</div>`
 		].join('');
 	}
 

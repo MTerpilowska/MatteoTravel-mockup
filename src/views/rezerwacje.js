@@ -45,7 +45,6 @@
 				actions: [
 					button({ label: 'Lista do biletowania', icon: 'fa-solid fa-list', variant: 'outline' }),
 					button({ label: 'Export Excel', icon: 'fa-solid fa-download', variant: 'outline' }),
-					button({ label: 'Dodaj uczestnika', icon: 'fa-solid fa-user-plus' })
 				]
 			}),
 			`<div class="stats-grid">
@@ -59,6 +58,7 @@
 				action: `<div style="display:flex;gap:0.5rem;align-items:center">
 					<select class="inline-select"><option>Wszyscy uczestnicy</option><option>Nieopłaceni</option><option>Brak dokumentów</option><option>Brak umowy</option></select>
 					${button({ label: 'Wyślij przypomnienie SMS', icon: 'fa-solid fa-comment-sms', variant: 'outline' })}
+					${button({ label: 'Dodaj rezerwację', icon: 'fa-solid fa-user-plus', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('dodaj-uczestnika-modal').classList.add('show')" } })}
 				</div>`,
 				body: `<div class="table-container">
 					<table>
@@ -83,36 +83,6 @@
 				bodyStyle: 'padding: 0'
 			}),
 			`<div class="dashboard-grid" style="grid-template-columns:1fr 1fr">
-				${panel({ title: 'Formularz szybkiego zapisu uczestnika', body: `
-					<div class="form-mockup">
-						<div class="form-row-2">
-							<label class="form-field"><span>Imię i nazwisko</span><input type="text" placeholder="np. Jan Kowalski" /></label>
-							<label class="form-field"><span>PESEL</span><input type="text" placeholder="00000000000" /></label>
-						</div>
-						<div class="form-row-2">
-							<label class="form-field"><span>Telefon</span><input type="text" placeholder="600 000 000" /></label>
-							<label class="form-field"><span>E-mail</span><input type="email" placeholder="jan.kowalski@poczta.pl" /></label>
-						</div>
-						<div class="form-row-2">
-							<label class="form-field"><span>Typ pokoju</span>
-								<select><option>DBL — pokój dwuosobowy</option><option>SGL — pokój jednoosobowy (+890 zł)</option><option>TPL — pokój trzyosobowy</option></select>
-							</label>
-							<label class="form-field"><span>Nr lotu</span>
-								<select><option>LO4KL2 (25.04, WAW→TLV)</option><option>LO4KL3 (02.05, TLV→WAW)</option></select>
-							</label>
-						</div>
-						<div class="form-row-2">
-							<label class="form-field"><span>Wyjątek cenowy</span>
-								<select><option>Cena standardowa: 4 990 zł</option><option>Gratis (biuro)</option><option>Gratis (kontrahent)</option><option>Cena indywidualna</option></select>
-							</label>
-							<label class="form-field"><span>Płatnik</span><input type="text" placeholder="Jak uczestnik — lub wpisz dane" /></label>
-						</div>
-						<div class="form-actions" style="margin-top:1rem;display:flex;gap:0.5rem">
-							${button({ label: 'Anuluj', variant: 'outline' })}
-							${button({ label: 'Zapisz uczestnika', icon: 'fa-solid fa-check' })}
-						</div>
-					</div>
-				` })}
 				${panel({ title: 'Rooming list — podgląd', body: `
 					<div class="room-list">
 						<div class="room-row"><span class="room-badge">101 DBL</span><span>Wiśniewski Adam + Wiśniewska Maria</span></div>
@@ -124,7 +94,66 @@
 						<div class="room-row empty"><span class="room-badge empty">303 DBL</span><span style="color:var(--text-muted)">— wolne miejsce —</span></div>
 					</div>
 				` })}
-			</div>`
+			</div>`,
+		`<div id="dodaj-uczestnika-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove('show')">
+			<div class="demo-modal" style="max-width:600px">
+				<div class="demo-modal-header">
+					<h3 style="margin:0;font-size:1.1rem;font-weight:600">Nowa rezerwacja — MT-2026-WL-01</h3>
+					<button class="demo-modal-close" data-no-demo="true" onclick="document.getElementById('dodaj-uczestnika-modal').classList.remove('show')">×</button>
+				</div>
+				<div class="demo-modal-body">
+					<div class="form-mockup">
+						<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin-bottom:0.75rem">Uczestnik</div>
+						<label class="form-field" style="margin-bottom:1rem">
+							<input type="text" list="uczestnicy-list" value="Kowalski Jan" placeholder="Zacznij pisać, aby wyszukać..." style="width:100%" />
+							<datalist id="uczestnicy-list">
+								<option value="Kowalski Jan">PESEL: 75010***** · tel. 600 000 000</option>
+								<option value="Wiśniewski Adam">PESEL: 75010***** · 101 DBL</option>
+								<option value="Wiśniewska Maria">PESEL: 78032***** · 101 DBL</option>
+								<option value="Nowak Barbara">PESEL: 82071***** · 203 SGL+</option>
+								<option value="Zielińska Anna">PESEL: 91120***** · 204 DBL</option>
+								<option value="Zieliński Marek">PESEL: 88093***** · 204 DBL</option>
+								<option value="Malczewski Tomasz">PESEL: 95060*****</option>
+								<option value="Malczewska Ewa">PESEL: 97110*****</option>
+								<option value="Hendzel ks. Henryk">Parafia MB Różańcowej, Rzeszów</option>
+								<option value="Gierula ks. Maciej">Parafia, Kraków</option>
+								<option value="Nowak ks. Marek">Parafia Narodzenia Pańskiego, Wrocław</option>
+							</datalist>
+						</label>
+						<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:1rem 0 0.75rem">Szczegóły rezerwacji</div>
+						<div class="form-row-2">
+							<label class="form-field"><span>Typ pokoju</span>
+								<select><option>DBL — pokój dwuosobowy</option><option>SGL — pokój jednoosobowy (+890 zł)</option><option>SGL+ — pokój z dopłatą (+1 200 zł)</option><option>TPL — pokój trzyosobowy</option></select>
+							</label>
+							<label class="form-field"><span>Współlokator (DBL)</span><input type="text" placeholder="Imię i nazwisko lub — " /></label>
+						</div>
+						<div class="form-row-2">
+							<label class="form-field"><span>Nr lotu (wylot)</span>
+								<select><option>LO4KL2 (25.04, WAW→TLV)</option><option>LO4KL3 (02.05, TLV→WAW)</option><option>Brak — autokar / inny</option></select>
+							</label>
+							<label class="form-field"><span>Nr lotu (powrót)</span>
+								<select><option>LO4KL3 (02.05, TLV→WAW)</option><option>LO4KL2 (25.04, WAW→TLV)</option><option>Brak</option></select>
+							</label>
+						</div>
+						<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:1rem 0 0.75rem">Płatność</div>
+						<div class="form-row-2">
+							<label class="form-field"><span>Cena / wyjątek</span>
+								<select><option>Cena standardowa: 4 990 zł</option><option>Gratis (biuro)</option><option>Gratis (kontrahent)</option><option>Cena indywidualna</option></select>
+							</label>
+							<label class="form-field"><span>Płatnik (jeśli inny)</span><input type="text" placeholder="Jak uczestnik — lub wpisz dane" /></label>
+						</div>
+						<div class="form-row-2">
+							<label class="form-field"><span>Wpłata zaliczki (zł)</span><input type="number" placeholder="np. 500" /></label>
+							<label class="form-field"><span>Numer umowy</span><input type="text" placeholder="Zostanie nadany automatycznie" /></label>
+						</div>
+					</div>
+				</div>
+				<div class="demo-modal-footer">
+					<button class="btn btn-outline" data-no-demo="true" onclick="document.getElementById('dodaj-uczestnika-modal').classList.remove('show')">Anuluj</button>
+					${button({ label: 'Dodaj rezerwację', icon: 'fa-solid fa-check' })}
+				</div>
+			</div>
+		</div>`
 		].join('');
 	}
 

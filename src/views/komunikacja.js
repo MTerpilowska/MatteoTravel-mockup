@@ -44,7 +44,7 @@
 				${statCard({ title: 'Wysłane dziś', value: '7', icon: 'fa-solid fa-paper-plane', iconTone: 'green' })}
 				${statCard({ title: 'Do follow-up', value: '4', icon: 'fa-solid fa-reply', iconTone: 'purple' })}
 			</div>`,
-			`<div class="dashboard-grid" style="grid-template-columns:1fr 2fr">
+			`<div class="dashboard-grid" style="grid-template-columns:220px 1fr">
 				${panel({ title: 'Foldery', body: `
 					<div class="mail-folder-list">
 						<div class="mail-folder active"><i class="fa-solid fa-inbox"></i> Odebrane <span class="folder-badge">3</span></div>

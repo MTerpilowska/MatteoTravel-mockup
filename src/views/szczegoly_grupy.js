@@ -100,16 +100,16 @@ return '<tr>' +
 
 /* ===== HISTORIA ZMIAN ===== */
 var historia = [
-{ date: '24.01.2026', type: 'info', icon: 'fa-plane-departure', text: 'Wyjazd grupy — Egipt Żebrowska/Lipka. Skład: 44 os. + pilot Alicja Aziz.' },
-{ date: '23.01.2026', type: 'payment', icon: 'fa-receipt', text: 'Faktura za zmianę nazwisk LOT opłacona: f.0566/01/26 minus f.k.0080/01/26 = <strong>5 558,40 zł</strong> paid.' },
-{ date: '22.01.2026', type: 'change', icon: 'fa-user-group', text: 'Rezygnacja: <strong>Michał Kosiorek</strong> → wchodzi <strong>Sławomir Zaręba</strong>. Zmiana nazwiska na bilecie (dopłata za zmianę).' },
-{ date: '21.01.2026', type: 'payment', icon: 'fa-money-bill-transfer', text: 'Dopłata Hotel Bella Vista Hurghada: <strong>$15 120</strong> — przelew (faktura 0238/01/26/F/BSP 84 406 zł — LOT f.końcowa paid).' },
-{ date: '21.01.2026', type: 'change', icon: 'fa-user-group', text: 'Rezygnacja: <strong>Stefan i Teresa Jaworscy</strong> (2 os.) → wchodzą <strong>Aldona Skrońska</strong> i <strong>Mariusz Kozioł</strong>. Zmiana nazwisk na bilety.' },
-{ date: '13.01.2026', type: 'payment', icon: 'fa-circle-check', text: 'Faktura końcowa LOT opłacona: <strong>84 406 zł</strong> (f. 0238/01/26/F/BSP) — LOT paid.' },
-{ date: '05.01.2026', type: 'change', icon: 'fa-user-group', text: 'Rezygnacja: <strong>Alicja Myśliwiec</strong> → wchodzi <strong>Barbara Grzesiak</strong>. Rezygnacja: <strong>Zuzanna Krazy</strong> → wchodzi <strong>Violetta Zdanowska</strong>.' },
-{ date: '12.11.2025', type: 'payment', icon: 'fa-receipt', text: 'II depozyt hotelowy (Azal Pyramids): <strong>$5 000</strong> paid (koszty przelewu 40 USD). II depozyt —  pociąg nocny: $5 000.' },
-{ date: '25.09.2025', type: 'payment', icon: 'fa-receipt', text: 'I depozyt: <strong>$2 000</strong> → Azal Pyramids Kair.' },
-{ date: '29.10.2025', type: 'cancel', icon: 'fa-ban', text: '<strong>Anulacja MT-2026-EG-00</strong> — EGIPT NA SPRZEDAŻ. Powód: nie ma nikogo. Rezerwacja lotu ZVEQA4 anulowana. Podjęta decyzja o nowym terminie.' },
+{ date: '24.01.2026', type: 'info',    icon: 'fa-plane-departure',      user: 'Alicja Kowalczyk', text: 'Wyjazd grupy — Egipt Żebrowska/Lipka. Skład: 44 os. + pilot Alicja Aziz.' },
+{ date: '23.01.2026', type: 'payment', icon: 'fa-receipt',               user: 'Alicja Kowalczyk', text: 'Faktura za zmianę nazwisk LOT opłacona: f.0566/01/26 minus f.k.0080/01/26 = <strong>5 558,40 zł</strong> paid.' },
+{ date: '22.01.2026', type: 'change',  icon: 'fa-user-group',            user: 'Marta Nowak',      text: 'Rezygnacja: <strong>Michał Kosiorek</strong> → wchodzi <strong>Sławomir Zaręba</strong>. Zmiana nazwiska na bilecie (dopłata za zmianę).' },
+{ date: '21.01.2026', type: 'payment', icon: 'fa-money-bill-transfer',   user: 'Alicja Kowalczyk', text: 'Dopłata Hotel Bella Vista Hurghada: <strong>$15 120</strong> — przelew (faktura 0238/01/26/F/BSP 84 406 zł — LOT f.końcowa paid).' },
+{ date: '21.01.2026', type: 'change',  icon: 'fa-user-group',            user: 'Marta Nowak',      text: 'Rezygnacja: <strong>Stefan i Teresa Jaworscy</strong> (2 os.) → wchodzą <strong>Aldona Skrońska</strong> i <strong>Mariusz Kozioł</strong>. Zmiana nazwisk na bilety.' },
+{ date: '13.01.2026', type: 'payment', icon: 'fa-circle-check',          user: 'Alicja Kowalczyk', text: 'Faktura końcowa LOT opłacona: <strong>84 406 zł</strong> (f. 0238/01/26/F/BSP) — LOT paid.' },
+{ date: '05.01.2026', type: 'change',  icon: 'fa-user-group',            user: 'Marta Nowak',      text: 'Rezygnacja: <strong>Alicja Myśliwiec</strong> → wchodzi <strong>Barbara Grzesiak</strong>. Rezygnacja: <strong>Zuzanna Krazy</strong> → wchodzi <strong>Violetta Zdanowska</strong>.' },
+{ date: '12.11.2025', type: 'payment', icon: 'fa-receipt',               user: 'Alicja Kowalczyk', text: 'II depozyt hotelowy (Azal Pyramids): <strong>$5 000</strong> paid (koszty przelewu 40 USD). II depozyt — pociąg nocny: $5 000.' },
+{ date: '25.09.2025', type: 'payment', icon: 'fa-receipt',               user: 'Alicja Kowalczyk', text: 'I depozyt: <strong>$2 000</strong> → Azal Pyramids Kair.' },
+{ date: '29.10.2025', type: 'cancel',  icon: 'fa-ban',                   user: 'Marta Nowak',      text: '<strong>Anulacja MT-2026-EG-00</strong> — EGIPT NA SPRZEDAŻ. Powód: nie ma nikogo. Rezerwacja lotu ZVEQA4 anulowana. Podjęta decyzja o nowym terminie.' },
 ];
 var historiaHtml = historia.map(function(e) {
 var dotColors = { info: '#3b82f6', payment: '#10b981', change: '#f59e0b', cancel: '#ef4444', add: '#8b5cf6' };
@@ -120,31 +120,50 @@ return '<div style="display:flex;gap:0.75rem;align-items:flex-start;padding:0.6r
 '<div style="width:30px;height:30px;border-radius:50%;background:' + col + '1a;color:' + col + ';display:flex;align-items:center;justify-content:center;flex-shrink:0">' +
 '<i class="fa-solid ' + e.icon + '" style="font-size:0.75rem"></i>' +
 '</div>' +
-'<div>' +
-'<div style="font-size:0.72rem;color:var(--text-muted);font-weight:600;margin-bottom:0.15rem">' + escapeHtml(e.date) + '</div>' +
+'<div style="flex:1">' +
+'<div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;margin-bottom:0.15rem">' +
+'<span style="font-size:0.72rem;color:var(--text-muted);font-weight:600">' + escapeHtml(e.date) + '</span>' +
+'<span style="font-size:0.72rem;color:var(--text-muted);display:flex;align-items:center;gap:0.3rem"><i class="fa-solid fa-user" style="font-size:0.65rem"></i>' + escapeHtml(e.user) + '</span>' +
+'</div>' +
 '<div style="font-size:0.82rem;line-height:1.45">' + e.text + '</div>' +
 '</div>' +
 '</div>';
 }).join('');
 
-/* ===== DOCUMENTS CHECKLIST ===== */
+/* ===== DOKUMENTY TAB CONTENT: CHECKLIST MOCKUP ===== */
 var docs = [
 { name: 'Strona tytułowa', done: true }, { name: 'Program wyjazdu', done: true },
-{ name: 'Kosztorys', done: true }, { name: 'Rozpiska dla pilota', done: true },
-{ name: 'Lista uczestników', done: true }, { name: 'Rooming list', done: true },
-{ name: 'Lista wpłat', done: true }, { name: 'Authority Letter', done: true },
+{ name: 'Kosztorys', done: true }, { name: 'Rozpiska dla pilota', done: false },
+{ name: 'Lista uczestników', done: true }, { name: 'Rooming list', done: false },
+{ name: 'Lista wpłat', done: false }, { name: 'Authority Letter', done: false },
 { name: 'Certyfikat Uniqa', done: true }, { name: 'Ubezpieczenie grupy', done: true },
-{ name: 'Bilety lotnicze', done: true }, { name: 'Wjazdówki', done: true },
+{ name: 'Bilety lotnicze', done: true }, { name: 'Wjazdówki', done: false },
 { name: 'Msze Święte', done: true }, { name: 'Przewodnicy lokalni', done: true },
-{ name: 'Vouchery hotelowe', done: true }, { name: 'Koperty uczestników', done: true },
+{ name: 'Vouchery hotelowe', done: true }, { name: 'Koperty uczestników', done: false },
 { name: 'Lista wsiadania', done: true }, { name: 'Plakat / grafika MS', done: true },
 ];
-var docGrid = docs.map(function(d) {
-return '<div class="doc-item ' + (d.done ? 'done' : 'pending') + '">' +
-'<i class="fa-solid ' + (d.done ? 'fa-circle-check' : 'fa-circle-xmark') + '"></i>' +
-'<span>' + escapeHtml(d.name) + '</span>' +
-'</div>';
+var doneCount = docs.filter(function(d) { return d.done; }).length;
+
+var docItems = docs.map(function(d) {
+  return '<div class="doc-item ' + (d.done ? 'done' : 'pending') + '">' +
+    '<i class="fa-solid ' + (d.done ? 'fa-circle-check' : 'fa-circle-xmark') + '"></i>' +
+    '<span>' + escapeHtml(d.name) + '</span>' +
+    '<button class="doc-item-remove" title="Usuń">×</button>' +
+    '</div>';
 }).join('');
+
+var docAddRow =
+  '<div id="doc-add-row" style="grid-column:1/-1;display:flex;gap:0.5rem;align-items:center;padding-top:0.25rem;">' +
+    '<input id="doc-add-input" type="text" placeholder="Nowa pozycja\u2026" style="width:200px;padding:0.5rem 0.75rem;border:1px solid var(--border-color);border-radius:var(--radius-md);font-size:0.875rem;outline:none;" onkeydown="if(event.key===\'Enter\')this.nextElementSibling.click();">' +
+    '<button class="btn btn-primary" data-no-demo="true" onclick="var inp=document.getElementById(\'doc-add-input\');var v=inp.value.trim();if(!v)return;var g=document.getElementById(\'doc-edit-grid\');var el=document.createElement(\'div\');el.className=\'doc-item pending\';var ico=document.createElement(\'i\');ico.className=\'fa-solid fa-circle-xmark\';var sp=document.createElement(\'span\');sp.textContent=v;var rem=document.createElement(\'button\');rem.className=\'doc-item-remove\';rem.title=\'Usu\u0144\';rem.textContent=\'\u00D7\';el.appendChild(ico);el.appendChild(sp);el.appendChild(rem);g.insertBefore(el,document.getElementById(\'doc-add-row\'));inp.value=\'\';"><i class="fa-solid fa-plus"></i> Dodaj</button>' +
+  '</div>';
+
+var docGrid =
+  '<div id="doc-checklist-wrap" data-editing="0">' +
+    '<div id="doc-edit-grid" class="doc-checklist" onclick="(function(e){var item=e.target.closest(\'.doc-item\');if(!item)return;if(e.target.closest(\'.doc-item-remove\')){item.remove();return;}item.classList.toggle(\'done\');item.classList.toggle(\'pending\');var ico=item.querySelector(\'i\');ico.classList.toggle(\'fa-circle-check\');ico.classList.toggle(\'fa-circle-xmark\');})(event)">' +
+      docItems + docAddRow +
+    '</div>' +
+  '</div>';
 
 /* ===== TRIP SEQUENCE (hotel timeline) for Żebrowska ===== */
 var hotelSeq = [
@@ -192,14 +211,14 @@ button({ label: 'Edytuj', icon: 'fa-solid fa-pen', variant: 'outline' }) +
 '</div>' +
 '</div>' +
 '<div class="group-card-tabs">' +
-'<button class="group-tab active" data-tab="przeglad">Przegląd</button>' +
+'<button class="group-tab active" data-tab="przeglad">Przeg\u0142\u0105d</button>' +
 '<button class="group-tab" data-tab="hotele">Hotele</button>' +
 '<button class="group-tab" data-tab="bilety">Bilety lotnicze</button>' +
 '<button class="group-tab" data-tab="transport">Transport</button>' +
-'<button class="group-tab" data-tab="pasazerowie">Pasażerowie <span class="tab-badge">44</span></button>' +
+'<button class="group-tab" data-tab="pasazerowie">Pasa\u017cerowie <span class="tab-badge">44</span></button>' +
 '<button class="group-tab" data-tab="dod-rezerwacje">Dod. rezerwacje <span class="tab-badge">6</span></button>' +
 '<button class="group-tab" data-tab="dokumenty">Dokumenty</button>' +
-'<button class="group-tab" data-tab="historia">Historia zmian <span class="tab-badge">10</span></button>' +
+'<button data-no-demo="true" title="Historia zmian" onclick="document.getElementById(\'historia-modal\').classList.add(\'show\')" style="margin-left:auto;background:none;border:none;cursor:pointer;padding:0.4rem 0.6rem;color:var(--text-muted);border-radius:var(--radius-sm);display:flex;align-items:center;gap:0.4rem;font-size:0.8rem;font-weight:500;" onmouseenter="this.style.color=\'var(--primary-color)\'" onmouseleave="this.style.color=\'var(--text-muted)\'"><i class="fa-solid fa-clock-rotate-left"></i> Historia zmian</button>' +
 '</div>' +
 '</div>' +
 '<div class="group-card-body">' +
@@ -278,7 +297,7 @@ panel({
   title: 'Hotele i noclegi — Egipt Żebrowska / Lipka · 24–31.01.2026',
   action: '<div style="display:flex;gap:0.5rem">' +
     button({ label: 'Dodaj nocleg', icon: 'fa-solid fa-plus', variant: 'outline' }) +
-    button({ label: 'Historia rezerwacji', icon: 'fa-solid fa-clock-rotate-left', variant: 'ghost' }) +
+    '<button class="btn btn-ghost" data-no-demo="true" onclick="document.getElementById(\'hotel-historia-modal\').classList.add(\'show\')"><i class="fa-solid fa-clock-rotate-left"></i> Historia rezerwacji</button>' +
     '</div>',
   body: '<div class="table-container"><table class="data-table">' +
     '<thead><tr><th>Daty</th><th>Noce</th><th>Miejscowość</th><th>Hotel / Sposób noclegu</th><th>Typ</th><th>Kwota (USD)</th><th>Status</th><th>Uwagi</th></tr></thead>' +
@@ -294,24 +313,111 @@ panel({
 
 /* ==== BILETY tab ==== */
 '<div class="group-tab-panel" data-panel="bilety">' +
-panel({ title: 'Bilety lotnicze — MT-2026-EG-01', body:
-  '<div class="info-table">' +
-  '<div class="info-row"><span>Bilety grupowe (44 os.)</span><strong style="font-family:monospace;font-size:1rem">W6Y73A</strong></div>' +
-  '<div class="info-row"><span>Bilet indywidualny (1 os.)</span><strong style="font-family:monospace;font-size:1rem">TD236Z</strong></div>' +
-  '<div class="info-row"><span>Liczba biletów</span><strong>45 miejsc (44 grup. + 1 ind.)</strong></div>' +
-  '<div class="info-row"><span>Przewoźnik</span><strong>LOT — Polskie Linie Lotnicze</strong></div>' +
-  '<div class="info-row"><span>Faktura końcowa LOT</span><strong>84 406 zł — f. 0238/01/26/F/BSP</strong></div>' +
-  '<div class="info-row"><span>Opłacono</span><strong style="color:var(--success-color)">13.01.2026 ✓</strong></div>' +
-  '<div class="info-row"><span>Faktura za zmianę nazwisk</span><strong>f. 0566/01/26/F/BSP = 6 384,12 zł</strong></div>' +
-  '<div class="info-row"><span>Korekta (f.k. 0080/01/26)</span><strong>–5 558,40 zł paid 23.01.2026</strong></div>' +
-  '<div class="info-row"><span>Potwierdzenie grupy</span><strong>430 zł/gr — f. 250400486 (14.04.2025)</strong></div>' +
-  '</div>' +
-  '<div style="display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap">' +
-  button({ label: 'Exportuj bilety PDF', icon: 'fa-solid fa-file-pdf', variant: 'outline' }) +
-  button({ label: 'Dodaj korektę', icon: 'fa-solid fa-plus', variant: 'ghost' }) +
-  button({ label: 'Historia zmian biletów', icon: 'fa-solid fa-clock-rotate-left', variant: 'ghost' }) +
+panel({
+  title: 'Bilety lotnicze — MT-2026-EG-01',
+  action: '<div style="display:flex;gap:0.5rem">' +
+    button({ label: 'Nowy bilet', icon: 'fa-solid fa-plus', variant: 'primary' }) +
+    button({ label: 'Eksport PDF', icon: 'fa-solid fa-file-pdf', variant: 'outline' }) +
+    '<button class="btn btn-ghost" data-no-demo="true" onclick="document.getElementById(\'bilety-historia-modal\').classList.add(\'show\')"><i class="fa-solid fa-clock-rotate-left"></i> Historia</button>' +
+  '</div>',
+  body:
+  '<div class="table-container"><table class="data-table">' +
+  '<thead><tr><th>PNR</th><th>Typ</th><th>Przewoźnik</th><th>Trasa</th><th>Data lotu</th><th>Miejsc</th><th>Faktura</th><th>Status</th><th style="width:90px"></th></tr></thead>' +
+  '<tbody>' +
+  '<tr>' +
+    '<td><strong style="font-family:monospace;font-size:0.95rem">W6Y73A</strong></td>' +
+    '<td><span class="status-badge info">Grupowy</span></td>' +
+    '<td>LOT</td>' +
+    '<td>WAW → CAI → WAW</td>' +
+    '<td>24.01 / 31.01.2026</td>' +
+    '<td>44</td>' +
+    '<td><span style="font-size:0.8rem">84\u202f406\u202fzł<br><span style="color:var(--success-color);font-size:0.75rem">op\u0142acona ✓</span></span></td>' +
+    '<td>' + statusBadge('Aktywny', 'success') + '</td>' +
+    '<td style="white-space:nowrap">' +
+      '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem" title="Edytuj"><i class="fa-solid fa-pen"></i></button>' +
+      '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem;color:var(--danger-color)" title="Anuluj PNR"><i class="fa-solid fa-ban"></i></button>' +
+    '</td>' +
+  '</tr>' +
+  '<tr>' +
+    '<td><strong style="font-family:monospace;font-size:0.95rem">TD236Z</strong></td>' +
+    '<td><span class="status-badge neutral">Indywidualny</span></td>' +
+    '<td>LOT</td>' +
+    '<td>WAW → CAI → WAW</td>' +
+    '<td>24.01 / 31.01.2026</td>' +
+    '<td>1</td>' +
+    '<td><span style="font-size:0.8rem;color:var(--text-muted)">w f. g\u0142\u00f3wnej</span></td>' +
+    '<td>' + statusBadge('Aktywny', 'success') + '</td>' +
+    '<td style="white-space:nowrap">' +
+      '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem" title="Edytuj"><i class="fa-solid fa-pen"></i></button>' +
+      '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem;color:var(--danger-color)" title="Anuluj PNR"><i class="fa-solid fa-ban"></i></button>' +
+    '</td>' +
+  '</tr>' +
+  '<tr style="opacity:0.5">' +
+    '<td><strong style="font-family:monospace;font-size:0.95rem">ZVEQA4</strong></td>' +
+    '<td><span class="status-badge neutral">Grupowy</span></td>' +
+    '<td>LOT</td>' +
+    '<td>WAW → CAI → WAW</td>' +
+    '<td>24.01 / 31.01.2026</td>' +
+    '<td>40</td>' +
+    '<td><span style="font-size:0.8rem;color:var(--text-muted)">anulowana</span></td>' +
+    '<td>' + statusBadge('Anulowany', 'danger') + '</td>' +
+    '<td style="white-space:nowrap">' +
+      '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem" title="Edytuj"><i class="fa-solid fa-pen"></i></button>' +
+      '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem;color:var(--text-muted)" title="Ju\u017c anulowany" disabled><i class="fa-solid fa-ban"></i></button>' +
+    '</td>' +
+  '</tr>' +
+  '</tbody>' +
+  '</table></div>' +
+  '<div style="margin-top:0.75rem;padding:0.75rem;background:var(--bg-hover);border-radius:var(--radius-sm);font-size:0.8rem;color:var(--text-muted);display:flex;gap:2rem;flex-wrap:wrap">' +
+    '<span><i class="fa-solid fa-circle-info" style="color:var(--primary-color)"></i> Potwierdzenie grupy: <strong style="color:var(--text-default)">430\u202fz\u0142/gr \u2014 f.\u202f250400486 (14.04.2025)</strong></span>' +
+    '<span>Zmiana nazwisk: <strong style="color:var(--text-default)">f.\u202f0566/01/26 \u2212 korekta f.k.\u202f0080/01/26 = 825,72\u202fz\u0142 dop\u0142ata</strong></span>' +
   '</div>'
 }) +
+'</div>' +
+
+/* ==== BILETY HISTORIA modal ==== */
+'<div id="bilety-historia-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
+  '<div class="demo-modal" style="max-width:660px;width:95%;">' +
+    '<div class="demo-modal-header">' +
+      '<h2><i class="fa-solid fa-clock-rotate-left" style="margin-right:0.5rem;color:var(--primary-color)"></i>Historia zmian bilet\u00f3w \u2014 MT-2026-EG-01</h2>' +
+      '<button class="demo-modal-close" type="button" onclick="document.getElementById(\'bilety-historia-modal\').classList.remove(\'show\')"><i class="fa-solid fa-xmark"></i></button>' +
+    '</div>' +
+    '<div class="demo-modal-body" style="padding:1.5rem;max-height:70vh;overflow-y:auto;display:flex;flex-direction:column;gap:0.4rem">' +
+      '<div style="display:flex;gap:0.75rem;align-items:flex-start;padding:0.6rem 0.75rem;background:#fff7ed;border-radius:8px">' +
+        '<div style="width:30px;height:30px;border-radius:50%;background:#fed7aa;color:#c2410c;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-user-group" style="font-size:0.75rem"></i></div>' +
+        '<div style="flex:1"><div style="display:flex;justify-content:space-between;margin-bottom:0.1rem"><span style="font-size:0.72rem;font-weight:700;color:var(--text-muted)">23.01.2026</span><span style="font-size:0.72rem;color:var(--text-muted)"><i class="fa-solid fa-user" style="font-size:0.65rem"></i> Alicja Kowalczyk</span></div>' +
+        '<div style="font-size:0.82rem">Faktura za zmian\u0119 nazwisk op\u0142acona: f.\u202f0566/01/26 minus korekta f.k.\u202f0080/01/26 = <strong>5\u202f558,40\u202fz\u0142</strong> paid.</div></div>' +
+      '</div>' +
+      '<div style="display:flex;gap:0.75rem;align-items:flex-start;padding:0.6rem 0.75rem;background:#fff7ed;border-radius:8px">' +
+        '<div style="width:30px;height:30px;border-radius:50%;background:#fed7aa;color:#c2410c;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-user-group" style="font-size:0.75rem"></i></div>' +
+        '<div style="flex:1"><div style="display:flex;justify-content:space-between;margin-bottom:0.1rem"><span style="font-size:0.72rem;font-weight:700;color:var(--text-muted)">22.01.2026</span><span style="font-size:0.72rem;color:var(--text-muted)"><i class="fa-solid fa-user" style="font-size:0.65rem"></i> Marta Nowak</span></div>' +
+        '<div style="font-size:0.82rem">Zmiana nazwiska na bilecie PNR <strong>W6Y73A</strong>: Micha\u0142 Kosiorek \u2192 S\u0142awomir Zar\u0119ba. Wys\u0142ano wniosek do LOT.</div></div>' +
+      '</div>' +
+      '<div style="display:flex;gap:0.75rem;align-items:flex-start;padding:0.6rem 0.75rem;background:#fff7ed;border-radius:8px">' +
+        '<div style="width:30px;height:30px;border-radius:50%;background:#fed7aa;color:#c2410c;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-user-group" style="font-size:0.75rem"></i></div>' +
+        '<div style="flex:1"><div style="display:flex;justify-content:space-between;margin-bottom:0.1rem"><span style="font-size:0.72rem;font-weight:700;color:var(--text-muted)">21.01.2026</span><span style="font-size:0.72rem;color:var(--text-muted)"><i class="fa-solid fa-user" style="font-size:0.65rem"></i> Marta Nowak</span></div>' +
+        '<div style="font-size:0.82rem">Zmiana nazwisk na PNR <strong>W6Y73A</strong>: Jaworscy (2\u202fos.) \u2192 Skro\u0144ska + Kozio\u0142. \u0141\u0105czna dop\u0142ata za zmiany.</div></div>' +
+      '</div>' +
+      '<div style="display:flex;gap:0.75rem;align-items:flex-start;padding:0.6rem 0.75rem;background:#f0fdf4;border-radius:8px">' +
+        '<div style="width:30px;height:30px;border-radius:50%;background:#d1fae5;color:#166534;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-receipt" style="font-size:0.75rem"></i></div>' +
+        '<div style="flex:1"><div style="display:flex;justify-content:space-between;margin-bottom:0.1rem"><span style="font-size:0.72rem;font-weight:700;color:var(--text-muted)">13.01.2026</span><span style="font-size:0.72rem;color:var(--text-muted)"><i class="fa-solid fa-user" style="font-size:0.65rem"></i> Alicja Kowalczyk</span></div>' +
+        '<div style="font-size:0.82rem">Faktura ko\u0144cowa LOT op\u0142acona: <strong>84\u202f406\u202fz\u0142</strong> (f.\u202f0238/01/26/F/BSP). Status PNR W6Y73A i TD236Z \u2192 Op\u0142acony.</div></div>' +
+      '</div>' +
+      '<div style="display:flex;gap:0.75rem;align-items:flex-start;padding:0.6rem 0.75rem;background:#fef2f2;border-radius:8px">' +
+        '<div style="width:30px;height:30px;border-radius:50%;background:#fecaca;color:#991b1b;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-ban" style="font-size:0.75rem"></i></div>' +
+        '<div style="flex:1"><div style="display:flex;justify-content:space-between;margin-bottom:0.1rem"><span style="font-size:0.72rem;font-weight:700;color:var(--text-muted)">29.10.2025</span><span style="font-size:0.72rem;color:var(--text-muted)"><i class="fa-solid fa-user" style="font-size:0.65rem"></i> Marta Nowak</span></div>' +
+        '<div style="font-size:0.82rem">PNR <strong>ZVEQA4</strong> anulowany \u2014 likwidacja imprezy MT-2026-EG-00. LOT potwierdzi\u0142 anulacj\u0119 bez kosztów.</div></div>' +
+      '</div>' +
+      '<div style="display:flex;gap:0.75rem;align-items:flex-start;padding:0.6rem 0.75rem;background:#eff6ff;border-radius:8px">' +
+        '<div style="width:30px;height:30px;border-radius:50%;background:#dbeafe;color:#1d4ed8;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-plane" style="font-size:0.75rem"></i></div>' +
+        '<div style="flex:1"><div style="display:flex;justify-content:space-between;margin-bottom:0.1rem"><span style="font-size:0.72rem;font-weight:700;color:var(--text-muted)">14.04.2025</span><span style="font-size:0.72rem;color:var(--text-muted)"><i class="fa-solid fa-user" style="font-size:0.65rem"></i> Alicja Kowalczyk</span></div>' +
+        '<div style="font-size:0.82rem">Potwierdzenie grupy LOT: PNR <strong>W6Y73A</strong> (44 miejsc) + <strong>TD236Z</strong> (1 miejsce). Op\u0142ata potwierdzenia 430\u202fz\u0142/gr \u2014 f.\u202f250400486.</div></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="demo-modal-footer">' +
+      button({ label: 'Eksport logu', icon: 'fa-solid fa-download', variant: 'ghost' }) +
+    '</div>' +
+  '</div>' +
 '</div>' +
 
 /* ==== TRANSPORT tab ==== */
@@ -367,22 +473,90 @@ panel({
 '<div class="group-tab-panel" data-panel="dokumenty">' +
 panel({
   title: 'Dokumenty — lista kontrolna',
-  action: '<span style="font-size:0.8rem;color:var(--success-color);font-weight:600"><i class="fa-solid fa-circle-check"></i> 18 / 18 — wszystkie gotowe</span>',
-  body: '<div class="doc-checklist">' + docGrid + '</div>'
-}) +
-'</div>' +
-
-/* ==== HISTORIA ZMIAN tab ==== */
-'<div class="group-tab-panel" data-panel="historia">' +
-panel({
-  title: 'Historia zmian — MT-2026-EG-01 Żebrowska',
-  action: button({ label: 'Eksport logu', icon: 'fa-solid fa-download', variant: 'ghost' }),
-  body: historiaHtml
+  action: '<span style="font-size:0.8rem;color:var(--text-muted);font-weight:600;margin-right:0.75rem"><i class="fa-solid fa-circle-check" style="color:var(--success-color)"></i> ' + doneCount + ' / ' + docs.length + '</span>' +
+    '<button class="btn btn-outline" data-no-demo="true" onclick="var w=document.getElementById(\'doc-checklist-wrap\');var e=w.dataset.editing===\'1\';w.dataset.editing=e?\'0\':\'1\';this.textContent=e?\'Edytuj list\u0119\':\'Gotowe\';">Edytuj list\u0119</button>',
+  body: docGrid
 }) +
 '</div>' +
 
 '</div>' +   /* end group-card-body */
-'</div>';    /* end group-card-detail */
+'</div>' +   /* end group-card-detail */
+
+/* ==== HOTEL HISTORIA REZERWACJI modal ==== */
+'<div id="hotel-historia-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
+  '<div class="demo-modal" style="max-width:680px;width:95%;">' +
+    '<div class="demo-modal-header">' +
+      '<h2><i class="fa-solid fa-clock-rotate-left" style="margin-right:0.5rem;color:var(--primary-color)"></i>Historia rezerwacji hoteli \u2014 MT-2026-EG-01</h2>' +
+      '<button class="demo-modal-close" type="button" onclick="document.getElementById(\'hotel-historia-modal\').classList.remove(\'show\')"><i class="fa-solid fa-xmark"></i></button>' +
+    '</div>' +
+    '<div class="demo-modal-body" style="padding:1.5rem;max-height:70vh;overflow-y:auto;">' +
+      '<div style="display:flex;flex-direction:column;gap:0.4rem">' +
+
+      /* Azal Pyramids – zmiana liczby pokoi */
+      '<div style="display:flex;gap:0.75rem;align-items:flex-start;padding:0.6rem 0.75rem;background:#fff7ed;border-radius:8px">' +
+        '<div style="width:30px;height:30px;border-radius:50%;background:#fed7aa;color:#c2410c;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-hotel" style="font-size:0.75rem"></i></div>' +
+        '<div style="flex:1"><div style="display:flex;justify-content:space-between;margin-bottom:0.1rem"><span style="font-size:0.72rem;font-weight:700;color:var(--text-muted)">22.01.2026</span><span style="font-size:0.72rem;color:var(--text-muted)"><i class="fa-solid fa-user" style="font-size:0.65rem"></i> Marta Nowak</span></div>' +
+        '<div style="font-size:0.82rem">Azal Pyramids Kair \u2014 zmiana sk\u0142adu: pokoje dostosowane do nowej listy uczestnik\u00f3w po wymianie Kosiorek \u2192 Zar\u0119ba. Rooming list wys\u0142any ponownie do hotelu.</div></div>' +
+      '</div>' +
+
+      /* Bella Vista – dopłata */
+      '<div style="display:flex;gap:0.75rem;align-items:flex-start;padding:0.6rem 0.75rem;background:#f0fdf4;border-radius:8px">' +
+        '<div style="width:30px;height:30px;border-radius:50%;background:#d1fae5;color:#166534;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-receipt" style="font-size:0.75rem"></i></div>' +
+        '<div style="flex:1"><div style="display:flex;justify-content:space-between;margin-bottom:0.1rem"><span style="font-size:0.72rem;font-weight:700;color:var(--text-muted)">21.01.2026</span><span style="font-size:0.72rem;color:var(--text-muted)"><i class="fa-solid fa-user" style="font-size:0.65rem"></i> Alicja Kowalczyk</span></div>' +
+        '<div style="font-size:0.82rem">Bella Vista Hurghada \u2014 op\u0142acono dop\u0142at\u0119: <strong>$15\u202f120</strong> (faktura 0238/01/26/F/BSP). Status zmieniony na <strong style="color:var(--success-color)">Op\u0142acony</strong>.</div></div>' +
+      '</div>' +
+
+      /* Azal Pyramids – zmiana po Jaworskich */
+      '<div style="display:flex;gap:0.75rem;align-items:flex-start;padding:0.6rem 0.75rem;background:#fff7ed;border-radius:8px">' +
+        '<div style="width:30px;height:30px;border-radius:50%;background:#fed7aa;color:#c2410c;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-hotel" style="font-size:0.75rem"></i></div>' +
+        '<div style="flex:1"><div style="display:flex;justify-content:space-between;margin-bottom:0.1rem"><span style="font-size:0.72rem;font-weight:700;color:var(--text-muted)">21.01.2026</span><span style="font-size:0.72rem;color:var(--text-muted)"><i class="fa-solid fa-user" style="font-size:0.65rem"></i> Marta Nowak</span></div>' +
+        '<div style="font-size:0.82rem">Azal Pyramids Kair \u2014 aktualizacja rooming list po wymianie Jaworskich (2 os.) \u2192 Skro\u0144ska + Kozio\u0142. Nowa lista wys\u0142ana do hotelu 21.01 godz. 11:30.</div></div>' +
+      '</div>' +
+
+      /* II depozyt Azal */
+      '<div style="display:flex;gap:0.75rem;align-items:flex-start;padding:0.6rem 0.75rem;background:#f0fdf4;border-radius:8px">' +
+        '<div style="width:30px;height:30px;border-radius:50%;background:#d1fae5;color:#166534;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-receipt" style="font-size:0.75rem"></i></div>' +
+        '<div style="flex:1"><div style="display:flex;justify-content:space-between;margin-bottom:0.1rem"><span style="font-size:0.72rem;font-weight:700;color:var(--text-muted)">12.11.2025</span><span style="font-size:0.72rem;color:var(--text-muted)"><i class="fa-solid fa-user" style="font-size:0.65rem"></i> Alicja Kowalczyk</span></div>' +
+        '<div style="font-size:0.82rem">Azal Pyramids Kair \u2014 II depozyt <strong>$5\u202f000</strong> op\u0142acony (koszty przelewu 40\u202fUSD). Bella Vista Hurghada \u2014 II depozyt <strong>$5\u202f000</strong> op\u0142acony.</div></div>' +
+      '</div>' +
+
+      /* I depozyt Azal */
+      '<div style="display:flex;gap:0.75rem;align-items:flex-start;padding:0.6rem 0.75rem;background:#f0fdf4;border-radius:8px">' +
+        '<div style="width:30px;height:30px;border-radius:50%;background:#d1fae5;color:#166534;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-receipt" style="font-size:0.75rem"></i></div>' +
+        '<div style="flex:1"><div style="display:flex;justify-content:space-between;margin-bottom:0.1rem"><span style="font-size:0.72rem;font-weight:700;color:var(--text-muted)">25.09.2025</span><span style="font-size:0.72rem;color:var(--text-muted)"><i class="fa-solid fa-user" style="font-size:0.65rem"></i> Alicja Kowalczyk</span></div>' +
+        '<div style="font-size:0.82rem">Azal Pyramids Kair \u2014 I depozyt <strong>$2\u202f000</strong> op\u0142acony i potwierdzony przez hotel.</div></div>' +
+      '</div>' +
+
+      /* Pierwotna rezerwacja */
+      '<div style="display:flex;gap:0.75rem;align-items:flex-start;padding:0.6rem 0.75rem;background:#eff6ff;border-radius:8px">' +
+        '<div style="width:30px;height:30px;border-radius:50%;background:#dbeafe;color:#1d4ed8;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-hotel" style="font-size:0.75rem"></i></div>' +
+        '<div style="flex:1"><div style="display:flex;justify-content:space-between;margin-bottom:0.1rem"><span style="font-size:0.72rem;font-weight:700;color:var(--text-muted)">15.08.2025</span><span style="font-size:0.72rem;color:var(--text-muted)"><i class="fa-solid fa-user" style="font-size:0.65rem"></i> Marta Nowak</span></div>' +
+        '<div style="font-size:0.82rem">Pierwotna rezerwacja: Azal Pyramids Kair (3 noce HB, 22 DBL + 1 SGL), Bella Vista Hurghada (2 noce HB, 22 DBL + 1 SGL), Azal Pyramids Kair powt\u00f3rnie (1 noc HB). Opcja do 15.10.2025.</div></div>' +
+      '</div>' +
+
+      '</div>' +
+    '</div>' +
+    '<div class="demo-modal-footer">' +
+      button({ label: 'Eksport logu', icon: 'fa-solid fa-download', variant: 'ghost' }) +
+    '</div>' +
+  '</div>' +
+'</div>' +
+
+/* ==== HISTORIA ZMIAN modal ==== */
+'<div id="historia-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
+  '<div class="demo-modal" style="max-width:700px;width:95%;">' +
+    '<div class="demo-modal-header">' +
+      '<h2><i class="fa-solid fa-clock-rotate-left" style="margin-right:0.5rem;color:var(--primary-color)"></i>Historia zmian \u2014 MT-2026-EG-01 \u017bebrowska</h2>' +
+      '<button class="demo-modal-close" type="button" onclick="document.getElementById(\'historia-modal\').classList.remove(\'show\')"><i class="fa-solid fa-xmark"></i></button>' +
+    '</div>' +
+    '<div class="demo-modal-body" style="padding:1.5rem;max-height:70vh;overflow-y:auto;">' +
+      historiaHtml +
+    '</div>' +
+    '<div class="demo-modal-footer">' +
+      button({ label: 'Eksport logu', icon: 'fa-solid fa-download', variant: 'ghost' }) +
+    '</div>' +
+  '</div>' +
+'</div>';
     return '<div style="margin-bottom: 1.5rem;"><a href="#" onclick="event.preventDefault(); window.AppNavigation.setActivePage(\'grupy\')" style="color: var(--text-muted, #64748B); text-decoration: none; font-weight: 500; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 0.5rem;"><i class="fa-solid fa-arrow-left"></i> Wróć do listy grup</a></div>' + kartaGrupy;
   }
   window.SzczegolyGrupyView = { renderSzczegolyGrupy };

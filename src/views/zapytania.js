@@ -12,7 +12,7 @@ const items = [
 ];
 
 const rows = items.map(item => `
-<tr>
+<tr style="cursor:pointer" data-no-demo="true" data-page="szczegoly_zapytania" onclick="window.AppNavigation.setActivePage('szczegoly_zapytania')">
 <td><strong>${escapeHtml(item.id)}</strong><br><small style="color:var(--text-muted)">${escapeHtml(item.date)}</small></td>
 <td>
 <strong>${escapeHtml(item.org)}</strong><br>
@@ -25,8 +25,7 @@ const rows = items.map(item => `
 <td>${escapeHtml(item.opiekun)}</td>
 <td>${statusBadge(item.status, item.statusTone)}</td>
 <td>
-<div style="display:flex;gap:0.4rem;flex-wrap:wrap">
-${button({ label: 'Otwórz', variant: 'outline' })}
+<div style="display:flex;gap:0.4rem;flex-wrap:wrap" onclick="event.stopPropagation()">
 ${button({ label: 'Kalkulator', variant: 'outline' })}
 ${item.statusTone === 'warning' ? button({ label: '→ CRM', variant: 'ghost' }) : ''}
 ${item.statusTone === 'success' ? button({ label: 'Zamień w imprezę', icon: 'fa-solid fa-rocket', variant: 'ghost' }) : ''}
@@ -53,7 +52,46 @@ const pipelineMarkup = pipeline.map(p => `
 </div>
 `).join('<div class="pipeline-arrow"><i class="fa-solid fa-chevron-right"></i></div>');
 
-/* ===== OFFER VERSIONING — ZAP-2026-038 ===== */
+return [
+dashboardHeader({
+title: 'Zapytania i Oferty',
+subtitle: 'Rejestr wszystkich zapytań — od pierwszego kontaktu do zaakceptowanej oferty i uruchomienia imprezy',
+actions: [
+button({ label: 'Eksport CSV', icon: 'fa-solid fa-download', variant: 'outline' }),
+button({ label: 'Nowe zapytanie', icon: 'fa-solid fa-plus' })
+]
+}),
+`<div class="stats-grid">
+${statCard({ title: 'Wszystkie zapytania', value: '34', icon: 'fa-solid fa-inbox', iconTone: 'blue' })}
+${statCard({ title: 'Nowe (do obsługi)', value: '5', icon: 'fa-solid fa-bell', iconTone: 'orange', trend: 'Najstarsze: 2 dni', trendTone: 'negative' })}
+${statCard({ title: 'Konwersja mies.', value: '36%', icon: 'fa-solid fa-percent', iconTone: 'green', trend: '+4pp vs. poprzedni', trendTone: 'positive' })}
+${statCard({ title: 'Śr. czas odpowiedzi', value: '18h', icon: 'fa-solid fa-stopwatch', iconTone: 'purple' })}
+</div>`,
+panel({
+title: 'Lejek zapytań',
+body: `<div class="pipeline-row">${pipelineMarkup}</div>`
+}),
+panel({
+title: 'Lista zapytań',
+action: `<div style="display:flex;gap:0.5rem;align-items:center">
+<input type="text" class="inline-select" style="width:160px" placeholder="Szukaj..." />
+<select class="inline-select"><option>Wszystkie statusy</option><option>Nowe</option><option>W opracowaniu</option><option>Wysłane</option><option>Zaakceptowane</option></select>
+<select class="inline-select"><option>Wszyscy opiekunowie</option><option>Anna K.</option><option>Marek W.</option><option>Piotr S.</option></select>
+<select class="inline-select"><option>Wszystkie źródła</option><option>Strona WWW</option><option>Polecenie</option><option>CRM — retencja</option><option>Facebook Ads</option></select>
+</div>`,
+body: `<div class="table-container">
+<table class="data-table">
+<thead><tr><th>Nr / Data</th><th>Organizator</th><th>Kierunek / Termin</th><th>Liczba os.</th><th>Typ</th><th>Źródło</th><th>Opiekun</th><th>Status</th><th></th></tr></thead>
+<tbody>${rows}</tbody>
+</table>
+</div>`
+}),
+].join('');
+}
+
+function renderSzczegolyZapytania() {
+const backLink = `<div style="margin-bottom:1.5rem"><a href="#" onclick="event.preventDefault();window.AppNavigation.setActivePage('zapytania')" style="color:var(--text-muted);text-decoration:none;font-weight:500;font-size:0.9rem;display:inline-flex;align-items:center;gap:0.5rem"><i class="fa-solid fa-arrow-left"></i> Wróć do listy zapytań</a></div>`;
+
 const offerVersions = [
 { v: 'v1', date: '20.03.2026', autor: 'Anna K.', status: 'Wysłana', statusTone: 'purple', cena: '5 490 zł/os.', opis: 'Fatima + Lizbona + Santiago — wersja robocza. Lot Ryanair KRK→OPO.' },
 { v: 'v2', date: '23.03.2026', autor: 'Anna K.', status: 'Wysłana', statusTone: 'purple', cena: '5 290 zł/os.', opis: 'Korekta: zmiana hotelu w Fatimie (Recinto → tańsza opcja). Lot LOT bez zmiany.' },
@@ -96,42 +134,18 @@ const contactLogHtml = contactLog.map(e => `
 </div>
 `).join('');
 
-return [
+return backLink + [
 dashboardHeader({
-title: 'Zapytania i Oferty',
-subtitle: 'Rejestr wszystkich zapytań — od pierwszego kontaktu do zaakceptowanej oferty i uruchomienia imprezy',
+title: 'ZAP-2026-040 — Rzym · Liceum nr 3 · 50 os.',
+subtitle: 'Wycieczka szkolna · Czerwiec 2026 · Opiekun: Marek W.',
 actions: [
-button({ label: 'Eksport CSV', icon: 'fa-solid fa-download', variant: 'outline' }),
-button({ label: 'Nowe zapytanie', icon: 'fa-solid fa-plus' })
+button({ label: 'Wyślij ofertę', icon: 'fa-solid fa-paper-plane' }),
+button({ label: 'Edytuj', icon: 'fa-solid fa-pen', variant: 'outline' }),
+button({ label: 'Zmień status', variant: 'ghost' }),
 ]
 }),
-`<div class="stats-grid">
-${statCard({ title: 'Wszystkie zapytania', value: '34', icon: 'fa-solid fa-inbox', iconTone: 'blue' })}
-${statCard({ title: 'Nowe (do obsługi)', value: '5', icon: 'fa-solid fa-bell', iconTone: 'orange', trend: 'Najstarsze: 2 dni', trendTone: 'negative' })}
-${statCard({ title: 'Konwersja mies.', value: '36%', icon: 'fa-solid fa-percent', iconTone: 'green', trend: '+4pp vs. poprzedni', trendTone: 'positive' })}
-${statCard({ title: 'Śr. czas odpowiedzi', value: '18h', icon: 'fa-solid fa-stopwatch', iconTone: 'purple' })}
-</div>`,
-panel({
-title: 'Lejek zapytań',
-body: `<div class="pipeline-row">${pipelineMarkup}</div>`
-}),
-panel({
-title: 'Lista zapytań',
-action: `<div style="display:flex;gap:0.5rem;align-items:center">
-<input type="text" class="inline-select" style="width:160px" placeholder="Szukaj..." />
-<select class="inline-select"><option>Wszystkie statusy</option><option>Nowe</option><option>W opracowaniu</option><option>Wysłane</option><option>Zaakceptowane</option></select>
-<select class="inline-select"><option>Wszyscy opiekunowie</option><option>Anna K.</option><option>Marek W.</option><option>Piotr S.</option></select>
-<select class="inline-select"><option>Wszystkie źródła</option><option>Strona WWW</option><option>Polecenie</option><option>CRM — retencja</option><option>Facebook Ads</option></select>
-</div>`,
-body: `<div class="table-container">
-<table class="data-table">
-<thead><tr><th>Nr / Data</th><th>Organizator</th><th>Kierunek / Termin</th><th>Liczba os.</th><th>Typ</th><th>Źródło</th><th>Opiekun</th><th>Status</th><th></th></tr></thead>
-<tbody>${rows}</tbody>
-</table>
-</div>`
-}),
 `<div class="dashboard-grid" style="grid-template-columns:2fr 3fr">
-${panel({ title: 'Szczegóły — ZAP-2026-040 · Rzym · 50 os.', body: `
+${panel({ title: 'Szczegóły zapytania', body: `
 <div class="info-table">
 <div class="info-row"><span>Organizator</span><strong>Liceum Ogólnokształcące nr 3</strong></div>
 <div class="info-row"><span>Kontakt</span><strong>mgr Anna Wiśniewska (dyrektor)</strong></div>
@@ -144,11 +158,6 @@ ${panel({ title: 'Szczegóły — ZAP-2026-040 · Rzym · 50 os.', body: `
 <div class="info-row"><span>Typ</span><strong>Wycieczka szkolna</strong></div>
 <div class="info-row"><span>Opiekun</span><strong>Marek W.</strong></div>
 <div class="info-row"><span>Uwagi</span><strong>Autokar bez ogranicz. KM · wczesne śniadania d.3</strong></div>
-</div>
-<div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap">
-${button({ label: 'Wyślij ofertę', icon: 'fa-solid fa-paper-plane' })}
-${button({ label: 'Edytuj', icon: 'fa-solid fa-pen', variant: 'outline' })}
-${button({ label: 'Zmień status', variant: 'ghost' })}
 </div>
 <div style="margin-top:1rem">
 <div class="notes-list">
@@ -204,5 +213,5 @@ body: `<div class="notes-list">${contactLogHtml}</div>`
 ].join('');
 }
 
-window.ZapytaniaView = { renderZapytania };
+window.ZapytaniaView = { renderZapytania, renderSzczegolyZapytania };
 })();

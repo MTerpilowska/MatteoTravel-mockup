@@ -3203,9 +3203,15 @@ label.form-field { display: flex; flex-direction: column; gap: 0.35rem; }
 .terminarz-table td:nth-child(2) { white-space: normal; }
 
 .doc-checklist { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 0.45rem; }
-.doc-item { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.65rem; border-radius: 7px; font-size: 0.8rem; font-weight: 500; }
+.doc-item { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.65rem; border-radius: 7px; font-size: 0.8rem; font-weight: 500; cursor: pointer; position: relative; user-select: none; }
 .doc-item.done { background: #f0fdf4; color: #166534; }
 .doc-item.pending { background: #fff7ed; color: #c2410c; }
 .doc-item.missing { background: #fef2f2; color: #991b1b; }
+.doc-item-remove { display: none; position: absolute; right: 0.3rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 1rem; line-height: 1; padding: 0.1rem; color: currentColor; opacity: 0.6; font-weight: 700; }
+.doc-item-remove:hover { opacity: 1; }
+#doc-checklist-wrap[data-editing='1'] .doc-item { padding-right: 1.6rem; }
+#doc-checklist-wrap[data-editing='1'] .doc-item-remove { display: flex; align-items: center; justify-content: center; }
+#doc-add-row { display: none !important; }
+#doc-checklist-wrap[data-editing='1'] #doc-add-row { display: flex !important; }
 
 .tab-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 18px; height: 18px; padding: 0 4px; border-radius: 9px; font-size: 0.68rem; font-weight: 700; background: var(--primary-color); color: white; }
