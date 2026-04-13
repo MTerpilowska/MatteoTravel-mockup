@@ -46,7 +46,7 @@
 				${statCard({ title: 'Oczekuje podpisu', value: '12', icon: 'fa-solid fa-hourglass-half', iconTone: 'orange' })}
 				${statCard({ title: 'Brak dokumentów', value: '18', icon: 'fa-solid fa-passport', iconTone: 'purple' })}
 			</div>`,
-			`<div class="dashboard-grid" style="grid-template-columns:2fr 1fr">
+			`<div class="dashboard-grid" style="grid-template-columns:3fr 1fr">
 				${panel({
 					title: 'Lista umów',
 					action: `<div style="display:flex;gap:0.5rem">
@@ -118,7 +118,6 @@
 				</td>
 				<td><span class="type-pill">${escapeHtml(p.assigned)}</span></td>
 				<td>${statusBadge(p.status, p.statusTone)}</td>
-				<td>${button({ label: 'Podgląd', variant: 'outline' })}</td>
 			</tr>
 		`).join('');
 
@@ -139,9 +138,80 @@
 				subtitle: 'Rejestr wpłat i wypłat, wielowalutowe rozliczenia, monitoring terminów',
 				actions: [
 					button({ label: 'Import wyciągu bankowego', icon: 'fa-solid fa-upload', variant: 'outline' }),
-					button({ label: 'Rejestruj wpłatę', icon: 'fa-solid fa-plus' })
+					button({ label: 'Rejestruj wpłatę', icon: 'fa-solid fa-plus', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('rejestruj-wplate-modal').classList.add('show')" } })
 				]
 			}),
+			`<div id="rejestruj-wplate-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove('show')">
+				<div class="demo-modal" style="max-width:580px;width:95%">
+					<div class="demo-modal-header">
+						<h2><i class="fa-solid fa-money-bill-wave" style="margin-right:0.5rem;color:var(--primary-color)"></i>Rejestruj wpłatę</h2>
+						<button class="demo-modal-close" type="button" data-no-demo="true" onclick="document.getElementById('rejestruj-wplate-modal').classList.remove('show')"><i class="fa-solid fa-xmark"></i></button>
+					</div>
+					<div class="demo-modal-body">
+						<div class="form-mockup">
+							<div class="form-row-2">
+								<div class="form-field"><span>Typ płatności</span>
+									<select>
+										<option>Wpłata od uczestnika</option>
+										<option>Wpłata od organizatora</option>
+										<option>Wpłata wychodząca (do kontrahenta)</option>
+										<option>Zaliczka hotelowa</option>
+										<option>Opłata biletowa</option>
+										<option>Inne</option>
+									</select>
+								</div>
+								<div class="form-field"><span>Data wpłaty</span><input type="date" /></div>
+							</div>
+							<div class="form-field"><span>Uczestnik / Podmiot</span><input type="text" placeholder="Imię i nazwisko lub nazwa firmy" /></div>
+							<div class="form-row-2">
+								<div class="form-field"><span>Impreza</span>
+									<select>
+										<option>— wybierz —</option>
+										<option>MT-2026-WL-01 — Ziemia Święta</option>
+										<option>MT-2026-ES-02 — Liceum Pijarów</option>
+										<option>MT-2026-IT-03 — ZHP Gdańsk</option>
+										<option>MT-2026-EG-01 — Egipt Żebrowska</option>
+									</select>
+								</div>
+								<div class="form-field"><span>Nr umowy (opcjonalnie)</span><input type="text" placeholder="np. U/2026/041" /></div>
+							</div>
+							<div class="form-row-2">
+								<div class="form-field"><span>Kwota</span><input type="number" min="0" step="0.01" placeholder="np. 2500" /></div>
+								<div class="form-field"><span>Waluta</span>
+									<select>
+										<option>PLN</option>
+										<option>EUR</option>
+										<option>USD</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-field"><span>Tytuł / opis przelewu</span><input type="text" placeholder="np. II rata — Ziemia Święta 2026" /></div>
+							<div class="form-row-2">
+								<div class="form-field"><span>Metoda płatności</span>
+									<select>
+										<option>Przelew bankowy</option>
+										<option>Gotówka</option>
+										<option>Karta</option>
+										<option>BLIK</option>
+										<option>Przelew zagraniczny (SWIFT)</option>
+									</select>
+								</div>
+								<div class="form-field"><span>Przypisanie</span>
+									<select>
+										<option>Auto (system)</option>
+										<option>Ręcznie</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-field"><span>Uwagi</span><textarea rows="2" placeholder="Opcjonalne uwagi..."></textarea></div>
+						</div>
+					</div>
+					<div class="demo-modal-footer">
+						<button class="btn btn-outline" data-no-demo="true" onclick="document.getElementById('rejestruj-wplate-modal').classList.remove('show')">Anuluj</button>
+						${button({ label: 'Zarejestruj wpłatę', icon: 'fa-solid fa-check' })}
+					</div>
+				</div>
+			</div>`,
 			`<div class="stats-grid">
 				${statCard({ title: 'Wpłynęło (marzec)', value: '186 450 PLN', icon: 'fa-solid fa-arrow-down-to-line', iconTone: 'green', trend: '<i class="fa-solid fa-arrow-trend-up"></i> +22% vs. luty', trendTone: 'positive' })}
 				${statCard({ title: 'Oczekiwane (kwiecień)', value: '248 900 PLN', icon: 'fa-solid fa-clock-rotate-left', iconTone: 'blue' })}
@@ -151,12 +221,15 @@
 			`<div class="dashboard-grid" style="grid-template-columns:2fr 1fr">
 				${panel({
 					title: 'Historia płatności',
-					action: `<div style="display:flex;gap:0.5rem">
-						<select class="inline-select"><option>Wszystkie</option><option>Przychodzące</option><option>Wychodzące</option><option>Do weryfikacji</option></select>
+					action: `<div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+						<input type="text" class="inline-select" placeholder="Szukaj..." style="min-width:160px" />
+						<select class="inline-select"><option>Kierunek: wszystkie</option><option>Przychodzące</option><option>Wychodzące</option></select>
+						<select class="inline-select"><option>Status: wszystkie</option><option>Zaksięgowana</option><option>Do weryfikacji</option><option>Wysłana</option></select>
+						<select class="inline-select"><option>Impreza: wszystkie</option><option>MT-2026-WL-01</option><option>MT-2026-ES-02</option><option>MT-2026-IT-03</option></select>
 					</div>`,
 					body: `<div class="table-container">
 						<table>
-							<thead><tr><th>Data</th><th>Uczestnik / Podmiot</th><th>Impreza</th><th>Opis</th><th style="text-align:right">Kwota</th><th>Przypisanie</th><th>Status</th><th></th></tr></thead>
+							<thead><tr><th>Data</th><th>Uczestnik / Podmiot</th><th>Impreza</th><th>Opis</th><th style="text-align:right">Kwota</th><th>Przypisanie</th><th>Status</th></tr></thead>
 							<tbody>${payRows}</tbody>
 						</table>
 					</div>`
@@ -174,9 +247,137 @@
 				subtitle: 'Rozliczenia TFG/TFP, faktury, VAT marża, eksport do systemu zewnętrznego',
 				actions: [
 					button({ label: 'Eksport do Subiekta', icon: 'fa-solid fa-arrow-up-from-bracket', variant: 'outline' }),
-					button({ label: 'Nowa faktura', icon: 'fa-solid fa-receipt' })
+					button({ label: 'Nowa faktura', icon: 'fa-solid fa-receipt', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('nowa-faktura-modal').classList.add('show')" } })
 				]
 			}),
+			`<div id="nowa-faktura-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove('show')">
+				<div class="demo-modal" style="max-width:900px;width:97%;max-height:90vh;overflow-y:auto">
+					<div class="demo-modal-header" style="position:sticky;top:0;background:var(--bg-card);z-index:10">
+						<h2><i class="fa-solid fa-receipt" style="margin-right:0.5rem;color:var(--primary-color)"></i>Nowa faktura</h2>
+						<button class="demo-modal-close" type="button" data-no-demo="true" onclick="document.getElementById('nowa-faktura-modal').classList.remove('show')"><i class="fa-solid fa-xmark"></i></button>
+					</div>
+					<div class="demo-modal-body" style="display:grid;gap:1.25rem">
+
+						<!-- Dane podstawowe -->
+						<div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:1.25rem">
+							<div style="font-weight:700;font-size:0.95rem;margin-bottom:1rem">Dane podstawowe</div>
+							<div class="form-mockup" style="margin:0">
+								<div class="form-row-2">
+									<div class="form-field"><span>Numer faktury</span><input type="text" value="FV 1/4/2026" /></div>
+									<div class="form-field"><span>Typ faktury</span>
+										<select>
+											<option>Faktura VAT</option>
+											<option>Pro-forma</option>
+											<option>Faktura VAT marża</option>
+											<option>Faktura korygująca</option>
+											<option>Nota księgowa</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-row-2">
+									<div class="form-field"><span>Data wystawienia</span><input type="date" value="2026-04-13" /></div>
+									<div class="form-field"><span>Data sprzedaży</span><input type="date" value="2026-04-13" /></div>
+								</div>
+								<div class="form-row-2">
+									<div class="form-field"><span>Termin płatności</span><input type="date" value="2026-04-27" /></div>
+									<div class="form-field"><span>Waluta</span>
+										<select><option>PLN</option><option>EUR</option><option>USD</option></select>
+									</div>
+								</div>
+								<div class="form-row-2">
+									<div class="form-field"><span>Impreza</span>
+										<select>
+											<option>— bez powiązania —</option>
+											<option>MT-2026-WL-01 — Ziemia Święta</option>
+											<option>MT-2026-ES-02 — Liceum Pijarów</option>
+											<option>MT-2026-IT-03 — ZHP Gdańsk</option>
+										</select>
+									</div>
+									<div class="form-field"><span>Sposób płatności</span>
+										<select><option>Przelew</option><option>Gotówka</option><option>Karta</option><option>BLIK</option></select>
+									</div>
+								</div>
+								<div class="form-field"><span>Numer KSeF</span><input type="text" placeholder="Wypełniane automatycznie po wysłaniu do KSeF" /></div>
+								<div style="margin-top:0.5rem">
+									<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;cursor:pointer">
+										<input type="checkbox" /> Faktura opłacona
+									</label>
+								</div>
+							</div>
+						</div>
+
+						<!-- Sprzedawca / Nabywca -->
+						<div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem">
+							<div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:1.25rem">
+								<div style="font-weight:700;font-size:0.95rem;margin-bottom:1rem">Sprzedawca</div>
+								<div class="form-mockup" style="margin:0">
+									<div class="form-field"><span>Nazwa sprzedawcy</span><input type="text" value="Matteo Travel Sp. z o.o." /></div>
+									<div class="form-field"><span>NIP</span><input type="text" value="6762123456" /></div>
+									<div class="form-field"><span>Adres</span><textarea rows="2" style="resize:none">ul. Floriańska 12, 31-021 Kraków</textarea></div>
+									<div class="form-field"><span>Email</span><input type="text" value="biuro@matteotravelkrakow.pl" /></div>
+									<div class="form-field"><span>Telefon</span><input type="text" value="+48 12 000 00 00" /></div>
+									<div class="form-field"><span>Konto bankowe</span><input type="text" value="PL 61 1090 1014 0000 0712 1981 2874" /></div>
+								</div>
+							</div>
+							<div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:1.25rem">
+								<div style="font-weight:700;font-size:0.95rem;margin-bottom:1rem">Nabywca</div>
+								<div class="form-mockup" style="margin:0">
+									<div class="form-field"><span>Nazwa nabywcy lub wyszukaj osobę/firmę…</span><input type="text" placeholder="Nazwa nabywcy lub wyszukaj osobę/firmę…" /></div>
+									<div class="form-field"><span>NIP</span><input type="text" placeholder="np. 6762000000" /></div>
+									<div class="form-field"><span>Adres</span><textarea rows="2" style="resize:none" placeholder="ul. Przykładowa 1, 00-001 Warszawa"></textarea></div>
+									<div class="form-field"><span>Email</span><input type="text" placeholder="kontakt@nabywca.pl" /></div>
+									<div class="form-field"><span>Telefon</span><input type="text" placeholder="+48 500 000 000" /></div>
+									<div class="form-field"><span>Konto bankowe</span><input type="text" placeholder="PL …" /></div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Pozycje faktury -->
+						<div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:1.25rem">
+							<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+								<div style="font-weight:700;font-size:0.95rem">Pozycje faktury</div>
+								<button class="btn btn-outline" data-no-demo="true">Dodaj pozycję</button>
+							</div>
+							<table style="width:100%;border-collapse:collapse;font-size:0.82rem">
+								<thead>
+									<tr style="border-bottom:2px solid var(--border-color)">
+										<th style="text-align:left;padding:0.4rem 0.5rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;font-size:0.72rem">Nazwa</th>
+										<th style="text-align:left;padding:0.4rem 0.5rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;font-size:0.72rem">Usługa</th>
+										<th style="text-align:left;padding:0.4rem 0.5rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;font-size:0.72rem">Ilość</th>
+										<th style="text-align:left;padding:0.4rem 0.5rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;font-size:0.72rem">JM</th>
+										<th style="text-align:right;padding:0.4rem 0.5rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;font-size:0.72rem">Cena netto</th>
+										<th style="text-align:right;padding:0.4rem 0.5rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;font-size:0.72rem">VAT %</th>
+										<th style="text-align:right;padding:0.4rem 0.5rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;font-size:0.72rem">Brutto</th>
+										<th style="padding:0.4rem 0.5rem"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr style="border-bottom:1px solid var(--border-color)">
+										<td style="padding:0.4rem 0.5rem"><input type="text" placeholder="Nazwa pozycji" style="width:100%;border:1px solid var(--border-color);border-radius:4px;padding:0.3rem 0.5rem;font-size:0.82rem" /></td>
+										<td style="padding:0.4rem 0.5rem"><select style="border:1px solid var(--border-color);border-radius:4px;padding:0.3rem 0.4rem;font-size:0.82rem"><option>Usługa turystyczna</option><option>Bilet lotniczy</option><option>Hotel</option><option>Transport</option><option>Inne</option></select></td>
+										<td style="padding:0.4rem 0.5rem"><input type="number" value="1" min="1" style="width:60px;border:1px solid var(--border-color);border-radius:4px;padding:0.3rem 0.5rem;font-size:0.82rem" /></td>
+										<td style="padding:0.4rem 0.5rem"><input type="text" value="szt." style="width:50px;border:1px solid var(--border-color);border-radius:4px;padding:0.3rem 0.5rem;font-size:0.82rem" /></td>
+										<td style="padding:0.4rem 0.5rem;text-align:right"><input type="number" value="0" min="0" step="0.01" style="width:80px;border:1px solid var(--border-color);border-radius:4px;padding:0.3rem 0.5rem;font-size:0.82rem;text-align:right" /></td>
+										<td style="padding:0.4rem 0.5rem;text-align:right"><input type="number" value="23" min="0" style="width:55px;border:1px solid var(--border-color);border-radius:4px;padding:0.3rem 0.5rem;font-size:0.82rem;text-align:right" /></td>
+										<td style="padding:0.4rem 0.5rem;text-align:right;font-weight:700">0,00 zł</td>
+										<td style="padding:0.4rem 0.5rem;text-align:center"><button class="btn btn-ghost" data-no-demo="true" style="color:var(--danger-color);padding:0.2rem 0.5rem"><i class="fa-solid fa-xmark"></i></button></td>
+									</tr>
+								</tbody>
+							</table>
+							<div style="margin-top:1rem;display:flex;flex-direction:column;align-items:flex-end;gap:0.3rem;font-size:0.85rem">
+								<div style="display:flex;gap:2rem"><span style="color:var(--text-muted)">Netto:</span><strong>0,00 zł</strong></div>
+								<div style="display:flex;gap:2rem"><span style="color:var(--text-muted)">VAT:</span><strong>0,00 zł</strong></div>
+								<div style="display:flex;gap:2rem;font-size:1rem;margin-top:0.25rem"><span style="font-weight:700">Brutto:</span><strong style="color:var(--primary-color)">0,00 zł</strong></div>
+							</div>
+						</div>
+
+					</div>
+					<div class="demo-modal-footer" style="position:sticky;bottom:0;background:var(--bg-card);z-index:10">
+						<button class="btn btn-outline" data-no-demo="true" onclick="document.getElementById('nowa-faktura-modal').classList.remove('show')">Anuluj</button>
+						${button({ label: 'Zapisz fakturę', icon: 'fa-solid fa-check' })}
+					</div>
+				</div>
+			</div>`,
 			`<div class="stats-grid">
 				${statCard({ title: 'TFG do odprowadzenia', value: '2 418 PLN', icon: 'fa-solid fa-landmark', iconTone: 'blue', trend: 'Termin: 10.04.2026', trendTone: 'negative' })}
 				${statCard({ title: 'TFP (naliczone)', value: '47 uczestn.', icon: 'fa-solid fa-users', iconTone: 'purple' })}

@@ -69,8 +69,10 @@
 		});
 	}
 
-	function openModal(title, body, saveLabel, onSave) {
+	function openModal(title, body, saveLabel, onSave, opts) {
 		if (!modalEl) createModalEl();
+		var innerModal = modalEl.querySelector('.demo-modal');
+		innerModal.style.maxWidth = (opts && opts.maxWidth) ? opts.maxWidth : '';
 		document.getElementById('demoMTitle').textContent = title;
 		document.getElementById('demoMBody').innerHTML = body;
 		var footerEl = document.getElementById('demoMFooter');
@@ -118,6 +120,17 @@
 			]
 		},
 		zapytania: {
+			title: 'Nowe zapytanie / oferta',
+			fields: [
+				{ label: 'Organizator', placeholder: 'Imię i nazwisko / instytucja' },
+				{ label: 'Kierunek / Destynacja', placeholder: 'np. Ziemia Święta, Rzym, Santiago' },
+				{ label: 'Termin (orientacyjny)', placeholder: 'np. kwiecień 2027' },
+				{ label: 'Liczba uczestników', placeholder: 'np. 40' },
+				{ label: 'Typ wyjazdu', type: 'select', options: ['Pielgrzymka religijna', 'Wyjazd szkolny', 'Wyjazd parafialny', 'Konferencja wyjazdowa', 'Inny'] },
+				{ label: 'Uwagi', type: 'textarea', placeholder: 'Dodatkowe wymagania, preferencje...' }
+			]
+		},
+		szczegoly_kontaktu: {
 			title: 'Nowe zapytanie / oferta',
 			fields: [
 				{ label: 'Organizator', placeholder: 'Imię i nazwisko / instytucja' },
@@ -275,7 +288,9 @@
 		if (iconEl) icon = iconEl.className;
 
 		if (btn.getAttribute('data-action') === 'ignore' || btn.getAttribute('data-no-demo') === 'true') return 'ignore';
+		if (/^nowe zapytanie$/i.test(label.trim())) return 'nowe_zapytanie';
 		if (/^(nowy|nowa|nowe|dodaj|nowy lead|nowa rezerwacja|nowy pnr|nowa impreza|nowe zapytanie|nowe zdarzenie)$/i.test(label.trim()) || (/fa-plus/i.test(icon) && label.length < 4)) return 'new';
+		if (/dodaj uczestnika/i.test(label)) return 'dodaj_uczestnika';
 		if (/nowy|nowa|nowe|dodaj/i.test(label)) return 'new';
 		if (/wyślij sms|wyślij email|wyślij wiadomość|wyślij sms|wyślij/i.test(label)) return 'send';
 		if (/zapisz zmiany|zapisz/i.test(label)) return 'save';
@@ -302,6 +317,7 @@
 		if (/^(zaloguj wynik|wynik rozmowy)$/i.test(label.trim())) return 'call_log';
 		if (/^(zadzwoń|dzwoń|oddzwoń|call)$/i.test(label.trim()) || /fa-phone/i.test(icon)) return 'call';
 		if (/historia zmian|historia rezerwacji/i.test(label)) return 'history';
+		if (/lista do biletowania/i.test(label)) return 'lista_biletowania';
 		if (/utwórz imprezę|zamień w imprezę/i.test(label)) return 'new_event';
 		if (/eksport logu|eksport dnia/i.test(label) || /fa-download/i.test(icon)) return 'download';
 		if (/kalkulator/i.test(label)) return 'calc';
@@ -362,6 +378,84 @@
 
 		// --- special complex actions ---
 		if (action === 'ignore') return;
+
+		if (action === 'dodaj_uczestnika') {
+			var duContacts = [
+				{ name: 'Dąbrowski Krzysztof',  pesel: '79052*****' },
+				{ name: 'Dąbrowska Helena',     pesel: '83117*****' },
+				{ name: 'Jankowska Helena',     pesel: '72083*****' },
+				{ name: 'Jankowski Krzysztof',  pesel: '70021*****' },
+				{ name: 'Kaczmarek Joanna',     pesel: '93084*****' },
+				{ name: 'Kaczmarek Michał',     pesel: '92101*****' },
+				{ name: 'ks. Jan Kowalczyk',    pesel: '69045*****' },
+				{ name: 'Kowalska Jadwiga',     pesel: '71093*****' },
+				{ name: 'Kowalski Andrzej',     pesel: '65041*****' },
+				{ name: 'Malczewska Ewa',       pesel: '97110*****' },
+				{ name: 'Malczewski Tomasz',    pesel: '95060*****' },
+				{ name: 'Malinowska Teresa',    pesel: '68041*****' },
+				{ name: 'Nowak Barbara',        pesel: '82071*****' },
+				{ name: 'Nowak Piotr',          pesel: '80030*****' },
+				{ name: 'Wiśniewska Maria',     pesel: '78032*****' },
+				{ name: 'Wiśniewski Adam',      pesel: '75010*****' },
+				{ name: 'Wróbel Stanisław',     pesel: '61032*****' },
+				{ name: 'Wróbel Zofia',         pesel: '63074*****' },
+				{ name: 'Zielińska Anna',       pesel: '91120*****' },
+				{ name: 'Zieliński Marek',      pesel: '88093*****' },
+			];
+			var duBody = '<div class="form-mockup">' +
+				'<div class="form-field"><span>Uczestnik</span>' +
+				'<div style="position:relative">' +
+				'<input id="du-search" type="text" autocomplete="off" placeholder="Szukaj po nazwisku lub imieniu\u2026" style="width:100%;box-sizing:border-box" />' +
+				'<div id="du-dropdown" style="display:none;position:absolute;top:calc(100% + 2px);left:0;right:0;max-height:220px;overflow-y:auto;background:var(--bg-card,#fff);border:1px solid var(--border-color);border-radius:var(--radius-sm);box-shadow:var(--shadow-md);z-index:9999"></div>' +
+				'</div></div>' +
+				'<div class="form-row-2">' +
+				'<div class="form-field"><span>Typ pokoju</span><select><option>\u2014 wybierz \u2014</option><option>SGL</option><option>SGL+</option><option>DBL</option><option>DBL Economy</option><option>TRPL</option></select></div>' +
+				'<div class="form-field"><span>Numer pok\u00f3j</span><input type="text" placeholder="np. 204" /></div>' +
+				'</div>' +
+				'<div class="form-row-2">' +
+				'<div class="form-field"><span>Lot wylotowy</span><select><option>\u2014 wybierz \u2014</option><option>LO4KL2 \u2014 24.01 KRK\u2192HRG</option><option>LO4KL3 \u2014 24.01 WAW\u2192HRG</option></select></div>' +
+				'<div class="form-field"><span>Kwota umowy (z\u0142)</span><input type="number" min="0" placeholder="np. 4990" /></div>' +
+				'</div>' +
+				'<div class="form-field"><span>Uwagi</span><textarea rows="2" placeholder="Opcjonalne uwagi\u2026"></textarea></div>' +
+				'</div>';
+			openModal('Dodaj uczestnika', duBody, 'Dodaj uczestnika', function () {
+				showToast('Uczestnik dodany do rezerwacji.', 'success');
+			});
+			setTimeout(function() {
+				var inp = document.getElementById('du-search');
+				var dd  = document.getElementById('du-dropdown');
+				if (!inp || !dd) return;
+				function duRender(q) {
+					var lq = (q || '').toLowerCase().trim();
+					var filt = lq ? duContacts.filter(function(c) { return c.name.toLowerCase().indexOf(lq) !== -1; }) : duContacts;
+					if (!filt.length) { dd.style.display = 'none'; return; }
+					dd.style.display = 'block';
+					dd.innerHTML = '';
+					filt.forEach(function(c) {
+						var row = document.createElement('div');
+						row.style.cssText = 'padding:0.5rem 0.75rem;cursor:pointer;display:flex;align-items:baseline;gap:0.6rem;border-bottom:1px solid var(--border-color)';
+						row.innerHTML = '<strong style="font-size:0.85rem">' + c.name + '</strong>' +
+							'<span style="font-size:0.73rem;color:var(--text-muted);font-family:monospace">' + c.pesel + '</span>';
+						row.addEventListener('mouseenter', function() { this.style.background = 'var(--bg-hover,#f1f5f9)'; });
+						row.addEventListener('mouseleave', function() { this.style.background = 'transparent'; });
+						row.addEventListener('mousedown', function(e) { e.preventDefault(); });
+						row.addEventListener('click', function() { inp.value = c.name; dd.style.display = 'none'; });
+						dd.appendChild(row);
+					});
+				}
+				inp.addEventListener('input', function() { duRender(this.value); });
+				inp.addEventListener('focus', function() { duRender(this.value); });
+				inp.addEventListener('blur', function() { setTimeout(function() { dd.style.display = 'none'; }, 200); });
+				inp.focus();
+			}, 80);
+			return;
+		}
+
+		if (action === 'nowe_zapytanie') {
+			var f = buildForm('zapytania', null);
+			openModal(f.title, f.body, 'Dodaj', function () { showToast('Zapytanie dodane pomyślnie!', 'success'); });
+			return;
+		}
 
 		if (action === 'new') {
 			var f = buildForm(page, null);
@@ -593,6 +687,62 @@
 				}
 				return;
 			}
+		}
+
+		if (action === 'lista_biletowania') {
+			var bilRows = [
+				{ lp: 1,  name: 'Wiśniewski Adam',         pesel: '75010*****', paszport: 'AB1234567', exp: '2029-08-12', lot: 'LO4KL2', seat: '14A', uwagi: '' },
+				{ lp: 2,  name: 'Wiśniewska Maria',        pesel: '78032*****', paszport: 'AB1234568', exp: '2030-03-05', lot: 'LO4KL2', seat: '14B', uwagi: '' },
+				{ lp: 3,  name: 'ks. Jan Kowalczyk',       pesel: '69045*****', paszport: 'CD9876543', exp: '2028-11-20', lot: 'LO4KL2', seat: '1A',  uwagi: 'Gratis' },
+				{ lp: 4,  name: 'Nowak Barbara',           pesel: '82071*****', paszport: '—',         exp: '—',         lot: 'LO4KL2', seat: '—',   uwagi: 'Brak paszportu ⚠' },
+				{ lp: 5,  name: 'Zielińska Anna',          pesel: '91120*****', paszport: '—',         exp: '—',         lot: 'LO4KL2', seat: '—',   uwagi: 'Brak paszportu ⚠' },
+				{ lp: 6,  name: 'Zieliński Marek',         pesel: '88093*****', paszport: 'EF4567890', exp: '2031-07-01', lot: 'LO4KL2', seat: '22C', uwagi: 'Weryfikacja' },
+				{ lp: 7,  name: 'Malczewski Tomasz',       pesel: '95060*****', paszport: 'GH2345678', exp: '2027-02-14', lot: 'LO4KL3', seat: '10D', uwagi: '' },
+				{ lp: 8,  name: 'Malczewska Ewa',          pesel: '97110*****', paszport: 'GH2345679', exp: '2027-02-14', lot: 'LO4KL3', seat: '10E', uwagi: '' },
+			];
+			var brakPaszportu = bilRows.filter(function(r) { return r.paszport === '—'; });
+			var okCount = bilRows.filter(function(r) { return r.paszport !== '—'; }).length;
+			var warnBanner = brakPaszportu.length
+				? '<div style="margin-bottom:1rem;padding:0.65rem 0.85rem;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;font-size:0.82rem;color:#92400e"><i class="fa-solid fa-triangle-exclamation" style="margin-right:0.4rem"></i>Brak paszportu: <strong>' + brakPaszportu.map(function(r){ return r.name.split(' ')[0] + ' ' + r.name.split(' ')[1]; }).join(', ') + '</strong> — nie można wystawić biletu.</div>'
+				: '';
+			var bilTable = '<table style="width:100%;border-collapse:collapse;font-size:0.8rem">'
+				+ '<thead><tr style="background:var(--bg-main)">'
+				+ '<th style="padding:6px 8px;text-align:left;border-bottom:1px solid var(--border-color);font-weight:700;color:var(--text-muted)">Lp</th>'
+				+ '<th style="padding:6px 8px;text-align:left;border-bottom:1px solid var(--border-color);font-weight:700;color:var(--text-muted)">Uczestnik</th>'
+				+ '<th style="padding:6px 8px;text-align:left;border-bottom:1px solid var(--border-color);font-weight:700;color:var(--text-muted)">PESEL</th>'
+				+ '<th style="padding:6px 8px;text-align:left;border-bottom:1px solid var(--border-color);font-weight:700;color:var(--text-muted)">Paszport</th>'
+				+ '<th style="padding:6px 8px;text-align:left;border-bottom:1px solid var(--border-color);font-weight:700;color:var(--text-muted)">Ważny do</th>'
+				+ '<th style="padding:6px 8px;text-align:left;border-bottom:1px solid var(--border-color);font-weight:700;color:var(--text-muted)">Lot</th>'
+				+ '<th style="padding:6px 8px;text-align:left;border-bottom:1px solid var(--border-color);font-weight:700;color:var(--text-muted)">Miejsce</th>'
+				+ '<th style="padding:6px 8px;text-align:left;border-bottom:1px solid var(--border-color);font-weight:700;color:var(--text-muted)">Uwagi</th>'
+				+ '</tr></thead><tbody>'
+				+ bilRows.map(function(r) {
+					var warn = r.paszport === '—';
+					var rowBg = warn ? 'background:#fff7ed' : '';
+					return '<tr style="border-bottom:1px solid var(--border-color);' + rowBg + '">'
+						+ '<td style="padding:7px 8px;color:var(--text-muted);font-weight:600">' + r.lp + '</td>'
+						+ '<td style="padding:7px 8px;font-weight:600">' + r.name + '</td>'
+						+ '<td style="padding:7px 8px;font-family:monospace;font-size:0.76rem;color:var(--text-muted)">' + r.pesel + '</td>'
+						+ '<td style="padding:7px 8px;font-family:monospace;font-size:0.76rem;color:' + (warn ? 'var(--danger-color)' : 'var(--text-main)') + ';font-weight:' + (warn ? '700' : 'normal') + '">' + r.paszport + '</td>'
+						+ '<td style="padding:7px 8px;font-size:0.77rem">' + r.exp + '</td>'
+						+ '<td style="padding:7px 8px"><code style="font-size:0.76rem">' + r.lot + '</code></td>'
+						+ '<td style="padding:7px 8px">' + r.seat + '</td>'
+						+ '<td style="padding:7px 8px;font-size:0.77rem;color:' + (warn ? 'var(--warning-color)' : r.uwagi ? 'var(--text-muted)' : 'var(--success-color)') + '">' + (r.uwagi || '<i class="fa-solid fa-check"></i>') + '</td>'
+						+ '</tr>';
+				}).join('')
+				+ '</tbody></table>';
+			var bilBody = '<div style="margin-bottom:0.75rem;display:flex;gap:1rem;flex-wrap:wrap">'
+				+ '<span style="font-size:0.8rem;color:var(--text-muted)">Lot: <strong>LO4KL2 / LO4KL3</strong></span>'
+				+ '<span style="font-size:0.8rem;color:var(--text-muted)">Wylot: <strong>25.04.2026</strong></span>'
+				+ '<span style="font-size:0.8rem;color:var(--success-color)"><i class="fa-solid fa-circle-check"></i> Gotowe do biletowania: <strong>' + okCount + '</strong></span>'
+				+ (brakPaszportu.length ? '<span style="font-size:0.8rem;color:var(--warning-color)"><i class="fa-solid fa-circle-xmark"></i> Zablokowane: <strong>' + brakPaszportu.length + '</strong></span>' : '')
+				+ '</div>'
+				+ warnBanner
+				+ '<div style="overflow-x:auto">' + bilTable + '</div>';
+			openModal('Lista do biletowania — MT-2026-WL-01 · Ziemia Święta', bilBody, 'Przekaż do biletowania', function() {
+				showToast('Lista przekazana do działu biletowego.', 'success');
+			}, { maxWidth: '880px' });
+			return;
 		}
 
 		var msgArr = TOAST_MESSAGES[action];
@@ -835,22 +985,10 @@
 			if (chatThread && !target.closest('button')) { handleChatThreadClick(chatThread); return; }
 
 			// --- Table row (but not if clicking a button inside) ---
-			// Terminarz row click → show group card
 			var row = target.closest('tbody tr');
 			if (row && !target.closest('button') && !target.closest('a')) {
-				if (row.getAttribute('data-no-demo') === 'true') {
-					// row has its own inline onclick — let it handle navigation
-					return;
-				}
-				if (row.closest('.terminarz-table')) {
-					var card = document.querySelector('.group-card-detail');
-					if (card) {
-						card.style.display = 'block';
-						card.scrollIntoView({ behavior: 'smooth', block: 'start' });
-						card.style.outline = '2px solid var(--primary-color)';
-						card.style.borderRadius = '12px';
-						setTimeout(function () { card.style.outline = ''; card.style.borderRadius = ''; }, 1500);
-					}
+				if (row.closest('.terminarz-table') || row.getAttribute('onclick')) {
+					window.AppNavigation && window.AppNavigation.setActivePage('szczegoly_grupy');
 					return;
 				}
 				handleTableRowClick(row);
@@ -873,33 +1011,8 @@
 		}, true); // capture phase so we get it before other handlers can stopPropagation
 	}
 
-	/* -------- 14. CHAIR ROW DOUBLE-CLICK DETAIL -------- */
-	function initRowDblClick() {
-		document.addEventListener('dblclick', function (e) {
-			var contentArea = el('contentArea');
-			if (!contentArea || !contentArea.contains(e.target)) return;
-			var row = e.target.closest('tbody tr');
-			if (!row) return;
-			if (row.getAttribute('data-no-demo') === 'true') return;
-
-			var cells = row.querySelectorAll('td');
-			var page = getActivePage();
-			var def = NEW_FORMS[page] || NEW_FORMS.default;
-
-			var detailBody = '<div style="display:grid;gap:0.5rem">';
-			cells.forEach(function (td, i) {
-				var label = def.fields[i] ? def.fields[i].label : ('Kolumna ' + (i + 1));
-				var val = td.textContent.trim();
-				if (val) detailBody += '<div class="info-row"><span>' + label + '</span><strong>' + val + '</strong></div>';
-			});
-			detailBody += '</div>';
-
-			openModal('Szczegóły rekordu', detailBody, 'Edytuj', function () {
-				var f = buildForm(page, 'Edytuj rekord');
-				openModal(f.title, f.body, 'Zapisz zmiany', function () { showToast('Zmiany zapisane!', 'success'); });
-			});
-		});
-	}
+	/* -------- 14. (dblclick detail removed) -------- */
+	function initRowDblClick() {}
 
 	/* -------- 15. FORM FIELDS IN CONTENT AREA -------- */
 	function initFormInputs() {

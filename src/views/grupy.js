@@ -456,7 +456,7 @@ action: '<div style="display:flex;gap:0.5rem;flex-wrap:wrap">' +
 '<select class="inline-select"><option>Wszystkie statusy</option><option>Zakończona</option><option>Potwierdzony</option><option>W trakcie zbierania</option><option>Anulowana</option></select>' +
 '<select class="inline-select"><option>Wszystkie kierunki</option><option>Egipt</option><option>Kenia</option><option>Izrael / Palestyna</option><option>Włochy</option><option>Portugalia</option><option>Hiszpania</option></select>' +
 '<select class="inline-select"><option>Każdy transport</option><option>Samolot</option><option>Autokar</option><option>Pociąg</option><option>Rejs</option></select>' +
-'<select class="inline-select"><option>Wszyscy autorzy</option><option>Ania</option><option>Natalia</option><option>Zuzia</option><option>Marek</option></select>' +
+'<select class="inline-select"><option>Wszyscy pracownicy</option><option>Ania</option><option>Natalia</option><option>Zuzia</option><option>Marek</option></select>' +
 button({ label: 'Eksport PDF', icon: 'fa-solid fa-download', variant: 'ghost' }) +
 '</div>',
 body: '<div class="table-container" style="overflow-x:auto"><table class="data-table terminarz-table">' +

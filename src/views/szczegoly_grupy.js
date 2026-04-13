@@ -1,5 +1,5 @@
 (function () {
-  const { button, panel, statusBadge, escapeHtml } = window.SharedUI;
+  const { button, panel, statusBadge, escapeHtml, statCard } = window.SharedUI;
   function renderSzczegolyGrupy() {
 /* ===== HOTELS — Egipt Żebrowska ===== */
 var hotels = [
@@ -216,6 +216,8 @@ button({ label: 'Edytuj', icon: 'fa-solid fa-pen', variant: 'outline' }) +
 '<button class="group-tab" data-tab="bilety">Bilety lotnicze</button>' +
 '<button class="group-tab" data-tab="transport">Transport</button>' +
 '<button class="group-tab" data-tab="pasazerowie">Pasa\u017cerowie <span class="tab-badge">44</span></button>' +
+'<button class="group-tab" data-tab="rezerwacje">Rezerwacje <span class="tab-badge">8</span></button>' +
+'<button class="group-tab" data-tab="rooming">Rooming list</button>' +
 '<button class="group-tab" data-tab="dod-rezerwacje">Dod. rezerwacje <span class="tab-badge">6</span></button>' +
 '<button class="group-tab" data-tab="dokumenty">Dokumenty</button>' +
 '<button data-no-demo="true" title="Historia zmian" onclick="document.getElementById(\'historia-modal\').classList.add(\'show\')" style="margin-left:auto;background:none;border:none;cursor:pointer;padding:0.4rem 0.6rem;color:var(--text-muted);border-radius:var(--radius-sm);display:flex;align-items:center;gap:0.4rem;font-size:0.8rem;font-weight:500;" onmouseenter="this.style.color=\'var(--primary-color)\'" onmouseleave="this.style.color=\'var(--text-muted)\'"><i class="fa-solid fa-clock-rotate-left"></i> Historia zmian</button>' +
@@ -296,8 +298,8 @@ panel({ title: 'Umowy i dokumentacja', body:
 panel({
   title: 'Hotele i noclegi — Egipt Żebrowska / Lipka · 24–31.01.2026',
   action: '<div style="display:flex;gap:0.5rem">' +
-    button({ label: 'Dodaj nocleg', icon: 'fa-solid fa-plus', variant: 'outline', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('dodaj-nocleg-modal').classList.add('show')" } }) +
     '<button class="btn btn-ghost" data-no-demo="true" onclick="document.getElementById(\'hotel-historia-modal\').classList.add(\'show\')"><i class="fa-solid fa-clock-rotate-left"></i> Historia rezerwacji</button>' +
+    button({ label: 'Dodaj nocleg', icon: 'fa-solid fa-plus', variant: 'primary', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('dodaj-nocleg-modal').classList.add('show')" } }) +
     '</div>',
   body: '<div class="table-container"><table class="data-table">' +
     '<thead><tr><th>Daty</th><th>Noce</th><th>Miejscowość</th><th>Hotel / Sposób noclegu</th><th>Typ</th><th>Kwota (USD)</th><th>Status</th><th>Uwagi</th></tr></thead>' +
@@ -316,9 +318,9 @@ panel({
 panel({
   title: 'Bilety lotnicze — MT-2026-EG-01',
   action: '<div style="display:flex;gap:0.5rem">' +
-    button({ label: 'Nowy bilet', icon: 'fa-solid fa-plus', variant: 'primary', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('nowy-bilet-modal').classList.add('show')" } }) +
     button({ label: 'Eksport PDF', icon: 'fa-solid fa-file-pdf', variant: 'outline' }) +
     '<button class="btn btn-ghost" data-no-demo="true" onclick="document.getElementById(\'bilety-historia-modal\').classList.add(\'show\')"><i class="fa-solid fa-clock-rotate-left"></i> Historia</button>' +
+    button({ label: 'Dodaj bilet', icon: 'fa-solid fa-plus', variant: 'primary', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('nowy-bilet-modal').classList.add('show')" } }) +
   '</div>',
   body:
   '<div class="table-container"><table class="data-table">' +
@@ -334,7 +336,8 @@ panel({
     '<td><span style="font-size:0.8rem">84\u202f406\u202fzł<br><span style="color:var(--success-color);font-size:0.75rem">op\u0142acona ✓</span></span></td>' +
     '<td>' + statusBadge('Aktywny', 'success') + '</td>' +
     '<td style="white-space:nowrap">' +
-      '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem" title="Edytuj"><i class="fa-solid fa-pen"></i></button>' +
+      '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem" data-no-demo="true" title="Szczegóły" onclick="document.getElementById(\'szczegoly-bilet-modal\').classList.add(\'show\')"><i class="fa-solid fa-eye"></i></button>' +
+      '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem" data-no-demo="true" title="Edytuj" onclick="document.getElementById(\'edytuj-bilet-modal\').classList.add(\'show\')"><i class="fa-solid fa-pen"></i></button>' +
       '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem;color:var(--danger-color)" title="Anuluj PNR"><i class="fa-solid fa-ban"></i></button>' +
     '</td>' +
   '</tr>' +
@@ -348,7 +351,8 @@ panel({
     '<td><span style="font-size:0.8rem;color:var(--text-muted)">w f. g\u0142\u00f3wnej</span></td>' +
     '<td>' + statusBadge('Aktywny', 'success') + '</td>' +
     '<td style="white-space:nowrap">' +
-      '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem" title="Edytuj"><i class="fa-solid fa-pen"></i></button>' +
+      '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem" data-no-demo="true" title="Szczeg\u00f3\u0142y" onclick="document.getElementById(\'szczegoly-bilet-modal\').classList.add(\'show\')"><i class="fa-solid fa-eye"></i></button>' +
+      '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem" data-no-demo="true" title="Edytuj" onclick="document.getElementById(\'edytuj-bilet-modal\').classList.add(\'show\')"><i class="fa-solid fa-pen"></i></button>' +
       '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem;color:var(--danger-color)" title="Anuluj PNR"><i class="fa-solid fa-ban"></i></button>' +
     '</td>' +
   '</tr>' +
@@ -362,7 +366,8 @@ panel({
     '<td><span style="font-size:0.8rem;color:var(--text-muted)">anulowana</span></td>' +
     '<td>' + statusBadge('Anulowany', 'danger') + '</td>' +
     '<td style="white-space:nowrap">' +
-      '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem" title="Edytuj"><i class="fa-solid fa-pen"></i></button>' +
+      '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem" data-no-demo="true" title="Szczeg\u00f3\u0142y" onclick="document.getElementById(\'szczegoly-bilet-modal\').classList.add(\'show\')"><i class="fa-solid fa-eye"></i></button>' +
+      '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem;opacity:0.4" title="Edytuj" disabled><i class="fa-solid fa-pen"></i></button>' +
       '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem;color:var(--text-muted)" title="Ju\u017c anulowany" disabled><i class="fa-solid fa-ban"></i></button>' +
     '</td>' +
   '</tr>' +
@@ -377,52 +382,169 @@ panel({
 
 /* ==== NOWY BILET modal ==== */
 '<div id="nowy-bilet-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
-  '<div class="demo-modal" style="max-width:620px;width:95%">' +
+  '<div class="demo-modal" style="max-width:680px;width:95%">' +
     '<div class="demo-modal-header">' +
-      '<h2><i class="fa-solid fa-plane-departure" style="margin-right:0.5rem;color:var(--primary-color)"></i>Nowy bilet lotniczy — MT-2026-EG-01</h2>' +
+      '<h2><i class="fa-solid fa-plane-departure" style="margin-right:0.5rem;color:var(--primary-color)"></i>Nowy PNR \u2014 rezerwacja lot\u00f3w</h2>' +
       '<button class="demo-modal-close" type="button" data-no-demo="true" onclick="document.getElementById(\'nowy-bilet-modal\').classList.remove(\'show\')"><i class="fa-solid fa-xmark"></i></button>' +
     '</div>' +
-    '<div class="demo-modal-body">' +
+    '<div class="demo-modal-body" style="max-height:72vh;overflow-y:auto">' +
       '<div class="form-mockup">' +
         '<div class="form-row-2">' +
-          '<label class="form-field"><span>PNR</span><input type="text" placeholder="np. W6Y73A" style="font-family:monospace;text-transform:uppercase" /></label>' +
+          '<label class="form-field"><span>Nr PNR</span><input type="text" placeholder="np. LO4KL2" style="font-family:monospace;text-transform:uppercase" /></label>' +
           '<label class="form-field"><span>Typ biletu</span>' +
             '<select><option>Grupowy</option><option>Indywidualny</option><option>Czarterowy</option></select>' +
           '</label>' +
         '</div>' +
+        '<label class="form-field" style="margin-bottom:0.75rem"><span>Linia lotnicza</span>' +
+          '<select><option>LOT Polish Airlines</option><option>Ryanair</option><option>Wizz Air</option><option>EasyJet</option><option>Turkish Airlines</option><option>Inny</option></select>' +
+        '</label>' +
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Trasa</div>' +
         '<div class="form-row-2">' +
-          '<label class="form-field"><span>Przewoźnik</span>' +
-            '<select><option>LOT Polish Airlines</option><option>Ryanair</option><option>Wizz Air</option><option>EasyJet</option><option>Turkish Airlines</option><option>Inny</option></select>' +
-          '</label>' +
-          '<label class="form-field"><span>Liczba miejsc</span><input type="number" min="1" placeholder="np. 44" /></label>' +
-        '</div>' +
-        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:1rem 0 0.75rem">Trasa</div>' +
-        '<div class="form-row-2">' +
-          '<label class="form-field"><span>Lotnisko wylotu</span><input type="text" placeholder="np. WAW" style="font-family:monospace;text-transform:uppercase" /></label>' +
-          '<label class="form-field"><span>Lotnisko docelowe</span><input type="text" placeholder="np. CAI" style="font-family:monospace;text-transform:uppercase" /></label>' +
+          '<label class="form-field"><span>Trasa (tam)</span><input type="text" placeholder="np. KRK \u2192 TLV" /></label>' +
+          '<label class="form-field"><span>Trasa (powr\u00f3t)</span><input type="text" placeholder="np. TLV \u2192 KRK" /></label>' +
         '</div>' +
         '<div class="form-row-2">' +
-          '<label class="form-field"><span>Data wylotu</span><input type="date" /></label>' +
+          '<label class="form-field"><span>Data lotu (tam)</span><input type="date" /></label>' +
           '<label class="form-field"><span>Data powrotu</span><input type="date" /></label>' +
         '</div>' +
-        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:1rem 0 0.75rem">Faktura</div>' +
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Szczeg\u00f3\u0142y rezerwacji</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Liczba miejsc</span><input type="number" min="1" placeholder="np. 44" /></label>' +
+          '<label class="form-field"><span>Deadline ticketingu</span><input type="date" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Impreza</span><input type="text" placeholder="np. MT-2026-WL-01" /></label>' +
+          '<label class="form-field"><span>Status PNR</span>' +
+            '<select><option>Opcja</option><option>Aktywny</option><option>Potwierdzony</option><option>Anulowany</option></select>' +
+          '</label>' +
+        '</div>' +
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Faktura</div>' +
         '<div class="form-row-2">' +
           '<label class="form-field"><span>Nr faktury</span><input type="text" placeholder="np. f.\u202f0238/01/26/F" /></label>' +
-          '<label class="form-field"><span>Kwota faktury (zł)</span><input type="number" min="0" step="0.01" placeholder="np. 84406.00" /></label>' +
+          '<label class="form-field"><span>Kwota faktury (z\u0142)</span><input type="number" min="0" step="0.01" placeholder="np. 84406.00" /></label>' +
         '</div>' +
         '<div class="form-row-2">' +
+          '<label class="form-field"><span>Data op\u0142acenia</span><input type="date" /></label>' +
           '<label class="form-field"><span>Status faktury</span>' +
-            '<select><option>Oczekuje</option><option>Opłacona</option><option>Anulowana</option></select>' +
-          '</label>' +
-          '<label class="form-field"><span>Status biletu</span>' +
-            '<select><option>Aktywny</option><option>Opcja</option><option>Anulowany</option></select>' +
+            '<select><option>Oczekuje</option><option>Op\u0142acona</option><option>Anulowana</option></select>' +
           '</label>' +
         '</div>' +
+        '<label class="form-field"><span>Uwagi</span><textarea rows="2" placeholder="Opcjonalne uwagi\u2026"></textarea></label>' +
       '</div>' +
     '</div>' +
     '<div class="demo-modal-footer">' +
       '<button class="btn btn-outline" data-no-demo="true" onclick="document.getElementById(\'nowy-bilet-modal\').classList.remove(\'show\')">Anuluj</button>' +
-      button({ label: 'Dodaj bilet', icon: 'fa-solid fa-check' }) +
+      button({ label: 'Dodaj', icon: 'fa-solid fa-check' }) +
+    '</div>' +
+  '</div>' +
+'</div>' +
+
+/* ==== EDYTUJ BILET modal ==== */
+'<div id="edytuj-bilet-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
+  '<div class="demo-modal" style="max-width:680px;width:95%">' +
+    '<div class="demo-modal-header">' +
+      '<h2><i class="fa-solid fa-pen" style="margin-right:0.5rem;color:var(--primary-color)"></i>Edycja PNR \u2014 W6Y73A</h2>' +
+      '<button class="demo-modal-close" type="button" data-no-demo="true" onclick="document.getElementById(\'edytuj-bilet-modal\').classList.remove(\'show\')"><i class="fa-solid fa-xmark"></i></button>' +
+    '</div>' +
+    '<div class="demo-modal-body" style="max-height:72vh;overflow-y:auto">' +
+      '<div class="form-mockup">' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Nr PNR</span><input type="text" value="W6Y73A" style="font-family:monospace;text-transform:uppercase" /></label>' +
+          '<label class="form-field"><span>Typ biletu</span>' +
+            '<select><option selected>Grupowy</option><option>Indywidualny</option><option>Czarterowy</option></select>' +
+          '</label>' +
+        '</div>' +
+        '<label class="form-field" style="margin-bottom:0.75rem"><span>Linia lotnicza</span>' +
+          '<select><option selected>LOT Polish Airlines</option><option>Ryanair</option><option>Wizz Air</option><option>EasyJet</option><option>Turkish Airlines</option><option>Inny</option></select>' +
+        '</label>' +
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Trasa</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Trasa (tam)</span><input type="text" value="WAW \u2192 CAI" /></label>' +
+          '<label class="form-field"><span>Trasa (powr\u00f3t)</span><input type="text" value="CAI \u2192 WAW" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Data lotu (tam)</span><input type="date" value="2026-01-24" /></label>' +
+          '<label class="form-field"><span>Data powrotu</span><input type="date" value="2026-01-31" /></label>' +
+        '</div>' +
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Szczeg\u00f3\u0142y rezerwacji</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Liczba miejsc</span><input type="number" value="44" /></label>' +
+          '<label class="form-field"><span>Deadline ticketingu</span><input type="date" value="2026-01-10" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Impreza</span><input type="text" value="MT-2026-EG-01" readonly style="background:var(--bg-hover,#f8fafc)" /></label>' +
+          '<label class="form-field"><span>Status PNR</span>' +
+            '<select><option>Opcja</option><option selected>Aktywny</option><option>Potwierdzony</option><option>Anulowany</option></select>' +
+          '</label>' +
+        '</div>' +
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Faktura</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Nr faktury</span><input type="text" value="f.\u202f0238/01/26/F/BSP" /></label>' +
+          '<label class="form-field"><span>Kwota faktury (z\u0142)</span><input type="number" value="84406" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Data op\u0142acenia</span><input type="date" value="2026-01-13" /></label>' +
+          '<label class="form-field"><span>Status faktury</span>' +
+            '<select><option>Oczekuje</option><option selected>Op\u0142acona</option><option>Anulowana</option></select>' +
+          '</label>' +
+        '</div>' +
+        '<label class="form-field"><span>Uwagi</span><textarea rows="2"></textarea></label>' +
+      '</div>' +
+    '</div>' +
+    '<div class="demo-modal-footer">' +
+      '<button class="btn btn-outline" data-no-demo="true" onclick="document.getElementById(\'edytuj-bilet-modal\').classList.remove(\'show\')">Anuluj</button>' +
+      button({ label: 'Zapisz zmiany', icon: 'fa-solid fa-check' }) +
+    '</div>' +
+  '</div>' +
+'</div>' +
+
+/* ==== SZCZEG\u00d3\u0141Y BILETU modal (read-only) ==== */
+'<div id="szczegoly-bilet-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
+  '<div class="demo-modal" style="max-width:680px;width:95%">' +
+    '<div class="demo-modal-header">' +
+      '<h2><i class="fa-solid fa-ticket" style="margin-right:0.5rem;color:var(--primary-color)"></i>Szczeg\u00f3\u0142y biletu \u2014 W6Y73A</h2>' +
+      '<button class="demo-modal-close" type="button" data-no-demo="true" onclick="document.getElementById(\'szczegoly-bilet-modal\').classList.remove(\'show\')"><i class="fa-solid fa-xmark"></i></button>' +
+    '</div>' +
+    '<div class="demo-modal-body" style="max-height:72vh;overflow-y:auto">' +
+      '<div class="form-mockup">' +
+        '<div class="form-row-2">' +
+          '<div class="form-field"><span>Nr PNR</span><p style="margin:0.3rem 0 0;font-size:0.92rem;font-weight:700;font-family:monospace;color:var(--text-default)">W6Y73A</p></div>' +
+          '<div class="form-field"><span>Typ biletu</span><p style="margin:0.3rem 0 0;font-size:0.92rem;color:var(--text-default)">Grupowy</p></div>' +
+        '</div>' +
+        '<div class="form-field" style="margin-bottom:0.75rem"><span>Linia lotnicza</span><p style="margin:0.3rem 0 0;font-size:0.92rem;color:var(--text-default)">LOT Polish Airlines</p></div>' +
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Trasa</div>' +
+        '<div class="form-row-2">' +
+          '<div class="form-field"><span>Trasa (tam)</span><p style="margin:0.3rem 0 0;font-size:0.92rem;color:var(--text-default)">WAW \u2192 CAI</p></div>' +
+          '<div class="form-field"><span>Trasa (powr\u00f3t)</span><p style="margin:0.3rem 0 0;font-size:0.92rem;color:var(--text-default)">CAI \u2192 WAW</p></div>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<div class="form-field"><span>Data lotu (tam)</span><p style="margin:0.3rem 0 0;font-size:0.92rem;color:var(--text-default)">24.01.2026</p></div>' +
+          '<div class="form-field"><span>Data powrotu</span><p style="margin:0.3rem 0 0;font-size:0.92rem;color:var(--text-default)">31.01.2026</p></div>' +
+        '</div>' +
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Szczeg\u00f3\u0142y rezerwacji</div>' +
+        '<div class="form-row-2">' +
+          '<div class="form-field"><span>Liczba miejsc</span><p style="margin:0.3rem 0 0;font-size:0.92rem;color:var(--text-default)">44</p></div>' +
+          '<div class="form-field"><span>Deadline ticketingu</span><p style="margin:0.3rem 0 0;font-size:0.92rem;color:var(--text-default)">10.01.2026</p></div>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<div class="form-field"><span>Impreza</span><p style="margin:0.3rem 0 0;font-size:0.92rem;color:var(--text-default)">MT-2026-EG-01 \u2014 Egipt</p></div>' +
+          '<div class="form-field"><span>Status PNR</span><p style="margin:0.3rem 0 0">' + statusBadge('Aktywny', 'success') + '</p></div>' +
+        '</div>' +
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Faktura</div>' +
+        '<div class="form-row-2">' +
+          '<div class="form-field"><span>Nr faktury</span><p style="margin:0.3rem 0 0;font-size:0.92rem;color:var(--text-default)">f.\u202f0238/01/26/F/BSP</p></div>' +
+          '<div class="form-field"><span>Kwota faktury</span><p style="margin:0.3rem 0 0;font-size:0.92rem;color:var(--text-default)">84\u202f406\u202fz\u0142</p></div>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<div class="form-field"><span>Data op\u0142acenia</span><p style="margin:0.3rem 0 0;font-size:0.92rem;color:var(--text-default)">13.01.2026</p></div>' +
+          '<div class="form-field"><span>Status faktury</span><p style="margin:0.3rem 0 0">' + statusBadge('Op\u0142acona', 'success') + '</p></div>' +
+        '</div>' +
+        '<div class="form-field"><span>Uwagi</span><p style="margin:0.3rem 0 0;font-size:0.875rem;color:var(--text-muted);font-style:italic">Brak uwag.</p></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="demo-modal-footer">' +
+      '<button class="btn btn-outline" type="button" data-no-demo="true" onclick="document.getElementById(\'szczegoly-bilet-modal\').classList.remove(\'show\')">Zamknij</button>' +
+      '<button class="btn btn-primary" type="button" data-no-demo="true" onclick="document.getElementById(\'szczegoly-bilet-modal\').classList.remove(\'show\');setTimeout(function(){document.getElementById(\'edytuj-bilet-modal\').classList.add(\'show\')},200)"><i class="fa-solid fa-pen"></i> Edytuj</button>' +
     '</div>' +
   '</div>' +
 '</div>' +
@@ -476,8 +598,8 @@ panel({
 '<div class="group-tab-panel" data-panel="transport">' +
 panel({ title: 'Transport — szczegóły Egipt 24–31.01.2026',
   action: '<div style="display:flex;gap:0.5rem">' +
-    button({ label: 'Dodaj element', icon: 'fa-solid fa-plus', variant: 'outline', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('dodaj-transport-modal').classList.add('show')" } }) +
-    button({ label: 'Dodaj mszę', icon: 'fa-solid fa-church', variant: 'ghost', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('dodaj-msza-modal').classList.add('show')" } }) +
+    button({ label: 'Dodaj mszę', icon: 'fa-solid fa-church', variant: 'outline', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('dodaj-msza-modal').classList.add('show')" } }) +
+    button({ label: 'Dodaj element', icon: 'fa-solid fa-plus', variant: 'primary', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('dodaj-transport-modal').classList.add('show')" } }) +
   '</div>',
   body:
   '<div class="info-table">' +
@@ -496,9 +618,9 @@ panel({ title: 'Transport — szczegóły Egipt 24–31.01.2026',
 '<div class="group-tab-panel" data-panel="pasazerowie">' +
 panel({ title: 'Pasażerowie — 44 / 45 (Egipt Żebrowska / Lipka)', action:
   '<div style="display:flex;gap:0.5rem">' +
-  button({ label: 'Dodaj pasażera', icon: 'fa-solid fa-plus', variant: 'primary', attrs: { 'data-no-demo': 'true', onclick: 'event.stopPropagation(); window.showAddPassengerModal()' } }) +
   button({ label: 'Import z Excela', icon: 'fa-solid fa-file-excel', variant: 'outline' }) +
   button({ label: 'Eksport listy', icon: 'fa-solid fa-download', variant: 'ghost' }) +
+  button({ label: 'Dodaj pasażera', icon: 'fa-solid fa-plus', variant: 'primary', attrs: { 'data-no-demo': 'true', onclick: 'event.stopPropagation(); window.showAddPassengerModal()' } }) +
   '</div>',
   body:
   '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0.6rem">' +
@@ -514,11 +636,149 @@ panel({ title: 'Pasażerowie — 44 / 45 (Egipt Żebrowska / Lipka)', action:
 }) +
 '</div>' +
 
+/* ==== REZERWACJE tab ==== */
+'<div class="group-tab-panel" data-panel="rezerwacje">' +
+(function(button, panel, statCard, statusBadge, escapeHtml) {
+	var rez_participants = [
+		{ lp: 1, name: 'Wiśniewski Adam',         pesel: '75010***** (Ppkt 37)', room: 'DBL 101',  flight: 'LO4KL2', paid: 4990, total: 4990, balance: 0,     contract: 'Podpisana', docs: 'OK',             status: 'Kompletny',   statusTone: 'success' },
+		{ lp: 2, name: 'Wiśniewska Maria',         pesel: '78032***** (Ppkt 38)', room: 'DBL 101',  flight: 'LO4KL2', paid: 4990, total: 4990, balance: 0,     contract: 'Podpisana', docs: 'OK',             status: 'Kompletny',   statusTone: 'success' },
+		{ lp: 3, name: 'ks. Jan Kowalczyk',        pesel: '69045***** (Ppkt 30)', room: 'SGL 105',  flight: 'LO4KL2', paid: 0,    total: 0,    balance: 0,     contract: 'Podpisana', docs: 'OK',             status: 'Gratis',      statusTone: 'purple'  },
+		{ lp: 4, name: 'Nowak Barbara',            pesel: '82071***** (Ppkt 55)', room: 'SGL+ 203', flight: 'LO4KL2', paid: 3500, total: 5880, balance: -2380, contract: 'Podpisana', docs: 'Brak paszportu', status: 'Nieopłacony', statusTone: 'warning' },
+		{ lp: 5, name: 'Zielińska Anna',           pesel: '91120***** (Ppkt 34)', room: 'DBL 204',  flight: 'LO4KL2', paid: 2000, total: 4990, balance: -2990, contract: 'Wysłana',  docs: 'Brak paszportu', status: 'Nieopłacony', statusTone: 'warning' },
+		{ lp: 6, name: 'Zieliński Marek',          pesel: '88093***** (Ppkt 38)', room: 'DBL 204',  flight: 'LO4KL2', paid: 4990, total: 4990, balance: 0,     contract: 'Podpisana', docs: 'Weryfikacja',    status: 'Dokumenty',   statusTone: 'info'    },
+		{ lp: 7, name: 'Malczewski Tomasz',        pesel: '95060***** (Ppkt 30)', room: 'DBL 301',  flight: 'LO4KL3', paid: 0,    total: 4990, balance: -4990, contract: 'Brak',     docs: 'Brak',           status: 'Brak wpłaty', statusTone: 'danger'  },
+		{ lp: 8, name: 'Malczewska Ewa',           pesel: '97110***** (Ppkt 28)', room: 'DBL 301',  flight: 'LO4KL3', paid: 0,    total: 4990, balance: -4990, contract: 'Brak',     docs: 'Brak',           status: 'Brak wpłaty', statusTone: 'danger'  },
+	];
+	var rez_rows = rez_participants.map(function(p) {
+		var docsOk = p.docs === 'OK';
+		return '<tr>' +
+			'<td style="text-align:center;font-weight:600;color:var(--text-muted);font-size:0.8rem">' + p.lp + '</td>' +
+			'<td><strong style="font-size:0.83rem">' + escapeHtml(p.name) + '</strong><br><small style="color:var(--text-muted);font-family:monospace;font-size:0.72rem">' + escapeHtml(p.pesel) + '</small></td>' +
+			'<td><span class="room-pill">' + escapeHtml(p.room) + '</span></td>' +
+			'<td><code style="font-size:0.78rem">' + escapeHtml(p.flight) + '</code></td>' +
+			'<td style="text-align:right;font-weight:600;font-size:0.83rem">' + (p.total > 0 ? p.total.toLocaleString('pl-PL') + ' zł' : '<span style="color:var(--text-muted)">Gratis</span>') + '</td>' +
+			'<td style="text-align:right;color:var(--success-color);font-weight:600;font-size:0.83rem">' + (p.paid > 0 ? p.paid.toLocaleString('pl-PL') + ' zł' : '—') + '</td>' +
+			'<td style="text-align:right;font-weight:700;font-size:0.83rem;color:' + (p.balance < 0 ? 'var(--danger-color)' : 'var(--success-color)') + '">' +
+				(p.balance < 0 ? p.balance.toLocaleString('pl-PL') + ' zł' : (p.total > 0 ? '<i class="fa-solid fa-check"></i>' : '—')) +
+			'</td>' +
+			'<td>' + statusBadge(p.contract === 'Podpisana' ? 'Podpisana ✓' : p.contract, p.contract === 'Podpisana' ? 'success' : p.contract === 'Wysłana' ? 'info' : 'neutral') + '</td>' +
+			'<td>' + (docsOk
+				? '<span style="color:var(--success-color);font-size:0.8rem"><i class="fa-solid fa-check-circle"></i> OK</span>'
+				: '<span style="color:var(--warning-color);font-size:0.8rem"><i class="fa-solid fa-triangle-exclamation"></i> ' + escapeHtml(p.docs) + '</span>') + '</td>' +
+			'<td>' + statusBadge(p.status, p.statusTone) + '</td>' +
+			'<td style="white-space:nowrap">' +
+				'<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem" data-no-demo="true" title="Szczeg\u00f3\u0142y" onclick="document.getElementById(\'szczegoly-uczestnika-modal\').classList.add(\'show\')"><i class="fa-solid fa-eye"></i></button>' +
+				'<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem" data-no-demo="true" title="Edytuj" onclick="document.getElementById(\'edytuj-uczestnika-modal\').classList.add(\'show\')"><i class="fa-solid fa-pen"></i></button>' +
+			'</td>' +
+		'</tr>';
+	}).join('');
+	return (
+		panel({
+			title: 'Rezerwacje uczestników',
+			action: '<div style="display:flex;gap:0.5rem;flex-wrap:wrap">' +
+				'<select class="inline-select"><option>Wszyscy</option><option>Nieopłaceni</option><option>Brak dokumentów</option><option>Brak umowy</option></select>' +
+				button({ label: 'Lista do biletowania', icon: 'fa-solid fa-list', variant: 'outline' }) +
+				button({ label: 'Export Excel', icon: 'fa-solid fa-download', variant: 'ghost' }) +
+				button({ label: 'Dodaj uczestnika', icon: 'fa-solid fa-user-plus', variant: 'primary', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('dodaj-uczestnika-modal').classList.add('show')" } }) +
+			'</div>',
+			body: '<div class="table-container"><table class="data-table">' +
+				'<thead><tr>' +
+					'<th style="text-align:center">Lp</th>' +
+					'<th>Uczestnik / PESEL</th>' +
+					'<th>Pokój</th>' +
+					'<th>Nr lotu</th>' +
+					'<th style="text-align:right">Wartość</th>' +
+					'<th style="text-align:right">Wpłacono</th>' +
+					'<th style="text-align:right">Saldo</th>' +
+					'<th>Umowa</th>' +
+					'<th>Dokumenty</th>' +
+					'<th>Status</th>' +
+					'<th></th>' +
+				'</tr></thead>' +
+				'<tbody>' + rez_rows + '</tbody>' +
+			'</table></div>'
+		})
+	);
+})(button, panel, statCard, statusBadge, escapeHtml) +
+'</div>' +
+
+/* ==== ROOMING LIST tab ==== */
+'<div class="group-tab-panel" data-panel="rooming">' +
+panel({
+	title: 'Rooming list',
+	action: '<div style="display:flex;gap:0.5rem">' +
+		button({ label: 'Export PDF', icon: 'fa-solid fa-file-pdf', variant: 'outline' }) +
+		button({ label: 'Export Excel', icon: 'fa-solid fa-download', variant: 'outline' }) +
+	'</div>',
+	body: '<div class="table-container"><table class="data-table">' +
+		'<thead><tr>' +
+			'<th>Pokój</th>' +
+			'<th>Typ</th>' +
+			'<th>Uczestnik 1</th>' +
+			'<th>Uczestnik 2</th>' +
+			'<th>Uwagi</th>' +
+			'<th>Status</th>' +
+		'</tr></thead>' +
+		'<tbody>' +
+		'<tr>' +
+			'<td><strong>101</strong></td><td>DBL</td>' +
+			'<td>Wiśniewski Adam<br><small style="color:var(--text-muted)">75010*****</small></td>' +
+			'<td>Wiśniewska Maria<br><small style="color:var(--text-muted)">78032*****</small></td>' +
+			'<td>—</td>' +
+			'<td>' + statusBadge('Kompletny', 'success') + '</td>' +
+		'</tr>' +
+		'<tr>' +
+			'<td><strong>105</strong></td><td>SGL</td>' +
+			'<td>ks. Jan Kowalczyk<br><small style="color:var(--text-muted)">69045*****</small></td>' +
+			'<td style="color:var(--text-muted);font-style:italic">—</td>' +
+			'<td><span style="color:var(--purple-color,#7c3aed);font-size:0.78rem"><i class="fa-solid fa-circle-info"></i> Gratis</span></td>' +
+			'<td>' + statusBadge('Kompletny', 'success') + '</td>' +
+		'</tr>' +
+		'<tr>' +
+			'<td><strong>203</strong></td><td>SGL+</td>' +
+			'<td>Nowak Barbara<br><small style="color:var(--text-muted)">82071*****</small></td>' +
+			'<td style="color:var(--text-muted);font-style:italic">—</td>' +
+			'<td><span style="color:var(--warning-color);font-size:0.78rem"><i class="fa-solid fa-triangle-exclamation"></i> Dopłata za SGL — czeka</span></td>' +
+			'<td>' + statusBadge('Nieopłacony', 'warning') + '</td>' +
+		'</tr>' +
+		'<tr>' +
+			'<td><strong>204</strong></td><td>DBL</td>' +
+			'<td>Zielińska Anna<br><small style="color:var(--text-muted)">91120*****</small></td>' +
+			'<td>Zieliński Marek<br><small style="color:var(--text-muted)">88093*****</small></td>' +
+			'<td>—</td>' +
+			'<td>' + statusBadge('Dokumenty', 'info') + '</td>' +
+		'</tr>' +
+		'<tr>' +
+			'<td><strong>301</strong></td><td>DBL</td>' +
+			'<td>Malczewski Tomasz<br><small style="color:var(--text-muted)">95060*****</small></td>' +
+			'<td>Malczewska Ewa<br><small style="color:var(--text-muted)">97110*****</small></td>' +
+			'<td><span style="color:var(--danger-color);font-size:0.78rem"><i class="fa-solid fa-triangle-exclamation"></i> Brak wpłaty</span></td>' +
+			'<td>' + statusBadge('Brak wpłaty', 'danger') + '</td>' +
+		'</tr>' +
+		'<tr style="opacity:0.5">' +
+			'<td><strong>302</strong></td><td>DBL</td>' +
+			'<td style="color:var(--text-muted);font-style:italic">Wolne</td>' +
+			'<td style="color:var(--text-muted);font-style:italic">—</td>' +
+			'<td>—</td>' +
+			'<td>' + statusBadge('Wolne', 'neutral') + '</td>' +
+		'</tr>' +
+		'<tr style="opacity:0.5">' +
+			'<td><strong>303</strong></td><td>DBL</td>' +
+			'<td style="color:var(--text-muted);font-style:italic">Wolne</td>' +
+			'<td style="color:var(--text-muted);font-style:italic">—</td>' +
+			'<td>—</td>' +
+			'<td>' + statusBadge('Wolne', 'neutral') + '</td>' +
+		'</tr>' +
+	'</tbody>' +
+	'</table></div>'
+}) +
+'</div>' +
+
 /* ==== DODATKOWE REZERWACJE tab ==== */
 '<div class="group-tab-panel" data-panel="dod-rezerwacje">' +
 panel({
   title: 'Dodatkowe rezerwacje (poza hotelami)',
-  action: button({ label: 'Dodaj rezerwację', icon: 'fa-solid fa-plus', variant: 'outline', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('dodaj-rez-modal').classList.add('show')" } }),
+  action: button({ label: 'Dodaj rezerwację', icon: 'fa-solid fa-plus', variant: 'primary', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('dodaj-rez-modal').classList.add('show')" } }),
   body: '<div class="table-container"><table class="data-table">' +
     '<thead><tr><th>Typ</th><th>Opis</th><th>Termin</th><th>Kwota</th><th>Status</th><th>Odpowiada</th></tr></thead>' +
     '<tbody>' + dodRezRows + '</tbody>' +
@@ -538,6 +798,191 @@ panel({
 
 '</div>' +   /* end group-card-body */
 '</div>' +   /* end group-card-detail */
+
+/* ==== DODAJ UCZESTNIKA modal ==== */
+'<div id="dodaj-uczestnika-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
+  '<div class="demo-modal" style="max-width:720px;width:95%">' +
+    '<div class="demo-modal-header">' +
+      '<h2><i class="fa-solid fa-user-plus" style="margin-right:0.5rem;color:var(--primary-color)"></i>Nowa rezerwacja \u2014 MT-2026-EG-01</h2>' +
+      '<button class="demo-modal-close" type="button" data-no-demo="true" onclick="document.getElementById(\'dodaj-uczestnika-modal\').classList.remove(\'show\')"><i class="fa-solid fa-xmark"></i></button>' +
+    '</div>' +
+    '<div class="demo-modal-body" style="max-height:72vh;overflow-y:auto">' +
+      '<div class="form-mockup">' +
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin-bottom:0.75rem">Uczestnik</div>' +
+        '<label class="form-field" style="margin-bottom:0.75rem">' +
+          '<span>Szukaj uczestnika</span>' +
+          '<div style="position:relative">' +
+            '<input type="text" id="duu-search" autocomplete="off" placeholder="Szukaj po nazwisku lub imieniu\u2026" oninput="window._duuFilter(this.value)" onfocus="window._duuFilter(this.value)" onblur="setTimeout(function(){var d=document.getElementById(\'duu-dropdown\');if(d)d.style.display=\'none\'},200)" style="width:100%;box-sizing:border-box" />' +
+            '<div id="duu-dropdown" style="display:none;position:absolute;top:calc(100% + 2px);left:0;right:0;max-height:220px;overflow-y:auto;background:var(--bg-card,#fff);border:1px solid var(--border-color);border-radius:var(--radius-sm);box-shadow:var(--shadow-md);z-index:200"></div>' +
+          '</div>' +
+        '</label>' +
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0.25rem 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Dane osobowe</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>PESEL</span><input type="text" placeholder="np. 75010112345" /></label>' +
+          '<label class="form-field"><span>Data urodzenia</span><input type="date" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Nr paszportu</span><input type="text" placeholder="np. AP1234567" style="font-family:monospace;text-transform:uppercase" /></label>' +
+          '<label class="form-field"><span>Wa\u017cno\u015b\u0107 paszportu</span><input type="date" /></label>' +
+        '</div>' +
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0.25rem 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Kontakt</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Telefon</span><input type="tel" placeholder="np. +48 600 123 456" /></label>' +
+          '<label class="form-field"><span>E-mail</span><input type="email" placeholder="np. jan.kowalski@example.com" /></label>' +
+        '</div>' +
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0.25rem 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Rezerwacja</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Typ pokoju</span><select><option>— wybierz —</option><option>SGL</option><option>SGL+</option><option>DBL</option><option>DBL Economy</option><option>TRPL</option></select></label>' +
+          '<label class="form-field"><span>Numer pokoju</span><input type="text" placeholder="np. 204" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Lot wylotowy</span><select><option>— wybierz —</option><option>LO4KL2 \u2014 24.01 KRK\u2192HRG</option><option>LO4KL3 \u2014 24.01 WAW\u2192HRG</option></select></label>' +
+          '<label class="form-field"><span>Lot powrotny</span><select><option>— wybierz —</option><option>LO4KL2R \u2014 31.01 HRG\u2192KRK</option><option>LO4KL3R \u2014 31.01 HRG\u2192WAW</option></select></label>' +
+        '</div>' +
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0.25rem 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Finansowe i administracyjne</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Kwota umowy (z\u0142)</span><input type="number" min="0" placeholder="np. 4990" /></label>' +
+          '<label class="form-field"><span>Wp\u0142acono (z\u0142)</span><input type="number" min="0" placeholder="np. 2000" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Numer umowy</span><input type="text" placeholder="np. MT/2026/EG/009" /></label>' +
+          '<label class="form-field"><span>Status umowy</span><select><option>Brak</option><option>W przygotowaniu</option><option>Wys\u0142ana</option><option>Podpisana</option><option>Anulowana</option></select></label>' +
+        '</div>' +
+        '<label class="form-field"><span>Status dokument\u00f3w</span><select><option>Brak</option><option>Brak paszportu</option><option>Weryfikacja</option><option>OK</option></select></label>' +
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0.25rem 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Ubezpieczenie</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Wariant ubezpieczenia</span><select><option>— wybierz —</option><option>Podstawowy</option><option>Rozszerzony</option><option>Premium (Uniqa)</option></select></label>' +
+          '<label class="form-field"><span>Nr polisy</span><input type="text" placeholder="np. UNIQA/2026/00123" /></label>' +
+        '</div>' +
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0.25rem 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Uwagi</div>' +
+        '<label class="form-field"><span>Uwagi do rezerwacji</span><textarea rows="3" placeholder="Opcjonalne uwagi\u2026"></textarea></label>' +
+      '</div>' +
+    '</div>' +
+    '<div class="demo-modal-footer">' +
+      '<button class="btn btn-outline" type="button" data-no-demo="true" onclick="document.getElementById(\'dodaj-uczestnika-modal\').classList.remove(\'show\')">Anuluj</button>' +
+      '<button class="btn btn-primary" type="button"><i class="fa-solid fa-check"></i> Dodaj uczestnika</button>' +
+    '</div>' +
+  '</div>' +
+'</div>' +
+
+/* ==== EDYTUJ UCZESTNIKA modal ==== */
+'<div id="edytuj-uczestnika-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
+  '<div class="demo-modal" style="max-width:720px;width:95%">' +
+    '<div class="demo-modal-header">' +
+      '<h2><i class="fa-solid fa-pen" style="margin-right:0.5rem;color:var(--primary-color)"></i>Edycja rezerwacji \u2014 Wi\u015bniewski Adam</h2>' +
+      '<button class="demo-modal-close" type="button" data-no-demo="true" onclick="document.getElementById(\'edytuj-uczestnika-modal\').classList.remove(\'show\')"><i class="fa-solid fa-xmark"></i></button>' +
+    '</div>' +
+    '<div class="demo-modal-body" style="max-height:72vh;overflow-y:auto">' +
+      '<div class="form-mockup">' +
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin-bottom:0.75rem">Uczestnik</div>' +
+        '<label class="form-field" style="margin-bottom:0.75rem">' +
+          '<span>Uczestnik</span>' +
+          '<input type="text" value="Wi\u015bniewski Adam" readonly style="background:var(--bg-hover,#f8fafc)" />' +
+        '</label>' +
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0.25rem 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Dane osobowe</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>PESEL</span><input type="text" value="75010*****" /></label>' +
+          '<label class="form-field"><span>Data urodzenia</span><input type="date" value="1975-01-01" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Nr paszportu</span><input type="text" value="AP0012345" style="font-family:monospace;text-transform:uppercase" /></label>' +
+          '<label class="form-field"><span>Wa\u017cno\u015b\u0107 paszportu</span><input type="date" value="2031-04-20" /></label>' +
+        '</div>' +
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0.25rem 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Kontakt</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Telefon</span><input type="tel" value="+48 600 111 222" /></label>' +
+          '<label class="form-field"><span>E-mail</span><input type="email" value="a.wisniewski@example.com" /></label>' +
+        '</div>' +
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0.25rem 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Rezerwacja</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Typ pokoju</span><select><option>— wybierz —</option><option>SGL</option><option>SGL+</option><option selected>DBL</option><option>DBL Economy</option><option>TRPL</option></select></label>' +
+          '<label class="form-field"><span>Numer pokoju</span><input type="text" value="101" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Lot wylotowy</span><select><option selected>LO4KL2 \u2014 24.01 KRK\u2192HRG</option><option>LO4KL3 \u2014 24.01 WAW\u2192HRG</option></select></label>' +
+          '<label class="form-field"><span>Lot powrotny</span><select><option selected>LO4KL2R \u2014 31.01 HRG\u2192KRK</option><option>LO4KL3R \u2014 31.01 HRG\u2192WAW</option></select></label>' +
+        '</div>' +
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0.25rem 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Finansowe i administracyjne</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Kwota umowy (z\u0142)</span><input type="number" value="4990" /></label>' +
+          '<label class="form-field"><span>Wp\u0142acono (z\u0142)</span><input type="number" value="4990" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Numer umowy</span><input type="text" value="MT/2026/EG/001" /></label>' +
+          '<label class="form-field"><span>Status umowy</span><select><option>Brak</option><option>W przygotowaniu</option><option>Wys\u0142ana</option><option selected>Podpisana</option><option>Anulowana</option></select></label>' +
+        '</div>' +
+        '<label class="form-field"><span>Status dokument\u00f3w</span><select><option>Brak</option><option>Brak paszportu</option><option>Weryfikacja</option><option selected>OK</option></select></label>' +
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0.25rem 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Ubezpieczenie</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Wariant ubezpieczenia</span><select><option>Podstawowy</option><option>Rozszerzony</option><option selected>Premium (Uniqa)</option></select></label>' +
+          '<label class="form-field"><span>Nr polisy</span><input type="text" value="UNIQA/2026/00045" /></label>' +
+        '</div>' +
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0.25rem 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Uwagi</div>' +
+        '<label class="form-field"><span>Uwagi do rezerwacji</span><textarea rows="3"></textarea></label>' +
+      '</div>' +
+    '</div>' +
+    '<div class="demo-modal-footer">' +
+      '<button class="btn btn-outline" type="button" data-no-demo="true" onclick="document.getElementById(\'edytuj-uczestnika-modal\').classList.remove(\'show\')">Anuluj</button>' +
+      '<button class="btn btn-primary" type="button"><i class="fa-solid fa-check"></i> Zapisz zmiany</button>' +
+    '</div>' +
+  '</div>' +
+'</div>' +
+
+/* ==== SZCZEGÓŁY UCZESTNIKA modal (read-only) ==== */
+'<div id="szczegoly-uczestnika-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
+  '<div class="demo-modal" style="max-width:720px;width:95%">' +
+    '<div class="demo-modal-header">' +
+      '<h2><i class="fa-solid fa-user" style="margin-right:0.5rem;color:var(--primary-color)"></i>Szczeg\u00f3\u0142y rezerwacji \u2014 Wi\u015bniewski Adam</h2>' +
+      '<button class="demo-modal-close" type="button" data-no-demo="true" onclick="document.getElementById(\'szczegoly-uczestnika-modal\').classList.remove(\'show\')"><i class="fa-solid fa-xmark"></i></button>' +
+    '</div>' +
+    '<div class="demo-modal-body" style="max-height:72vh;overflow-y:auto;padding:1.5rem">' +
+      '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin-bottom:0.75rem">Uczestnik</div>' +
+      '<div class="info-table">' +
+        '<div class="info-row"><span>Imi\u0119 i nazwisko</span><strong>Wi\u015bniewski Adam</strong></div>' +
+        '<div class="info-row"><span>Status</span><strong>' + statusBadge('Kompletny', 'success') + '</strong></div>' +
+      '</div>' +
+      '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:1rem 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Dane osobowe</div>' +
+      '<div class="info-table">' +
+        '<div class="info-row"><span>PESEL</span><strong style="font-family:monospace">75010*****</strong></div>' +
+        '<div class="info-row"><span>Data urodzenia</span><strong>01.01.1975</strong></div>' +
+        '<div class="info-row"><span>Nr paszportu</span><strong style="font-family:monospace">AP0012345</strong></div>' +
+        '<div class="info-row"><span>Wa\u017cno\u015b\u0107 paszportu</span><strong>20.04.2031</strong></div>' +
+      '</div>' +
+      '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:1rem 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Kontakt</div>' +
+      '<div class="info-table">' +
+        '<div class="info-row"><span>Telefon</span><strong>+48\u202f600\u202f111\u202f222</strong></div>' +
+        '<div class="info-row"><span>E-mail</span><strong>a.wisniewski@example.com</strong></div>' +
+      '</div>' +
+      '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:1rem 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Rezerwacja</div>' +
+      '<div class="info-table">' +
+        '<div class="info-row"><span>Typ pokoju</span><strong>DBL</strong></div>' +
+        '<div class="info-row"><span>Numer pokoju</span><strong>101</strong></div>' +
+        '<div class="info-row"><span>Lot wylotowy</span><strong style="font-family:monospace">LO4KL2 \u2014 24.01 KRK\u2192HRG</strong></div>' +
+        '<div class="info-row"><span>Lot powrotny</span><strong style="font-family:monospace">LO4KL2R \u2014 31.01 HRG\u2192KRK</strong></div>' +
+      '</div>' +
+      '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:1rem 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Finansowe i administracyjne</div>' +
+      '<div class="info-table">' +
+        '<div class="info-row"><span>Kwota umowy</span><strong style="color:var(--primary-color)">4\u202f990 z\u0142</strong></div>' +
+        '<div class="info-row"><span>Wp\u0142acono</span><strong style="color:var(--success-color)">4\u202f990 z\u0142</strong></div>' +
+        '<div class="info-row"><span>Saldo</span><strong style="color:var(--success-color)"><i class="fa-solid fa-check"></i> Wyr\u00f3wnane</strong></div>' +
+        '<div class="info-row"><span>Numer umowy</span><strong>MT/2026/EG/001</strong></div>' +
+        '<div class="info-row"><span>Status umowy</span><strong>' + statusBadge('Podpisana \u2713', 'success') + '</strong></div>' +
+        '<div class="info-row"><span>Dokumenty</span><strong style="color:var(--success-color)"><i class="fa-solid fa-check-circle"></i> OK</strong></div>' +
+      '</div>' +
+      '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:1rem 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Ubezpieczenie</div>' +
+      '<div class="info-table">' +
+        '<div class="info-row"><span>Wariant</span><strong>Premium (Uniqa)</strong></div>' +
+        '<div class="info-row"><span>Nr polisy</span><strong style="font-family:monospace">UNIQA/2026/00045</strong></div>' +
+      '</div>' +
+      '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:1rem 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Uwagi</div>' +
+      '<div style="font-size:0.83rem;color:var(--text-muted);font-style:italic">Brak uwag.</div>' +
+    '</div>' +
+    '<div class="demo-modal-footer">' +
+      '<button class="btn btn-outline" type="button" data-no-demo="true" onclick="document.getElementById(\'szczegoly-uczestnika-modal\').classList.remove(\'show\')">Zamknij</button>' +
+      '<button class="btn btn-primary" type="button" data-no-demo="true" onclick="document.getElementById(\'szczegoly-uczestnika-modal\').classList.remove(\'show\');setTimeout(function(){document.getElementById(\'edytuj-uczestnika-modal\').classList.add(\'show\')},200)"><i class="fa-solid fa-pen"></i> Edytuj</button>' +
+    '</div>' +
+  '</div>' +
+'</div>' +
 
 /* ==== DODAJ NOCLEG modal ==== */
 '<div id="dodaj-nocleg-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
@@ -930,6 +1375,59 @@ window.showNewPassengerForm = function() {
       '<button onclick="document.getElementById(\'demo-add-passenger-modal\').classList.remove(\'show\'); setTimeout(() => document.getElementById(\'demo-add-passenger-modal\').remove(), 250);" class="btn btn-outline" style="margin-right:0.5rem;">Cofnij</button>' +
       '<button onclick="document.getElementById(\'demo-add-passenger-modal\').classList.remove(\'show\'); setTimeout(() => document.getElementById(\'demo-add-passenger-modal\').remove(), 250); window.AppNavigation.setActivePage(\'szczegoly_grupy\');" class="btn btn-primary">Zapisz i dodaj</button>';
   }
+};
+
+/* ===== DODAJ UCZESTNIKA — searchable picker ===== */
+window._duuContacts = [
+	{ name: 'Dąbrowski Krzysztof',  pesel: '79052*****' },
+	{ name: 'Dąbrowska Helena',     pesel: '83117*****' },
+	{ name: 'Jankowska Helena',     pesel: '72083*****' },
+	{ name: 'Jankowski Krzysztof',  pesel: '70021*****' },
+	{ name: 'Kaczmarek Joanna',     pesel: '93084*****' },
+	{ name: 'Kaczmarek Michał',     pesel: '92101*****' },
+	{ name: 'ks. Jan Kowalczyk',    pesel: '69045*****' },
+	{ name: 'Kowalska Jadwiga',     pesel: '71093*****' },
+	{ name: 'Kowalski Andrzej',     pesel: '65041*****' },
+	{ name: 'Malczewska Ewa',       pesel: '97110*****' },
+	{ name: 'Malczewski Tomasz',    pesel: '95060*****' },
+	{ name: 'Malinowska Teresa',    pesel: '68041*****' },
+	{ name: 'Nowak Barbara',        pesel: '82071*****' },
+	{ name: 'Nowak Piotr',          pesel: '80030*****' },
+	{ name: 'Wiśniewska Maria',     pesel: '78032*****' },
+	{ name: 'Wiśniewski Adam',      pesel: '75010*****' },
+	{ name: 'Wróbel Stanisław',     pesel: '61032*****' },
+	{ name: 'Wróbel Zofia',         pesel: '63074*****' },
+	{ name: 'Zielińska Anna',       pesel: '91120*****' },
+	{ name: 'Zieliński Marek',      pesel: '88093*****' },
+];
+
+window._duuFilter = function(q) {
+	var dd = document.getElementById('duu-dropdown');
+	if (!dd) return;
+	var list = window._duuContacts;
+	var lq = (q || '').toLowerCase().trim();
+	var filtered = lq ? list.filter(function(c) {
+		return c.name.toLowerCase().indexOf(lq) !== -1;
+	}) : list;
+	if (!filtered.length) { dd.style.display = 'none'; return; }
+	dd.style.display = 'block';
+	dd.innerHTML = filtered.map(function(c) {
+		return '<div data-name="' + c.name.replace(/"/g, '&quot;') + '"' +
+			' onclick="window._duuSelect(this.dataset.name)"' +
+			' onmouseenter="this.style.background=\'var(--bg-hover,#f1f5f9)\'"' +
+			' onmouseleave="this.style.background=\'transparent\'"' +
+			' style="padding:0.5rem 0.75rem;cursor:pointer;display:flex;align-items:baseline;gap:0.6rem;border-bottom:1px solid var(--border-color)">' +
+			'<strong style="font-size:0.85rem">' + c.name + '</strong>' +
+			'<span style="font-size:0.73rem;color:var(--text-muted);font-family:monospace">' + c.pesel + '</span>' +
+			'</div>';
+	}).join('');
+};
+
+window._duuSelect = function(name) {
+	var inp = document.getElementById('duu-search');
+	if (inp) inp.value = name;
+	var dd = document.getElementById('duu-dropdown');
+	if (dd) dd.style.display = 'none';
 };
 
 })();
