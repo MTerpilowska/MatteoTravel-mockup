@@ -296,7 +296,7 @@ panel({ title: 'Umowy i dokumentacja', body:
 panel({
   title: 'Hotele i noclegi — Egipt Żebrowska / Lipka · 24–31.01.2026',
   action: '<div style="display:flex;gap:0.5rem">' +
-    button({ label: 'Dodaj nocleg', icon: 'fa-solid fa-plus', variant: 'outline' }) +
+    button({ label: 'Dodaj nocleg', icon: 'fa-solid fa-plus', variant: 'outline', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('dodaj-nocleg-modal').classList.add('show')" } }) +
     '<button class="btn btn-ghost" data-no-demo="true" onclick="document.getElementById(\'hotel-historia-modal\').classList.add(\'show\')"><i class="fa-solid fa-clock-rotate-left"></i> Historia rezerwacji</button>' +
     '</div>',
   body: '<div class="table-container"><table class="data-table">' +
@@ -316,7 +316,7 @@ panel({
 panel({
   title: 'Bilety lotnicze — MT-2026-EG-01',
   action: '<div style="display:flex;gap:0.5rem">' +
-    button({ label: 'Nowy bilet', icon: 'fa-solid fa-plus', variant: 'primary' }) +
+    button({ label: 'Nowy bilet', icon: 'fa-solid fa-plus', variant: 'primary', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('nowy-bilet-modal').classList.add('show')" } }) +
     button({ label: 'Eksport PDF', icon: 'fa-solid fa-file-pdf', variant: 'outline' }) +
     '<button class="btn btn-ghost" data-no-demo="true" onclick="document.getElementById(\'bilety-historia-modal\').classList.add(\'show\')"><i class="fa-solid fa-clock-rotate-left"></i> Historia</button>' +
   '</div>',
@@ -375,6 +375,58 @@ panel({
 }) +
 '</div>' +
 
+/* ==== NOWY BILET modal ==== */
+'<div id="nowy-bilet-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
+  '<div class="demo-modal" style="max-width:620px;width:95%">' +
+    '<div class="demo-modal-header">' +
+      '<h2><i class="fa-solid fa-plane-departure" style="margin-right:0.5rem;color:var(--primary-color)"></i>Nowy bilet lotniczy — MT-2026-EG-01</h2>' +
+      '<button class="demo-modal-close" type="button" data-no-demo="true" onclick="document.getElementById(\'nowy-bilet-modal\').classList.remove(\'show\')"><i class="fa-solid fa-xmark"></i></button>' +
+    '</div>' +
+    '<div class="demo-modal-body">' +
+      '<div class="form-mockup">' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>PNR</span><input type="text" placeholder="np. W6Y73A" style="font-family:monospace;text-transform:uppercase" /></label>' +
+          '<label class="form-field"><span>Typ biletu</span>' +
+            '<select><option>Grupowy</option><option>Indywidualny</option><option>Czarterowy</option></select>' +
+          '</label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Przewoźnik</span>' +
+            '<select><option>LOT Polish Airlines</option><option>Ryanair</option><option>Wizz Air</option><option>EasyJet</option><option>Turkish Airlines</option><option>Inny</option></select>' +
+          '</label>' +
+          '<label class="form-field"><span>Liczba miejsc</span><input type="number" min="1" placeholder="np. 44" /></label>' +
+        '</div>' +
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:1rem 0 0.75rem">Trasa</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Lotnisko wylotu</span><input type="text" placeholder="np. WAW" style="font-family:monospace;text-transform:uppercase" /></label>' +
+          '<label class="form-field"><span>Lotnisko docelowe</span><input type="text" placeholder="np. CAI" style="font-family:monospace;text-transform:uppercase" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Data wylotu</span><input type="date" /></label>' +
+          '<label class="form-field"><span>Data powrotu</span><input type="date" /></label>' +
+        '</div>' +
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:1rem 0 0.75rem">Faktura</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Nr faktury</span><input type="text" placeholder="np. f.\u202f0238/01/26/F" /></label>' +
+          '<label class="form-field"><span>Kwota faktury (zł)</span><input type="number" min="0" step="0.01" placeholder="np. 84406.00" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Status faktury</span>' +
+            '<select><option>Oczekuje</option><option>Opłacona</option><option>Anulowana</option></select>' +
+          '</label>' +
+          '<label class="form-field"><span>Status biletu</span>' +
+            '<select><option>Aktywny</option><option>Opcja</option><option>Anulowany</option></select>' +
+          '</label>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="demo-modal-footer">' +
+      '<button class="btn btn-outline" data-no-demo="true" onclick="document.getElementById(\'nowy-bilet-modal\').classList.remove(\'show\')">Anuluj</button>' +
+      button({ label: 'Dodaj bilet', icon: 'fa-solid fa-check' }) +
+    '</div>' +
+  '</div>' +
+'</div>' +
+
 /* ==== BILETY HISTORIA modal ==== */
 '<div id="bilety-historia-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
   '<div class="demo-modal" style="max-width:660px;width:95%;">' +
@@ -422,7 +474,12 @@ panel({
 
 /* ==== TRANSPORT tab ==== */
 '<div class="group-tab-panel" data-panel="transport">' +
-panel({ title: 'Transport — szczegóły Egipt 24–31.01.2026', body:
+panel({ title: 'Transport — szczegóły Egipt 24–31.01.2026',
+  action: '<div style="display:flex;gap:0.5rem">' +
+    button({ label: 'Dodaj element', icon: 'fa-solid fa-plus', variant: 'outline', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('dodaj-transport-modal').classList.add('show')" } }) +
+    button({ label: 'Dodaj mszę', icon: 'fa-solid fa-church', variant: 'ghost', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('dodaj-msza-modal').classList.add('show')" } }) +
+  '</div>',
+  body:
   '<div class="info-table">' +
   '<div class="info-row"><span>Transport główny</span><strong>Samolot LOT — lot czarterowy</strong></div>' +
   '<div class="info-row"><span>Lotnisko wylotu</span><strong>Warszawa WAW — Terminal 2</strong></div>' +
@@ -461,7 +518,7 @@ panel({ title: 'Pasażerowie — 44 / 45 (Egipt Żebrowska / Lipka)', action:
 '<div class="group-tab-panel" data-panel="dod-rezerwacje">' +
 panel({
   title: 'Dodatkowe rezerwacje (poza hotelami)',
-  action: button({ label: 'Dodaj rezerwację', icon: 'fa-solid fa-plus', variant: 'outline' }),
+  action: button({ label: 'Dodaj rezerwację', icon: 'fa-solid fa-plus', variant: 'outline', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('dodaj-rez-modal').classList.add('show')" } }),
   body: '<div class="table-container"><table class="data-table">' +
     '<thead><tr><th>Typ</th><th>Opis</th><th>Termin</th><th>Kwota</th><th>Status</th><th>Odpowiada</th></tr></thead>' +
     '<tbody>' + dodRezRows + '</tbody>' +
@@ -481,6 +538,154 @@ panel({
 
 '</div>' +   /* end group-card-body */
 '</div>' +   /* end group-card-detail */
+
+/* ==== DODAJ NOCLEG modal ==== */
+'<div id="dodaj-nocleg-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
+  '<div class="demo-modal" style="max-width:600px;width:95%">' +
+    '<div class="demo-modal-header">' +
+      '<h2><i class="fa-solid fa-hotel" style="margin-right:0.5rem;color:var(--primary-color)"></i>Nowy nocleg — MT-2026-EG-01</h2>' +
+      '<button class="demo-modal-close" type="button" data-no-demo="true" onclick="document.getElementById(\'dodaj-nocleg-modal\').classList.remove(\'show\')"><i class="fa-solid fa-xmark"></i></button>' +
+    '</div>' +
+    '<div class="demo-modal-body">' +
+      '<div class="form-mockup">' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Data od</span><input type="date" /></label>' +
+          '<label class="form-field"><span>Data do</span><input type="date" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Miejscowość</span><input type="text" placeholder="np. Hurghada" /></label>' +
+          '<label class="form-field"><span>Liczba nocy</span><input type="number" min="1" placeholder="np. 4" /></label>' +
+        '</div>' +
+        '<label class="form-field" style="margin-bottom:0.75rem"><span>Hotel / Sposób noclegu</span><input type="text" placeholder="np. Bella Vista Resort 4*" /></label>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Typ zakwaterowania</span>' +
+            '<select><option>Hotel</option><option>Hostel</option><option>Klasztor / Dom pielgrzyma</option><option>Nocleg prywatny</option><option>Inny</option></select>' +
+          '</label>' +
+          '<label class="form-field"><span>Kwota (USD)</span><input type="number" min="0" step="0.01" placeholder="np. 15120" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Status płatności</span>' +
+            '<select><option>Depozyt</option><option>Opłacony</option><option>Oczekuje</option><option>Cash na miejscu</option><option>W cenie hotelu</option></select>' +
+          '</label>' +
+          '<label class="form-field"><span>Uwagi</span><input type="text" placeholder="np. rooming list wysłany" /></label>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="demo-modal-footer">' +
+      '<button class="btn btn-outline" data-no-demo="true" onclick="document.getElementById(\'dodaj-nocleg-modal\').classList.remove(\'show\')">Anuluj</button>' +
+      button({ label: 'Dodaj nocleg', icon: 'fa-solid fa-check' }) +
+    '</div>' +
+  '</div>' +
+'</div>' +
+
+/* ==== DODAJ REZERWACJĘ modal ==== */
+'<div id="dodaj-rez-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
+  '<div class="demo-modal" style="max-width:580px;width:95%">' +
+    '<div class="demo-modal-header">' +
+      '<h2><i class="fa-solid fa-calendar-plus" style="margin-right:0.5rem;color:var(--primary-color)"></i>Nowa rezerwacja dodatkowa — MT-2026-EG-01</h2>' +
+      '<button class="demo-modal-close" type="button" data-no-demo="true" onclick="document.getElementById(\'dodaj-rez-modal\').classList.remove(\'show\')"><i class="fa-solid fa-xmark"></i></button>' +
+    '</div>' +
+    '<div class="demo-modal-body">' +
+      '<div class="form-mockup">' +
+        '<label class="form-field" style="margin-bottom:0.75rem"><span>Nazwa</span><input type="text" placeholder="np. Rejs po Nilu, Msza w bazylice" /></label>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Typ</span>' +
+            '<select><option>Rejs / atrakcja</option><option>Wstępy / bilety</option><option>Autokar lokalny</option><option>Msza / kaplica</option><option>Wysyłka sprzętu</option><option>Inny</option></select>' +
+          '</label>' +
+          '<label class="form-field"><span>Ikona</span>' +
+            '<select><option>fa-ship (rejs)</option><option>fa-monument (zabytki)</option><option>fa-bus (autokar)</option><option>fa-church (msza)</option><option>fa-radio (sprzęt)</option><option>fa-briefcase (teczki)</option><option>fa-calendar (inne)</option></select>' +
+          '</label>' +
+        '</div>' +
+        '<label class="form-field" style="margin-bottom:0.75rem"><span>Opis</span><input type="text" placeholder="np. Hurghada — rejs wieczorny" /></label>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Termin</span><input type="text" placeholder="np. 29.01.2026 lub przez cały wyjazd" /></label>' +
+          '<label class="form-field"><span>Odpowiada</span><input type="text" placeholder="np. Alicja Aziz" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Kwota</span><input type="text" placeholder="np. $3 000 lub bezpłatna" /></label>' +
+          '<label class="form-field"><span>Status</span>' +
+            '<select><option>Cash na miejscu</option><option>Opłacone</option><option>Potwierdzona</option><option>Oczekuje</option><option>Uwzględnione</option><option>Odesłane</option></select>' +
+          '</label>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="demo-modal-footer">' +
+      '<button class="btn btn-outline" data-no-demo="true" onclick="document.getElementById(\'dodaj-rez-modal\').classList.remove(\'show\')">Anuluj</button>' +
+      button({ label: 'Dodaj rezerwację', icon: 'fa-solid fa-check' }) +
+    '</div>' +
+  '</div>' +
+'</div>' +
+
+/* ==== DODAJ TRANSPORT modal ==== */
+'<div id="dodaj-transport-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
+  '<div class="demo-modal" style="max-width:580px;width:95%">' +
+    '<div class="demo-modal-header">' +
+      '<h2><i class="fa-solid fa-route" style="margin-right:0.5rem;color:var(--primary-color)"></i>Nowy element transportu — MT-2026-EG-01</h2>' +
+      '<button class="demo-modal-close" type="button" data-no-demo="true" onclick="document.getElementById(\'dodaj-transport-modal\').classList.remove(\'show\')"><i class="fa-solid fa-xmark"></i></button>' +
+    '</div>' +
+    '<div class="demo-modal-body">' +
+      '<div class="form-mockup">' +
+        '<label class="form-field" style="margin-bottom:0.75rem"><span>Nazwa</span><input type="text" placeholder="np. Pociąg nocny Kair–Luksur, Transfer lotniskowy" /></label>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Typ transportu</span>' +
+            '<select><option>Samolot</option><option>Autokar</option><option>Pociąg</option><option>Prom / statek</option><option>Transfer minibusem</option><option>Inny</option></select>' +
+          '</label>' +
+          '<label class="form-field"><span>Przewoźnik / firma</span><input type="text" placeholder="np. LOT, Regency, PKP" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Trasa (skąd)</span><input type="text" placeholder="np. Kair, WAW" /></label>' +
+          '<label class="form-field"><span>Trasa (dokąd)</span><input type="text" placeholder="np. Luksur, CAI" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Data / termin</span><input type="text" placeholder="np. 27/28.01.2026" /></label>' +
+          '<label class="form-field"><span>Kwota</span><input type="text" placeholder="np. $5 000 lub w cenie hotelu" /></label>' +
+        '</div>' +
+        '<label class="form-field" style="margin-bottom:1rem"><span>Opis / uwagi</span><input type="text" placeholder="np. wagony sypialne, 45 os." /></label>' +
+        '<label class="form-field" style="margin-bottom:1rem"><span>Status</span>' +
+          '<select><option>Potwierdzone</option><option>Oczekuje</option><option>Uwzględnione w cenie</option><option>Cash na miejscu</option><option>Anulowane</option></select>' +
+        '</label>' +
+      '</div>' +
+    '</div>' +
+    '<div class="demo-modal-footer">' +
+      '<button class="btn btn-outline" data-no-demo="true" onclick="document.getElementById(\'dodaj-transport-modal\').classList.remove(\'show\')">Anuluj</button>' +
+      button({ label: 'Dodaj element', icon: 'fa-solid fa-check' }) +
+    '</div>' +
+  '</div>' +
+'</div>' +
+
+/* ==== DODAJ MSZĘ modal ==== */
+'<div id="dodaj-msza-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
+  '<div class="demo-modal" style="max-width:520px;width:95%">' +
+    '<div class="demo-modal-header">' +
+      '<h2><i class="fa-solid fa-church" style="margin-right:0.5rem;color:var(--primary-color)"></i>Msza po drodze \u2014 MT-2026-EG-01</h2>' +
+      '<button class="demo-modal-close" type="button" data-no-demo="true" onclick="document.getElementById(\'dodaj-msza-modal\').classList.remove(\'show\')"><i class="fa-solid fa-xmark"></i></button>' +
+    '</div>' +
+    '<div class="demo-modal-body">' +
+      '<div class="form-mockup">' +
+        '<label class="form-field" style="margin-bottom:0.75rem"><span>Nazwa / opis</span><input type="text" placeholder="np. Msza na lotnisku WAW — sala odpraw" /></label>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Miejsce</span><input type="text" placeholder="np. lotnisko WAW, bazylika, kaplica hotelu" /></label>' +
+          '<label class="form-field"><span>Data</span><input type="date" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Godzina</span><input type="time" placeholder="np. 14:00" /></label>' +
+          '<label class="form-field"><span>Celebrans</span><input type="text" placeholder="np. ks. Wojciech Lipka" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Koszt organizacji</span><input type="text" placeholder="np. bezpłatna" /></label>' +
+          '<label class="form-field"><span>Status</span>' +
+            '<select><option>Potwierdzona</option><option>Oczekuje potwierdzenia</option><option>Anulowana</option></select>' +
+          '</label>' +
+        '</div>' +
+        '<label class="form-field"><span>Uwagi</span><input type="text" placeholder="np. oferta do kaplicy lotniskowej, zgłoszono 2 tygodnie wcześniej" /></label>' +
+      '</div>' +
+    '</div>' +
+    '<div class="demo-modal-footer">' +
+      '<button class="btn btn-outline" data-no-demo="true" onclick="document.getElementById(\'dodaj-msza-modal\').classList.remove(\'show\')">Anuluj</button>' +
+      button({ label: 'Dodaj mszę', icon: 'fa-solid fa-check' }) +
+    '</div>' +
+  '</div>' +
+'</div>' +
 
 /* ==== HOTEL HISTORIA REZERWACJI modal ==== */
 '<div id="hotel-historia-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
