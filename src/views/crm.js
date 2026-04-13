@@ -240,7 +240,6 @@ title: 'CRM \u2014 Baza organizator\u00f3w',
 subtitle: 'Kartoteka księży, zakonników i organizatorów świeckich — dane z arkusza kalkulacyjnego biura',
 actions: [
 button({ label: 'Import XLS', icon: 'fa-solid fa-file-excel', variant: 'outline' }),
-button({ label: 'Segmentacja', icon: 'fa-solid fa-filter', variant: 'outline' }),
 button({ label: 'Nowy kontakt', icon: 'fa-solid fa-user-plus' })
 ]
 }),

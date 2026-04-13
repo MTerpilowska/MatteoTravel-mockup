@@ -311,7 +311,7 @@
 		if (/raport dzienny/i.test(label)) return 'report';
 		if (/nowa akcja/i.test(label)) return 'new';
 		if (/harmonogram/i.test(label)) return 'schedule_view';
-		if (/widok tygodniowy/i.test(label)) return 'schedule_view';
+		if (/widok tygodniowy|widok kalendarza|widok listy/i.test(label)) return 'schedule_view';
 		if (/podgląd/i.test(label)) return 'preview';
 		if (/bieżący widok/i.test(label)) return 'ignore';
 		if (/pokaż/i.test(label)) return 'toggle';
@@ -571,6 +571,28 @@
 				showToast('Impreza MT-2026-PT-02 została utworzona w terminarz grup.', 'success');
 			});
 			return;
+		}
+
+		if (action === 'schedule_view') {
+			var tblView = document.getElementById('grupy-table-view');
+			var calVw = document.getElementById('grupy-calendar-view');
+			if (tblView && calVw) {
+				var isCalVis = calVw.style.display !== 'none';
+				if (isCalVis) {
+					calVw.style.display = 'none';
+					tblView.style.display = '';
+					btn.innerHTML = '<i class="fa-solid fa-calendar-week"></i>Widok kalendarza';
+					btn.classList.remove('btn-primary');
+					btn.classList.add('btn-outline');
+				} else {
+					tblView.style.display = 'none';
+					calVw.style.display = '';
+					btn.innerHTML = '<i class="fa-solid fa-list"></i>Widok listy';
+					btn.classList.remove('btn-outline');
+					btn.classList.add('btn-primary');
+				}
+				return;
+			}
 		}
 
 		var msgArr = TOAST_MESSAGES[action];

@@ -11,8 +11,7 @@
 				title: 'Dashboard Główny',
 				subtitle: 'Przegląd operacyjny i finansowy całej firmy',
 				actions: [
-					button({ label: 'Raport dzienny', icon: 'fa-solid fa-download', variant: 'outline' }),
-					button({ label: 'Nowa akcja', icon: 'fa-solid fa-plus' })
+					button({ label: 'Raport dzienny', icon: 'fa-solid fa-download', variant: 'outline' })
 				]
 			}),
 			renderStatsGrid([
