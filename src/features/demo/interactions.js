@@ -203,12 +203,24 @@
 			title: 'Nowa rezerwacja hotelowa',
 			fields: [
 				{ label: 'Nazwa hotelu', placeholder: 'np. Dan Panorama, Tel Aviv' },
+				{ label: 'Adres hotelu', placeholder: 'np. 99 HaYarkon St, Tel Aviv' },
 				{ label: 'Miejscowość', placeholder: 'np. Tel Aviv, Jerozolima' },
 				{ label: 'Impreza', placeholder: 'np. MT-2026-WL-01' },
+				{ label: 'Kontrahent / Dostawca', placeholder: 'np. Iza Strzelak (SENT)' },
+				{ label: 'Nr rezerwacji / ref. hotelu', placeholder: 'np. BV-2026-01' },
 				{ label: 'Check-in', placeholder: 'DD.MM.RRRR' },
 				{ label: 'Check-out', placeholder: 'DD.MM.RRRR' },
+				{ label: 'Liczba nocy', placeholder: 'np. 4' },
 				{ label: 'Liczba pokoi DBL', placeholder: 'np. 20' },
-				{ label: 'Opcja ważna do', placeholder: 'DD.MM.RRRR' }
+				{ label: 'Liczba pokoi SGL', placeholder: 'np. 2' },
+				{ label: 'Wyżywienie', type: 'select', options: ['BB (bed & breakfast)', 'HB (half board)', 'FB (full board)', 'AI (all inclusive)', 'SC (samodzielne)', '— brak —'] },
+				{ label: 'Typ zakwaterowania', type: 'select', options: ['Hotel', 'Hostel', 'Klasztor / Dom pielgrzyma', 'Nocleg prywatny', 'Pociąg nocny', 'Prom nocny', 'Inny'] },
+				{ label: 'Kwota', placeholder: 'np. 15120' },
+				{ label: 'Waluta', type: 'select', options: ['USD', 'EUR', 'PLN', 'GBP'] },
+				{ label: 'Sposób zapłaty', type: 'select', options: ['Przelew', 'Karta', 'Gotówka', 'Inny'] },
+				{ label: 'Status płatności', type: 'select', options: ['Oczekuje', 'Wpłacono częściowo', 'Wpłacono', 'Cash na miejscu', 'W cenie hotelu'] },
+				{ label: 'Opcja ważna do', placeholder: 'DD.MM.RRRR' },
+				{ label: 'Uwagi', type: 'textarea', placeholder: 'np. rooming list wysłany, depozyt w toku…' }
 			]
 		},
 		leady: {
@@ -241,6 +253,25 @@
 				{ label: 'Treść posta', type: 'textarea', placeholder: 'Treść wiadomości...' },
 				{ label: 'Data publikacji', placeholder: 'DD.MM.RRRR' },
 				{ label: 'Godzina publikacji', placeholder: 'np. 10:00' }
+			]
+		},
+		msze: {
+			title: 'Dodaj mszę świętą',
+			fields: [
+				{ label: 'Nazwa mszy', placeholder: 'np. Msza wdzięczności, Msza na lotnisku WAW' },
+				{ label: 'Kościół / kaplica', placeholder: 'np. Bazylika Grobu Pańskiego, Kaplica lotniska' },
+				{ label: 'Miejscowość', placeholder: 'np. Jerozolima, Rzym, Warszawa' },
+				{ label: 'Impreza (kod)', placeholder: 'np. MT-2026-WL-01' },
+				{ label: 'Data', placeholder: 'DD.MM.RRRR' },
+				{ label: 'Godzina', placeholder: 'np. 07:00' },
+				{ label: 'Celebrans', placeholder: 'np. ks. Jan Wiśniewski' },
+				{ label: 'Intencja mszy', placeholder: 'np. za uczestników pielgrzymki' },
+				{ label: 'Celebreta', type: 'select', options: ['Dostarczona', 'W trakcie wysyłki', 'Brak — do uzupełnienia'] },
+				{ label: 'Ofiara / honorarium', placeholder: 'np. bezpłatna, 200 zł' },
+				{ label: 'Kontakt do kościoła / zakrystii', placeholder: 'np. tel. +39 06 698 83712' },
+				{ label: 'Język mszy', type: 'select', options: ['Polski', 'Łacina', 'Angielski', 'Włoski', 'Arabski', 'Hebrajski', 'Inny'] },
+				{ label: 'Status', type: 'select', options: ['Potwierdzona', 'Oczekuje potwierdzenia', 'Do rezerwacji', 'Anulowana'] },
+				{ label: 'Uwagi', type: 'textarea', placeholder: 'np. wymagana lista uczestników, potrzebny mikrofon, zgłoszono 2 tygodnie wcześniej' }
 			]
 		},
 		kalendarz: {

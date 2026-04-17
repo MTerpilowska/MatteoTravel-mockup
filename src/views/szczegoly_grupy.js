@@ -207,7 +207,7 @@ var kartaGrupy = '<div class="group-card-detail">' +
 '</div>' +
 '<div style="display:flex;gap:0.5rem;flex-wrap:wrap">' +
 statusBadge('Zakończona', 'success') +
-button({ label: 'Edytuj', icon: 'fa-solid fa-pen', variant: 'outline' }) +
+button({ label: 'Edytuj', icon: 'fa-solid fa-pen', variant: 'outline', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('edytuj-impreze-modal').classList.add('show')" } }) +
 '</div>' +
 '</div>' +
 '<div class="group-card-tabs">' +
@@ -291,6 +291,15 @@ panel({ title: 'Umowy i dokumentacja', body:
 }) +
 '</div>' +  /* end group-status-col */
 '</div>' +  /* end group-overview-grid */
+
+panel({ title: 'Uwagi specjalne', body:
+'<div class="notes-list">' +
+'<div class="note-item"><span class="note-group" style="font-size:0.72rem;font-weight:700;color:var(--primary-color);background:var(--primary-light);padding:0.1rem 0.45rem;border-radius:4px">Dieta</span><p style="margin:0;font-size:0.82rem">1 uczestnik — alergia na gluten (wszystkie hotele).</p></div>' +
+'<div class="note-item" style="margin-top:0.5rem"><span class="note-group" style="font-size:0.72rem;font-weight:700;color:var(--warning-color);background:#fff7ed;padding:0.1rem 0.45rem;border-radius:4px">Logistyka</span><p style="margin:0;font-size:0.82rem">Rooming list wysłany do hoteli 8.01.2026 (Iza Strzelak SENT).</p></div>' +
+'</div>' +
+'<button class="btn btn-ghost" style="margin-top:0.75rem;font-size:0.8rem" data-no-demo="true"><i class="fa-solid fa-plus"></i> Dodaj uwagę</button>'
+}) +
+
 '</div>' +  /* end przegląd tab panel */
 
 /* ==== HOTELE tab ==== */
@@ -784,6 +793,35 @@ panel({
     '<tbody>' + dodRezRows + '</tbody>' +
     '</table></div>'
 }) +
+panel({
+  title: 'Atrakcje i wst\u0119py grupowe',
+  action: '<button class="btn btn-primary" data-no-demo="true"><i class="fa-solid fa-plus"></i> Dodaj atrakcj\u0119</button>',
+  body:
+    '<div class="table-container"><table class="data-table">' +
+    '<thead><tr><th>Atrakcja / Wst\u0119p</th><th>Data</th><th>Liczba os.</th><th>Kwota</th><th>Status</th><th>Uwagi</th><th style="width:60px"></th></tr></thead>' +
+    '<tbody>' +
+    '<tr>' +
+      '<td><strong>Wst\u0119py do piramid Gizy + Sfinks</strong></td>' +
+      '<td>31.01.2026</td>' +
+      '<td>44</td>' +
+      '<td><strong style="color:var(--primary-color)">$6 000</strong> <small style="color:var(--text-muted)">USD</small></td>' +
+      '<td>' + statusBadge('Cash na miejscu', 'warning') + '</td>' +
+      '<td><small style="color:var(--text-muted)">2 firmy lokalne — Alicja Aziz</small></td>' +
+      '<td><button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem" title="Edytuj"><i class="fa-solid fa-pen"></i></button></td>' +
+    '</tr>' +
+    '<tr>' +
+      '<td><strong>Rejs Nilu — Didanos (wieczorny)</strong></td>' +
+      '<td>29.01.2026</td>' +
+      '<td>44</td>' +
+      '<td><strong style="color:var(--primary-color)">$3 000</strong> <small style="color:var(--text-muted)">USD</small></td>' +
+      '<td>' + statusBadge('Cash na miejscu', 'warning') + '</td>' +
+      '<td><small style="color:var(--text-muted)">Alicja Aziz</small></td>' +
+      '<td><button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem" title="Edytuj"><i class="fa-solid fa-pen"></i></button></td>' +
+    '</tr>' +
+    '</tbody>' +
+    '<tfoot><tr><td colspan="3" style="font-weight:700;text-align:right;padding-top:0.75rem">Suma atrakcji</td><td style="font-weight:700;color:var(--primary-color)">$9 000 USD</td><td colspan="3"></td></tr></tfoot>' +
+    '</table></div>'
+}) +
 '</div>' +
 
 /* ==== DOKUMENTY tab ==== */
@@ -984,15 +1022,99 @@ panel({
   '</div>' +
 '</div>' +
 
+/* ==== EDYTUJ IMPREZĘ modal ==== */
+'<div id="edytuj-impreze-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
+  '<div class="demo-modal" style="max-width:760px;width:95%">' +
+    '<div class="demo-modal-header">' +
+      '<h2><i class="fa-solid fa-pen" style="margin-right:0.5rem;color:var(--primary-color)"></i>Edycja imprezy — MT-2026-EG-01</h2>' +
+      '<button class="demo-modal-close" type="button" data-no-demo="true" onclick="document.getElementById(\'edytuj-impreze-modal\').classList.remove(\'show\')"><i class="fa-solid fa-xmark"></i></button>' +
+    '</div>' +
+    '<div class="demo-modal-body" style="max-height:78vh;overflow-y:auto">' +
+      '<div class="form-mockup">' +
+
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin-bottom:0.75rem">Podstawowe informacje</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Kod imprezy</span><input type="text" value="MT-2026-EG-01" style="font-family:monospace" /></label>' +
+          '<label class="form-field"><span>Status imprezy</span>' +
+            '<select>' +
+              '<option>W przygotowaniu</option>' +
+              '<option>Aktywna</option>' +
+              '<option selected>Zakończona</option>' +
+              '<option>Anulowana</option>' +
+            '</select>' +
+          '</label>' +
+        '</div>' +
+        '<label class="form-field" style="margin-bottom:0.75rem"><span>Nazwa imprezy</span><input type="text" value="Egipt — Piramidy, Pociąg Nocny, Hurghada" /></label>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Organizator / Ks. opiekun</span><input type="text" value="Izabela Żebrowska + ks. Wojciech Lipka" /></label>' +
+          '<label class="form-field"><span>Pilot</span><input type="text" value="Alicja Aziz" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Kierunek / Kraj</span><input type="text" value="Egipt — Kair, Luksur, Hurghada" /></label>' +
+          '<label class="form-field"><span>Typ imprezy</span>' +
+            '<select><option selected>Pielgrzymka</option><option>Wycieczka</option><option>Obóz</option><option>Inne</option></select>' +
+          '</label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Data od</span><input type="date" value="2026-01-24" /></label>' +
+          '<label class="form-field"><span>Data do</span><input type="date" value="2026-01-31" /></label>' +
+        '</div>' +
+
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Personel i obsługa</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Opiekun BOK</span><input type="text" value="Kamila (K)" /></label>' +
+          '<label class="form-field"><span>Obsługa biletów</span><input type="text" value="Edyta (E)" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Kontrahent in-destination</span><input type="text" value="Iza Strzelak (SENT)" /></label>' +
+          '<label class="form-field"><span>Autor oferty</span><input type="text" value="Ania" /></label>' +
+        '</div>' +
+
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Transport i logistyka</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Transport główny</span>' +
+            '<select><option selected>Samolot</option><option>Autokar</option><option>Bus</option><option>Pociąg</option><option>Własny</option></select>' +
+          '</label>' +
+          '<label class="form-field"><span>Autokar na miejscu</span><input type="text" placeholder="np. Regency — całodobowo" value="Regency — całodobowo" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Transport na lotnisko</span>' +
+            '<select><option selected>Nie</option><option>Tak</option><option>Opcjonalnie</option></select>' +
+          '</label>' +
+          '<label class="form-field"><span>Msza na lotnisku</span><input type="text" placeholder="np. WAW — 24.01.2026 g. 14:00" value="WAW — 24.01.2026 g. 14:00" /></label>' +
+        '</div>' +
+
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Finanse</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Gratisy (USD/os.)</span><input type="text" value="80 USD/os. (karta)" /></label>' +
+          '<label class="form-field"><span>Prowizja biura (%)</span><input type="number" min="0" step="0.1" value="2" /></label>' +
+        '</div>' +
+
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Uwagi specjalne</div>' +
+        '<label class="form-field"><span>Dieta / wymagania żywieniowe</span><textarea rows="2" placeholder="np. dieta halal, alergia na gluten…">1 uczestnik — alergia na gluten (wszystkie hotele).</textarea></label>' +
+        '<label class="form-field"><span>Uwagi logistyczne</span><textarea rows="2" placeholder="np. rooming list wysłany, specjalne prośby hotelu…">Rooming list wysłany do hoteli 8.01.2026 (Iza Strzelak SENT).</textarea></label>' +
+        '<label class="form-field"><span>Inne uwagi</span><textarea rows="2" placeholder="Opcjonalne uwagi…"></textarea></label>' +
+
+      '</div>' +
+    '</div>' +
+    '<div class="demo-modal-footer">' +
+      '<button class="btn btn-outline" data-no-demo="true" onclick="document.getElementById(\'edytuj-impreze-modal\').classList.remove(\'show\')">Anuluj</button>' +
+      button({ label: 'Zapisz zmiany', icon: 'fa-solid fa-check' }) +
+    '</div>' +
+  '</div>' +
+'</div>' +
+
 /* ==== DODAJ NOCLEG modal ==== */
 '<div id="dodaj-nocleg-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
-  '<div class="demo-modal" style="max-width:600px;width:95%">' +
+  '<div class="demo-modal" style="max-width:700px;width:95%">' +
     '<div class="demo-modal-header">' +
-      '<h2><i class="fa-solid fa-hotel" style="margin-right:0.5rem;color:var(--primary-color)"></i>Nowy nocleg — MT-2026-EG-01</h2>' +
+      '<h2><i class="fa-solid fa-hotel" style="margin-right:0.5rem;color:var(--primary-color)"></i>Nowy nocleg \u2014 MT-2026-EG-01</h2>' +
       '<button class="demo-modal-close" type="button" data-no-demo="true" onclick="document.getElementById(\'dodaj-nocleg-modal\').classList.remove(\'show\')"><i class="fa-solid fa-xmark"></i></button>' +
     '</div>' +
-    '<div class="demo-modal-body">' +
+    '<div class="demo-modal-body" style="max-height:75vh;overflow-y:auto">' +
       '<div class="form-mockup">' +
+
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem">Termin i miejsce</div>' +
         '<div class="form-row-2">' +
           '<label class="form-field"><span>Data od</span><input type="date" /></label>' +
           '<label class="form-field"><span>Data do</span><input type="date" /></label>' +
@@ -1001,19 +1123,40 @@ panel({
           '<label class="form-field"><span>Miejscowość</span><input type="text" placeholder="np. Hurghada" /></label>' +
           '<label class="form-field"><span>Liczba nocy</span><input type="number" min="1" placeholder="np. 4" /></label>' +
         '</div>' +
-        '<label class="form-field" style="margin-bottom:0.75rem"><span>Hotel / Sposób noclegu</span><input type="text" placeholder="np. Bella Vista Resort 4*" /></label>' +
+
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Hotel</div>' +
+        '<label class="form-field" style="margin-bottom:0.75rem"><span>Nazwa hotelu / spos\u00f3b noclegu</span><input type="text" placeholder="np. Bella Vista Resort 4\u2605" /></label>' +
+        '<label class="form-field" style="margin-bottom:0.75rem"><span>Adres hotelu</span><input type="text" placeholder="np. Sheraton Rd, Hurghada, Red Sea" /></label>' +
         '<div class="form-row-2">' +
           '<label class="form-field"><span>Typ zakwaterowania</span>' +
-            '<select><option>Hotel</option><option>Hostel</option><option>Klasztor / Dom pielgrzyma</option><option>Nocleg prywatny</option><option>Inny</option></select>' +
+            '<select><option>Hotel</option><option>Hostel</option><option>Klasztor / Dom pielgrzyma</option><option>Nocleg prywatny</option><option>Poci\u0105g nocny</option><option>Prom nocny</option><option>Inny</option></select>' +
           '</label>' +
-          '<label class="form-field"><span>Kwota (USD)</span><input type="number" min="0" step="0.01" placeholder="np. 15120" /></label>' +
+          '<label class="form-field"><span>Wy\u017cywienie</span>' +
+            '<select><option value="">— brak —</option><option>BB (bed &amp; breakfast)</option><option>HB (half board)</option><option>FB (full board)</option><option>AI (all inclusive)</option><option>SC (samodzielne)</option></select>' +
+          '</label>' +
         '</div>' +
         '<div class="form-row-2">' +
-          '<label class="form-field"><span>Status płatności</span>' +
-            '<select><option>Depozyt</option><option>Opłacony</option><option>Oczekuje</option><option>Cash na miejscu</option><option>W cenie hotelu</option></select>' +
-          '</label>' +
-          '<label class="form-field"><span>Uwagi</span><input type="text" placeholder="np. rooming list wysłany" /></label>' +
+          '<label class="form-field"><span>Nr rezerwacji / ref. hotelu</span><input type="text" placeholder="np. BV-2026-01" style="font-family:monospace" /></label>' +
+          '<label class="form-field"><span>Kontrahent / Dostawca</span><input type="text" placeholder="np. Iza Strzelak (SENT)" /></label>' +
         '</div>' +
+
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">P\u0142atno\u015b\u0107</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Kwota</span><input type="number" min="0" step="0.01" placeholder="np. 15120" /></label>' +
+          '<label class="form-field"><span>Waluta</span>' +
+            '<select><option>USD</option><option>EUR</option><option>PLN</option><option>GBP</option></select>' +
+          '</label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Status p\u0142atno\u015bci</span>' +
+            '<select><option>Oczekuje</option><option>Wp\u0142acono cz\u0119\u015bciowo</option><option>Wp\u0142acono</option><option>Cash na miejscu</option><option>W cenie hotelu</option></select>' +
+          '</label>' +
+          '<label class="form-field"><span>Spos\u00f3b zap\u0142aty</span>' +
+            '<select><option>Przelew</option><option>Karta</option><option>Got\u00f3wka</option><option>Inny</option></select>' +
+          '</label>' +
+        '</div>' +
+        '<label class="form-field"><span>Uwagi</span><textarea rows="2" placeholder="np. rooming list wys\u0142any, depozyt w toku\u2026"></textarea></label>' +
+
       '</div>' +
     '</div>' +
     '<div class="demo-modal-footer">' +

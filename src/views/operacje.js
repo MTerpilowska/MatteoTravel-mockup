@@ -390,6 +390,7 @@
 				<td>${statusBadge(h.status, h.statusTone)}</td>
 				<td>
 					<div style="display:flex;gap:0.3rem">
+						${button({ label: 'Rooming list', icon: 'fa-solid fa-bed', variant: 'ghost' })}
 						${button({ label: 'Szczegóły', variant: 'outline' })}
 					</div>
 				</td>
@@ -401,7 +402,6 @@
 				title: 'Booking / Hotele',
 				subtitle: 'Zarządzanie rezerwacjami hotelowymi, rooming list, płatności do kontrahentów',
 				actions: [
-					button({ label: 'Rooming list', icon: 'fa-solid fa-bed', variant: 'outline' }),
 					button({ label: 'Dodaj hotel', icon: 'fa-solid fa-plus' })
 				]
 			}),
@@ -420,27 +420,7 @@
 					</table>
 				</div>`
 			}),
-			`<div class="dashboard-grid" style="grid-template-columns:1fr 1fr">
-				${panel({ title: 'Uwagi specjalne — grupy', body: `
-					<div class="notes-list">
-						<div class="note-item"><span class="note-group">WL-01</span><p>3 uczestników — dieta halal (Dan Jerusalem). 1 uczestnik — alergia na gluten (wszystkie hotele).</p></div>
-						<div class="note-item"><span class="note-group">IT-03</span><p>Wczesne śniadanie (6:30) przed wyjazdem do Watykanu — dzień 3. Lunch box na dzień 5.</p></div>
-						<div class="note-item"><span class="note-group">ES-02</span><p>Sprawdzić dostępność pokoi od 04.05. Centrum miasta wymagane przez org.</p></div>
-					</div>
-				` })}
-				${panel({ title: 'Atrakcje i wstępy grupowe', body: `
-					<div class="table-container">
-						<table style="font-size:0.82rem">
-							<thead><tr><th>Atrakcja</th><th>Data</th><th>Impreza</th><th>Osoby</th><th>Status</th></tr></thead>
-							<tbody>
-								<tr><td>Muzea Watykańskie + Kaplica Sykstyńska</td><td>14.04.2026</td><td>IT-03</td><td>45</td><td>${statusBadge('Potwierdzone', 'success')}</td></tr>
-								<tr><td>Wejście na Masadę (kabel car)</td><td>27.04.2026</td><td>WL-01</td><td>42</td><td>${statusBadge('Rezerwacja', 'info')}</td></tr>
-								<tr><td>Jad Waszem — zwiedzanie</td><td>28.04.2026</td><td>WL-01</td><td>42</td><td>${statusBadge('Do potwierdzenia', 'warning')}</td></tr>
-							</tbody>
-						</table>
-					</div>
-				` })}
-			</div>`
+
 		].join('');
 	}
 
