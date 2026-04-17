@@ -133,6 +133,12 @@ var pct = g.paxMax ? Math.round(g.pax / g.paxMax * 100) : 0;
 var paxCol = pct >= 100 ? 'var(--success-color)' : pct >= 70 ? 'var(--primary-color)' : pct >= 40 ? 'var(--warning-color)' : 'var(--danger-color)';
 var rowCls = g.anulowana ? ' class="terminarz-anulowana"' : '';
 var bikona = '<i class="fa-solid ' + g.trans_ico + '" style="color:var(--text-muted);margin-right:0.3rem"></i>';
+var bokOk = !g.anulowana && (g.status === 'Zako\u0144czona' || g.id === 'MT-2026-IT-01' || g.id === 'MT-2026-WL-03');
+var bilOk = !g.anulowana && (g.status === 'Zako\u0144czona' || g.id === 'MT-2026-IT-01');
+var mktOk = !g.anulowana && (g.status === 'Zako\u0144czona');
+var _p = function(l, ok) { return '<span style="font-size:0.62rem;padding:0.08rem 0.3rem;border-radius:3px;font-weight:700;white-space:nowrap;background:' + (ok ? '#dcfce7' : '#fef3c7') + ';color:' + (ok ? '#166534' : '#92400e') + '">' + l + (ok ? ' \u2713' : ' \u23f3') + '</span>'; };
+var deptPills = g.anulowana ? '' :
+  '<div style="display:flex;gap:0.2rem;flex-wrap:wrap;margin-top:0.3rem">' + _p('BOK', bokOk) + _p('Bil.', bilOk) + _p('Mkt', mktOk) + '</div>';
 var dataRow = '<tr' + rowCls + ' onclick="window.AppNavigation.setActivePage(\'szczegoly_grupy\')" style="cursor:pointer">' +
 '<td><code style="font-size:0.7rem">' + escapeHtml(g.id) + '</code></td>' +
 '<td><strong style="font-size:0.82rem">' + escapeHtml(g.org) + '</strong>' +
@@ -154,10 +160,13 @@ var dataRow = '<tr' + rowCls + ' onclick="window.AppNavigation.setActivePage(\'s
 '<td><small>' + (g.msza !== '—' ? '<span style="color:var(--primary-color)"><i class="fa-solid fa-church"></i> ' + escapeHtml(g.msza) + '</span>' : '<span style="color:var(--text-muted)">—</span>') + '</small></td>' +
 '<td><span style="font-size:0.78rem;' + (g.umowy === 'wysłana' || g.umowy === 'wysłana 17.10.2025' || g.umowy === 'wysłana 28.02.2025' ? 'color:var(--success-color);font-weight:600' : g.umowy === 'w przygotowaniu' ? 'color:var(--warning-color)' : 'color:var(--text-muted)') + '">' + escapeHtml(g.umowy) + '</span></td>' +
 '<td>' + statusBadge(g.status, g.statusTone) + '</td>' +
-'<td><div style="display:flex;gap:0.25rem">' +
+'<td>' +
+'<div style="display:flex;gap:0.25rem">' +
 button({ label: 'Karta', variant: 'outline', attrs: { 'data-action': 'karta_grupy' } }) +
 button({ label: '', icon: 'fa-solid fa-clock-rotate-left', variant: 'ghost', attrs: { title: 'Historia zmian' } }) +
-'</div></td>' +
+'</div>' +
+deptPills +
+'</td>' +
 '</tr>';
 return sectionRow + dataRow;
 }).join('');

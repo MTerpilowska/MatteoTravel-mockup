@@ -28,7 +28,7 @@ const rows = items.map(item => `
 <div style="display:flex;gap:0.4rem;flex-wrap:wrap" onclick="event.stopPropagation()">
 ${button({ label: 'Kalkulator', variant: 'outline' })}
 ${item.statusTone === 'warning' ? button({ label: '→ CRM', variant: 'ghost' }) : ''}
-${item.statusTone === 'success' ? button({ label: 'Zamień w imprezę', icon: 'fa-solid fa-rocket', variant: 'ghost' }) : ''}
+${item.statusTone === 'success' ? button({ label: 'Zam\u0144 w imprez\u0119', icon: 'fa-solid fa-rocket', variant: 'ghost', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('nowa-karta-imprezy-modal').classList.add('show')" } }) : ''}
 </div>
 </td>
 </tr>
@@ -193,7 +193,7 @@ ${panel({
 title: 'Historia oferty — ZAP-2026-038 · ks. Hendzel · Portugalia + Santiago (zaakceptowana)',
 action: `<div style="display:flex;gap:0.5rem;align-items:center">` +
 statusBadge('Zaakceptowana', 'success') +
-button({ label: 'Utwórz imprezę →', icon: 'fa-solid fa-rocket' }) +
+button({ label: 'Utw\u00f3rz imprez\u0119 \u2192', icon: 'fa-solid fa-rocket', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('nowa-karta-imprezy-modal').classList.add('show')" } }) +
 `</div>`,
 body: `
 <div style="margin-bottom:0.85rem;padding:0.75rem;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;font-size:0.82rem;color:#166534;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem">

@@ -178,7 +178,7 @@
 					</button>
 					<div class="topbar-btn notification-btn" id="notificationBtn">
 						<i class="fa-solid fa-bell"></i>
-						<span class="notification-dot"></span>
+						<span class="notification-dot" style="min-width:16px;height:16px;border-radius:8px;font-size:0.65rem;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 3px;color:#fff;background:#ef4444;position:absolute;top:4px;right:4px;border:2px solid #fff">5</span>
 					</div>
 					<div class="notification-panel" id="notificationPanel">
 						<div class="notif-header">
@@ -189,9 +189,24 @@
 							<button class="notif-tab active">Wszystkie</button>
 							<button class="notif-tab">Płatności</button>
 							<button class="notif-tab">Rezerwacje</button>
-							<button class="notif-tab">System</button>
+						<button class="notif-tab">Karty Imprezy</button>
+						<button class="notif-tab">System</button>
+					</div>
+					<div class="notif-list">
+						<div class="notif-item unread">
+							<div class="notif-icon warning"><i class="fa-solid fa-file-lines"></i></div>
+							<div class="notif-content">
+								<p><strong>Karta Imprezy</strong> — MT-2026-WL-03 Pielgrzymka jubileuszowa 25.04 wymaga potwierdzenia przez Twój dział</p>
+								<span class="notif-time">Dziś, 09:00</span>
+							</div>
 						</div>
-						<div class="notif-list">
+						<div class="notif-item unread">
+							<div class="notif-icon warning"><i class="fa-solid fa-file-lines"></i></div>
+							<div class="notif-content">
+								<p><strong>Karta Imprezy</strong> — MT-2026-IT-01 Rzym/Asyż 12.04 — dział <strong>Marketing</strong> nie potwierdził zapoznania</p>
+								<span class="notif-time">Dziś, 08:47</span>
+							</div>
+						</div>
 							<div class="notif-item unread">
 								<div class="notif-icon warning"><i class="fa-solid fa-clock"></i></div>
 								<div class="notif-content">
@@ -383,9 +398,9 @@
 	<script src="src/views/dashboards.js"></script>
 	<script src="src/views/placeholders.js"></script>
 	<script src="src/views/crm.js"></script>
-	<script src="src/views/zapytania.js"></script>
-	<script src="src/views/grupy.js"></script>
-    <script src="src/views/szczegoly_grupy.js"></script>
+	<script src="src/views/zapytania.js?v=1.8"></script>
+	<script src="src/views/grupy.js?v=1.8"></script>
+    <script src="src/views/szczegoly_grupy.js?v=1.8"></script>
 	<script src="src/views/rezerwacje.js"></script>
 	<script src="src/views/finanse.js"></script>
 	<script src="src/views/operacje.js"></script>
@@ -405,6 +420,146 @@
 	<script src="src/features/feedback/toast.js"></script>
 	<script src="src/features/feedback/controller.js"></script>
 	<script src="src/app/bootstrap.js"></script>
+
+<!-- Nowa Karta Imprezy — modal globalny (dostępny z listy i ze szczegółów zapytania) -->
+<div id="nowa-karta-imprezy-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove('show')">
+  <div class="demo-modal" style="max-width:820px;width:95%">
+    <div class="demo-modal-header">
+      <h2><i class="fa-solid fa-file-lines" style="margin-right:0.5rem;color:var(--primary-color)"></i>Nowa Karta Imprezy &mdash; z oferty ZAP-2026-038</h2>
+      <button class="demo-modal-close" type="button" onclick="document.getElementById('nowa-karta-imprezy-modal').classList.remove('show')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="demo-modal-body" style="max-height:80vh;overflow-y:auto">
+      <div style="padding:0.6rem 0.85rem;background:#eff6ff;border-radius:8px;font-size:0.82rem;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem">
+        <i class="fa-solid fa-circle-info" style="color:#3b82f6;flex-shrink:0"></i>
+        <span>Pola uzupełnione wstępnie z zaakceptowanej oferty. Uzupełnij brakujące dane i zapisz &mdash; wybrane działy zostaną powiadomione pod dzwonkiem.</span>
+      </div>
+      <div class="form-mockup">
+
+        <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin-bottom:0.75rem">Identyfikacja</div>
+        <div class="form-row-2">
+          <label class="form-field"><span>KOD imprezy</span><input type="text" value="PT17-18/05/2026" style="font-family:monospace;text-transform:uppercase" /></label>
+          <label class="form-field"><span>Typ imprezy</span><select><option selected>Pielgrzymka</option><option>Wycieczka</option><option>Obóz</option><option>Wycieczka szkolna</option><option>Inne</option></select></label>
+        </div>
+        <div class="form-row-2">
+          <label class="form-field"><span>Data zapytania</span><input type="date" value="2026-03-22" /></label>
+          <label class="form-field"><span>Przyjęte do realizacji</span><input type="date" value="2026-03-25" /></label>
+        </div>
+
+        <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Organizator</div>
+        <div class="form-row-2">
+          <label class="form-field"><span>Współorganizator / ks. opiekun</span><input type="text" value="ks. Henryk Hendzel" /></label>
+          <label class="form-field"><span>Parafia / Instytucja / Miejscowość</span><input type="text" value="Parafia MB Różańcowej, Rzeszów" /></label>
+        </div>
+        <div class="form-row-2">
+          <label class="form-field"><span>E-mail</span><input type="email" value="hendzel@parafia-rozancowa.pl" /></label>
+          <label class="form-field"><span>Telefon</span><input type="tel" value="+48 602 987 654" /></label>
+        </div>
+
+        <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Impreza</div>
+        <div class="form-row-2">
+          <label class="form-field"><span>Kierunek / Nazwa</span><input type="text" value="Fatima i Santiago de Compostela" /></label>
+          <label class="form-field"><span>Termin</span><input type="text" value="18&ndash;25.05.2026" /></label>
+        </div>
+
+        <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Ceny</div>
+        <div class="form-row-2" style="align-items:stretch">
+          <div style="border:1px solid var(--border-color);border-radius:8px;padding:0.75rem;display:flex;flex-direction:column;gap:0.5rem">
+            <div style="font-size:0.72rem;font-weight:700;color:var(--primary-color);margin-bottom:0.15rem">CENA I &mdash; od min. liczby os.</div>
+            <label class="form-field"><span>Zakres (od os.)</span><input type="number" placeholder="np. 42" /></label>
+            <label class="form-field"><span>PLN / os.</span><input type="number" value="5190" /></label>
+            <label class="form-field"><span>EUR / os.</span><input type="number" placeholder="np. 440" /></label>
+            <label class="form-field"><span>USD / os.</span><input type="number" placeholder="" /></label>
+            <label class="form-field"><span>Na miejscu</span><input type="text" placeholder="np. 100 EUR" /></label>
+          </div>
+          <div style="border:1px solid var(--border-color);border-radius:8px;padding:0.75rem;display:flex;flex-direction:column;gap:0.5rem">
+            <div style="font-size:0.72rem;font-weight:700;color:var(--text-muted);margin-bottom:0.15rem">CENA II &mdash; niższa grupa</div>
+            <label class="form-field"><span>Zakres (min&ndash;max os.)</span><input type="text" placeholder="np. 37&ndash;41" /></label>
+            <label class="form-field"><span>PLN / os.</span><input type="number" value="5490" /></label>
+            <label class="form-field"><span>EUR / os.</span><input type="number" placeholder="np. 440" /></label>
+            <label class="form-field"><span>USD / os.</span><input type="number" placeholder="" /></label>
+            <label class="form-field"><span>Na miejscu</span><input type="text" placeholder="np. 100 EUR" /></label>
+          </div>
+        </div>
+        <div class="form-row-2" style="margin-top:0.5rem">
+          <label class="form-field"><span>KR podstawowy (zł)</span><input type="number" placeholder="np. 150" /></label>
+          <label class="form-field"><span>KR rzeczywisty (zł)</span><input type="number" placeholder="np. 250" /></label>
+        </div>
+
+        <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Transport</div>
+        <div class="form-row-2">
+          <label class="form-field"><span>Środek transportu</span><select><option selected>Samolot</option><option>Autokar</option><option>Samolot + autokar</option><option>Własny</option></select></label>
+          <label class="form-field"><span>Transfer na lotnisko</span><select><option selected>NIE</option><option>TAK</option><option>Opcjonalnie</option></select></label>
+        </div>
+        <div class="form-row-2">
+          <label class="form-field"><span>Linia lotnicza</span><input type="text" placeholder="np. LOT Polish Airlines" /></label>
+          <label class="form-field"><span>Liczba biletów / miejsc</span><input type="number" value="35" /></label>
+        </div>
+        <div class="form-row-2">
+          <label class="form-field"><span>Cena biletu (zł / os.)</span><input type="number" placeholder="np. 890" /></label>
+          <label class="form-field"><span>Deadline biletowania</span><input type="date" /></label>
+        </div>
+        <div class="form-row-2">
+          <label class="form-field"><span>Ilość gratisów</span><input type="text" placeholder="np. 43+2" /></label>
+          <label class="form-field"><span>Gratisy &mdash; nazwiska</span><input type="text" placeholder="np. Kowalski Jan, Nowak Anna" /></label>
+        </div>
+        <div class="form-row-2">
+          <label class="form-field"><span>Dopłata SGL (zł)</span><input type="number" placeholder="np. 600" /></label>
+          <label class="form-field"><span>Dni ubezpieczenia</span><input type="number" placeholder="np. 8" /></label>
+        </div>
+
+        <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Kontrahent i prowizja</div>
+        <div class="form-row-2">
+          <label class="form-field"><span>Kontrahent (in-destination)</span><input type="text" placeholder="nazwa kontrahenta" /></label>
+          <label class="form-field"><span>Pośrednik</span><input type="text" placeholder="opcjonalnie" /></label>
+        </div>
+        <div class="form-row-2">
+          <label class="form-field"><span>Prowizja &mdash; dla kogo</span><input type="text" value="Biuro Matteo" /></label>
+          <label class="form-field"><span>Prowizja &mdash; ile (%)</span><input type="number" step="0.1" value="2" /></label>
+        </div>
+
+        <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Terminy kluczowe</div>
+        <div class="form-row-2">
+          <label class="form-field"><span>I Depozyt</span><input type="date" /></label>
+          <label class="form-field"><span>II Depozyt</span><input type="date" /></label>
+        </div>
+        <div class="form-row-2">
+          <label class="form-field"><span>III Depozyt</span><input type="date" /></label>
+          <label class="form-field"><span>IV Depozyt (finalne)</span><input type="date" /></label>
+        </div>
+        <div class="form-row-2">
+          <label class="form-field"><span>Lista nazwisk</span><input type="date" /></label>
+          <label class="form-field"><span>Wystawienie biletów</span><input type="date" /></label>
+        </div>
+        <div class="form-row-2">
+          <label class="form-field"><span>Lista uczestników dla booking</span><input type="date" /></label>
+          <label class="form-field"><span>Lista roomingowa dla booking</span><input type="date" /></label>
+        </div>
+        <div class="form-row-2">
+          <label class="form-field"><span>Redukcja miejsc</span><input type="date" placeholder="opcjonalnie" /></label>
+          <label class="form-field"><span>Anulacja grupy</span><input type="date" placeholder="opcjonalnie" /></label>
+        </div>
+
+        <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Uwagi dla marketingu</div>
+        <label class="form-field"><span>Treść / opis dla marketingu (plakat, FB, materiały)</span>
+          <textarea rows="3" placeholder="np. Plakat na stronie i FB z programem i cenami. Zdjęcia z poprzedniej pielgrzymki..."></textarea>
+        </label>
+
+        <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Powiadomienia działów</div>
+        <div style="background:var(--bg-hover);border-radius:var(--radius-md);padding:0.75rem;display:flex;flex-direction:column;gap:0.5rem">
+          <p style="margin:0 0 0.25rem;font-size:0.8rem;color:var(--text-muted)">Po zapisaniu Karty Imprezy wybrane działy zostaną powiadomione pod dzwonkiem i będą musiały potwierdzić zapoznanie się z kartą.</p>
+          <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--primary-color)"> <strong>BOK</strong> &mdash; Biuro Obsługi Klienta</label>
+          <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--primary-color)"> <strong>Biletowanie</strong> &mdash; dział biletów lotniczych</label>
+          <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--primary-color)"> <strong>Marketing</strong> &mdash; sprzedaż i promocja</label>
+        </div>
+
+      </div>
+    </div>
+    <div class="demo-modal-footer">
+      <button class="btn btn-outline" onclick="document.getElementById('nowa-karta-imprezy-modal').classList.remove('show')">Anuluj</button>
+      <button class="btn btn-primary" onclick="document.getElementById('nowa-karta-imprezy-modal').classList.remove('show');setTimeout(function(){window.AppNavigation.setActivePage('szczegoly_grupy')},300)"><i class="fa-solid fa-paper-plane"></i> Utwórz Kartę i wyślij powiadomienia</button>
+    </div>
+  </div>
+</div>
 </body>
 
 </html>

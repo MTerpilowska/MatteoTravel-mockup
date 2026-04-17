@@ -220,6 +220,7 @@ button({ label: 'Edytuj', icon: 'fa-solid fa-pen', variant: 'outline', attrs: { 
 '<button class="group-tab" data-tab="rooming">Rooming list</button>' +
 '<button class="group-tab" data-tab="dod-rezerwacje">Dod. rezerwacje <span class="tab-badge">6</span></button>' +
 '<button class="group-tab" data-tab="dokumenty">Dokumenty</button>' +
+'<button class="group-tab" data-tab="karta-imprezy">Karta Imprezy <span class="tab-badge" style="background:#f59e0b;color:#fff;font-weight:700">!</span></button>' +
 '<button data-no-demo="true" title="Historia zmian" onclick="document.getElementById(\'historia-modal\').classList.add(\'show\')" style="margin-left:auto;background:none;border:none;cursor:pointer;padding:0.4rem 0.6rem;color:var(--text-muted);border-radius:var(--radius-sm);display:flex;align-items:center;gap:0.4rem;font-size:0.8rem;font-weight:500;" onmouseenter="this.style.color=\'var(--primary-color)\'" onmouseleave="this.style.color=\'var(--text-muted)\'"><i class="fa-solid fa-clock-rotate-left"></i> Historia zmian</button>' +
 '</div>' +
 '</div>' +
@@ -834,6 +835,158 @@ panel({
 }) +
 '</div>' +
 
+/* ==== KARTA IMPREZY tab ==== */
+'<div class="group-tab-panel" data-panel="karta-imprezy">' +
+
+panel({
+  title: 'Status potwierdze\u0144 dzia\u0142\u00f3w',
+  body:
+    '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:1rem">' +
+
+    /* BOK — potwierdzone */
+    '<div style="border:1px solid #bbf7d0;border-radius:var(--radius-md);padding:1rem;background:#f0fdf4">' +
+      '<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">' +
+        '<div style="width:30px;height:30px;background:#dcfce7;color:#166534;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-headset" style="font-size:0.78rem"></i></div>' +
+        '<strong style="font-size:0.85rem">Biuro Obs\u0142ugi Klienta</strong>' +
+      '</div>' +
+      '<div style="color:var(--success-color);font-weight:700;font-size:0.82rem"><i class="fa-solid fa-circle-check"></i> Potwierdzono</div>' +
+      '<div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.2rem">Kamila W. \u00b7 17.04.2026 g. 09:43</div>' +
+    '</div>' +
+
+    /* Biletowanie — potwierdzone */
+    '<div style="border:1px solid #bbf7d0;border-radius:var(--radius-md);padding:1rem;background:#f0fdf4">' +
+      '<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">' +
+        '<div style="width:30px;height:30px;background:#dcfce7;color:#166534;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-plane-departure" style="font-size:0.78rem"></i></div>' +
+        '<strong style="font-size:0.85rem">Biletowanie</strong>' +
+      '</div>' +
+      '<div style="color:var(--success-color);font-weight:700;font-size:0.82rem"><i class="fa-solid fa-circle-check"></i> Potwierdzono</div>' +
+      '<div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.2rem">Edyta M. \u00b7 17.04.2026 g. 10:15</div>' +
+    '</div>' +
+
+    /* Marketing — oczekuje */
+    '<div id="ki-mkt-card" style="border:2px solid #fde68a;border-radius:var(--radius-md);padding:1rem;background:#fffbeb">' +
+      '<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">' +
+        '<div style="width:30px;height:30px;background:#fef3c7;color:#b45309;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-bullhorn" style="font-size:0.78rem"></i></div>' +
+        '<strong style="font-size:0.85rem">Marketing</strong>' +
+      '</div>' +
+      '<div id="ki-mkt-status" style="color:#b45309;font-weight:700;font-size:0.82rem"><i class="fa-solid fa-clock"></i> Oczekuje na potwierdzenie</div>' +
+      '<div id="ki-mkt-date" style="font-size:0.72rem;color:var(--text-muted);margin-top:0.2rem">Wys\u0142ano: 17.04.2026 g. 09:00</div>' +
+      '<button id="ki-mkt-btn" class="btn btn-primary" data-no-demo="true" style="margin-top:0.65rem;font-size:0.78rem;width:100%;padding:0.4rem 0.75rem" onclick="window._kiConfirmDept(\'mkt\')"><i class="fa-solid fa-check"></i> Potwierdzam zapoznanie si\u0119</button>' +
+    '</div>' +
+
+    '</div>' +
+    '<div id="ki-main-warn" style="padding:0.6rem 0.85rem;background:#fff7ed;border-radius:8px;font-size:0.82rem;display:flex;align-items:center;gap:0.5rem">' +
+      '<i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;flex-shrink:0"></i>' +
+      '<span>Dzia\u0142 <strong>Marketing</strong> nie potwierdzi\u0142 jeszcze zapoznania si\u0119 z kart\u0105 imprezy. Powiadomienie wys\u0142ano 17.04.2026 g.\u00a009:00.</span>' +
+    '</div>'
+}) +
+
+panel({
+  title: 'Karta Imprezy \u2014 MT-2026-EG-01',
+  action:
+    '<div style="display:flex;gap:0.5rem;align-items:center">' +
+    '<span style="font-size:0.75rem;color:var(--text-muted)"><i class="fa-regular fa-clock"></i> Utworzono: 20.09.2025 \u00b7 Anna K.</span>' +
+    button({ label: 'Edytuj Kart\u0119', icon: 'fa-solid fa-pen', variant: 'outline', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('edytuj-karte-modal').classList.add('show')" } }) +
+    '</div>',
+  body:
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0 2.5rem">' +
+    '<div>' +
+
+    '<div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin:0 0 0.5rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border-color)">Identyfikacja</div>' +
+    '<div class="info-table">' +
+      '<div class="info-row"><span>KOD oferty</span><strong style="font-family:monospace;letter-spacing:0.05em">EG17-24/01/2026</strong></div>' +
+      '<div class="info-row"><span>Typ imprezy</span><strong>Pielgrzymka</strong></div>' +
+      '<div class="info-row"><span>Data zapytania</span><strong>15.09.2025</strong></div>' +
+      '<div class="info-row"><span>Przyj\u0119te do realizacji</span><strong>20.09.2025</strong></div>' +
+      '<div class="info-row"><span>Data anulacji</span><strong style="color:var(--text-muted)">\u2014</strong></div>' +
+    '</div>' +
+
+    '<div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin:1rem 0 0.5rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border-color)">Organizator</div>' +
+    '<div class="info-table">'  +
+      '<div class="info-row"><span>Imi\u0119 i nazwisko</span><strong>Izabela \u017bebrowska</strong></div>' +
+      '<div class="info-row"><span>Ks. opiekun</span><strong>ks. Wojciech Lipka</strong></div>' +
+      '<div class="info-row"><span>Parafia / Instytucja</span><strong>Parafia pw. Bo\u017cego Cia\u0142a, Rzesz\u00f3w</strong></div>' +
+      '<div class="info-row"><span>E-mail</span><strong>zebrowska.iz@gmail.com</strong></div>' +
+      '<div class="info-row"><span>Telefon</span><strong>+48 600 123 456</strong></div>' +
+    '</div>' +
+
+    '<div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin:1rem 0 0.5rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border-color)">Uwagi dla marketingu</div>' +
+    '<div style="background:var(--bg-hover);border-radius:var(--radius-sm);padding:0.6rem 0.75rem;font-size:0.82rem;color:var(--text-default);line-height:1.5">' +
+      'Plakat na stronie / FB. Papierowe z wszystkimi cenami i kontaktem do ks. Lipki.' +
+    '</div>' +
+
+    '</div>' + /* end left col */
+    '<div>' +
+
+    '<div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin:0 0 0.5rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border-color)">Impreza</div>' +
+    '<div class="info-table">' +
+      '<div class="info-row"><span>Kierunek / Nazwa</span><strong>EGIPT \u2014 Kair, Luksur, Hurghada</strong></div>' +
+      '<div class="info-row"><span>Termin</span><strong>24\u201331.01.2026 (7 nocy)</strong></div>' +
+    '</div>' +
+
+    '<div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin:1rem 0 0.5rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border-color)">Ceny</div>' +
+    '<div class="info-table">' +
+      '<div class="info-row"><span>PLN \u2014 od 42 os.</span><strong>4\u202f990 z\u0142</strong></div>' +
+      '<div class="info-row"><span>PLN \u2014 min. 37\u201341 os.</span><strong>5\u202f390 z\u0142</strong></div>' +
+      '<div class="info-row"><span>EUR (dop\u0142ata)</span><strong style="color:var(--text-muted)">\u2014</strong></div>' +
+      '<div class="info-row"><span>Na miejscu</span><strong>80 USD/os. (karta)</strong></div>' +
+      '<div class="info-row"><span>KR podstawowy</span><strong>100 z\u0142</strong></div>' +
+      '<div class="info-row"><span>KR rzeczywisty</span><strong>200 z\u0142</strong></div>' +
+      '<div class="info-row"><span>Dop\u0142ata SGL</span><strong>800 z\u0142</strong></div>' +
+    '</div>' +
+
+    '<div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin:1rem 0 0.5rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border-color)">Transport</div>' +
+    '<div class="info-table">' +
+      '<div class="info-row"><span>\u015arodek transportu</span><strong>Samolot LOT</strong></div>' +
+      '<div class="info-row"><span>Linia lotnicza</span><strong>LOT Polish Airlines</strong></div>' +
+      '<div class="info-row"><span>Liczba bilet\u00f3w</span><strong>45</strong></div>' +
+      '<div class="info-row"><span>Ilo\u015b\u0107 gratis\u00f3w</span><strong>1 (co 45 os.)</strong></div>' +
+      '<div class="info-row"><span>Cena biletu</span><strong>w cenie imprezy</strong></div>' +
+      '<div class="info-row"><span>Deadline biletowania</span><strong>10.01.2026</strong></div>' +
+      '<div class="info-row"><span>Transfer na lotnisko</span><strong style="color:var(--text-muted)">NIE</strong></div>' +
+    '</div>' +
+
+    '</div>' + /* end right col */
+    '</div>' + /* end top 2-col grid */
+
+    '<div style="margin-top:1.25rem;display:grid;grid-template-columns:1fr 1fr;gap:0 2.5rem">' +
+    '<div>' +
+
+    '<div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin:0 0 0.5rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border-color)">Kontrahent</div>' +
+    '<div class="info-table">' +
+      '<div class="info-row"><span>Kontrahent</span><strong>Iza Strzelak (SENT)</strong></div>' +
+      '<div class="info-row"><span>Data oferty od kontr.</span><strong>20.09.2025</strong></div>' +
+      '<div class="info-row"><span>Warunki / cena</span><strong>wg. kalkulacji wewn\u0119trznej</strong></div>' +
+      '<div class="info-row"><span>Po\u015brednik</span><strong style="color:var(--text-muted)">\u2014</strong></div>' +
+    '</div>' +
+
+    '<div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin:1rem 0 0.5rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border-color)">Prowizja</div>' +
+    '<div class="info-table">' +
+      '<div class="info-row"><span>Dla kogo</span><strong>Biuro Matteo</strong></div>' +
+      '<div class="info-row"><span>Ile</span><strong>2%</strong></div>' +
+    '</div>' +
+
+    '</div>' + /* end left col */
+    '<div>' +
+
+    '<div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin:0 0 0.5rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border-color)">Terminy kluczowe</div>' +
+    '<div class="info-table">' +
+      '<div class="info-row"><span>I Depozyt</span><strong>01.10.2025</strong></div>' +
+      '<div class="info-row"><span>II Depozyt</span><strong>15.11.2025</strong></div>' +
+      '<div class="info-row"><span>III Depozyt</span><strong>10.12.2025</strong></div>' +
+      '<div class="info-row"><span>IV Depozyt (finalne)</span><strong>15.01.2026</strong></div>' +
+      '<div class="info-row"><span>Lista nazwisk</span><strong>10.01.2026</strong></div>' +
+      '<div class="info-row"><span>Wystawienie bilet\u00f3w</span><strong>13.01.2026</strong></div>' +
+      '<div class="info-row"><span>Redukcja miejsc</span><strong style="color:var(--text-muted)">\u2014</strong></div>' +
+      '<div class="info-row"><span>Anulacja grupy</span><strong style="color:var(--text-muted)">\u2014</strong></div>' +
+    '</div>' +
+
+    '</div>' + /* end right col */
+    '</div>' /* end bottom 2-col grid */
+}) +
+
+'</div>' + /* end karta-imprezy tab panel */
+
 '</div>' +   /* end group-card-body */
 '</div>' +   /* end group-card-detail */
 
@@ -1100,6 +1253,144 @@ panel({
     '<div class="demo-modal-footer">' +
       '<button class="btn btn-outline" data-no-demo="true" onclick="document.getElementById(\'edytuj-impreze-modal\').classList.remove(\'show\')">Anuluj</button>' +
       button({ label: 'Zapisz zmiany', icon: 'fa-solid fa-check' }) +
+    '</div>' +
+  '</div>' +
+'</div>' +
+
+/* ==== EDYTUJ KART\u0118 IMPREZY modal ==== */
+'<div id="edytuj-karte-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
+  '<div class="demo-modal" style="max-width:820px;width:95%">' +
+    '<div class="demo-modal-header">' +
+      '<h2><i class="fa-solid fa-file-lines" style="margin-right:0.5rem;color:var(--primary-color)"></i>Karta Imprezy \u2014 MT-2026-EG-01</h2>' +
+      '<button class="demo-modal-close" type="button" data-no-demo="true" onclick="document.getElementById(\'edytuj-karte-modal\').classList.remove(\'show\')"><i class="fa-solid fa-xmark"></i></button>' +
+    '</div>' +
+    '<div class="demo-modal-body" style="max-height:80vh;overflow-y:auto">' +
+      '<div class="form-mockup">' +
+
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin-bottom:0.75rem">Identyfikacja</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>KOD imprezy</span><input type="text" value="EG17-24/01/2026" style="font-family:monospace;text-transform:uppercase" /></label>' +
+          '<label class="form-field"><span>Typ imprezy</span>' +
+            '<select><option selected>Pielgrzymka</option><option>Wycieczka</option><option>Ob\u00f3z</option><option>Wycieczka szkolna</option><option>Inne</option></select>' +
+          '</label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Data zapytania</span><input type="date" value="2025-09-15" /></label>' +
+          '<label class="form-field"><span>Przyj\u0119te do realizacji</span><input type="date" value="2025-09-20" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Data anulacji</span><input type="date" placeholder="pozostaw puste je\u015bli aktywne" /></label>' +
+          '<label class="form-field"><span></span></label>' +
+        '</div>' +
+
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Organizator</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Imi\u0119 i nazwisko / organizator</span><input type="text" value="Izabela \u017bebrowska" /></label>' +
+          '<label class="form-field"><span>Ks. opiekun / wsp\u00f3\u0142organizator</span><input type="text" value="ks. Wojciech Lipka" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Parafia / Instytucja / Miejscowo\u015b\u0107</span><input type="text" value="Parafia pw. Bo\u017cego Cia\u0142a, Rzesz\u00f3w" /></label>' +
+          '<label class="form-field"><span>E-mail</span><input type="email" value="zebrowska.iz@gmail.com" /></label>' +
+        '</div>' +
+        '<label class="form-field" style="margin-bottom:0.75rem"><span>Telefon</span><input type="tel" value="+48 600 123 456" /></label>' +
+
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Impreza</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Kierunek / Nazwa</span><input type="text" value="EGIPT \u2014 Kair, Luksur, Hurghada" /></label>' +
+          '<label class="form-field"><span>Termin (np. 24\u201331.01.2026)</span><input type="text" value="24\u201331.01.2026" /></label>' +
+        '</div>' +
+
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Ceny</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>PLN — od X os. (cena min.)</span><input type="number" value="4990" min="0" /></label>' +
+          '<label class="form-field"><span>Minimalna liczba os.</span><input type="number" value="42" min="1" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>PLN — cena przy 37\u201341 os.</span><input type="number" value="5390" min="0" /></label>' +
+          '<label class="form-field"><span>EUR (dop\u0142ata, opcjonalnie)</span><input type="number" step="0.01" placeholder="np. 50" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Na miejscu (USD / EUR / PLN)</span><input type="text" value="80 USD/os. (karta)" /></label>' +
+          '<label class="form-field"><span>Dop\u0142ata SGL</span><input type="number" value="800" min="0" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>KR podstawowy (z\u0142)</span><input type="number" value="100" min="0" /></label>' +
+          '<label class="form-field"><span>KR rzeczywisty (z\u0142)</span><input type="number" value="200" min="0" /></label>' +
+        '</div>' +
+
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Transport</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>\u015arodek transportu</span>' +
+            '<select>' +
+              '<option selected>Samolot</option><option>Autokar</option><option>Bus</option><option>Samolot + autokar</option><option>W\u0142asny</option>' +
+            '</select>' +
+          '</label>' +
+          '<label class="form-field"><span>Transfer na lotnisko</span>' +
+            '<select><option selected>NIE</option><option>TAK</option><option>Opcjonalnie</option></select>' +
+          '</label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Linia lotnicza</span><input type="text" value="LOT Polish Airlines" /></label>' +
+          '<label class="form-field"><span>Liczba bilet\u00f3w / miejsc</span><input type="number" value="45" min="1" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Ilo\u015b\u0107 gratis\u00f3w (zasada)</span><input type="text" value="1 (co 45 os.)" /></label>' +
+          '<label class="form-field"><span>Cena biletu</span><input type="text" value="w cenie imprezy" /></label>' +
+        '</div>' +
+        '<label class="form-field" style="margin-bottom:0.75rem"><span>Deadline biletowania</span><input type="date" value="2026-01-10" /></label>' +
+
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Kontrahent</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Kontrahent (in-destination)</span><input type="text" value="Iza Strzelak (SENT)" /></label>' +
+          '<label class="form-field"><span>Data oferty od kontrahenta</span><input type="date" value="2025-09-20" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Warunki / cena kontrahenta</span><input type="text" value="wg. kalkulacji wewn\u0119trznej" /></label>' +
+          '<label class="form-field"><span>Po\u015brednik</span><input type="text" placeholder="opcjonalnie" /></label>' +
+        '</div>' +
+
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Prowizja</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Prowizja \u2014 dla kogo</span><input type="text" value="Biuro Matteo" /></label>' +
+          '<label class="form-field"><span>Prowizja \u2014 ile (%)</span><input type="number" step="0.1" value="2" min="0" /></label>' +
+        '</div>' +
+
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Terminy kluczowe</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>I Depozyt</span><input type="date" value="2025-10-01" /></label>' +
+          '<label class="form-field"><span>II Depozyt</span><input type="date" value="2025-11-15" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>III Depozyt</span><input type="date" value="2025-12-10" /></label>' +
+          '<label class="form-field"><span>IV Depozyt (finalne)</span><input type="date" value="2026-01-15" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Lista nazwisk</span><input type="date" value="2026-01-10" /></label>' +
+          '<label class="form-field"><span>Wystawienie bilet\u00f3w</span><input type="date" value="2026-01-13" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Redukcja miejsc</span><input type="date" placeholder="opcjonalnie" /></label>' +
+          '<label class="form-field"><span>Anulacja grupy</span><input type="date" placeholder="opcjonalnie" /></label>' +
+        '</div>' +
+
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Uwagi dla marketingu</div>' +
+        '<label class="form-field"><span>Tre\u015b\u0107 dla marketingu (plakat, FB, materia\u0142y)</span>' +
+          '<textarea rows="3">Plakat na stronie / FB. Papierowe z wszystkimi cenami i kontaktem do ks. Lipki.</textarea>' +
+        '</label>' +
+
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:0 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Powiadomienia dzia\u0142\u00f3w</div>' +
+        '<div style="background:var(--bg-hover);border-radius:var(--radius-md);padding:0.75rem;display:flex;flex-direction:column;gap:0.5rem">' +
+          '<p style="margin:0 0 0.25rem;font-size:0.8rem;color:var(--text-muted)">Po zapisaniu zostanie wys\u0142ane powiadomienie pod dzwonkiem do wybranych dzia\u0142\u00f3w. Dzia\u0142 musi potwierdzi\u0107 zapoznanie si\u0119 z kart\u0105.</p>' +
+          '<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--primary-color)"> <strong>BOK</strong> \u2014 Biuro Obs\u0142ugi Klienta</label>' +
+          '<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--primary-color)"> <strong>Biletowanie</strong> \u2014 dzia\u0142 bilet\u00f3w lotniczych</label>' +
+          '<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--primary-color)"> <strong>Marketing</strong> \u2014 sprzeda\u017c i promocja</label>' +
+        '</div>' +
+
+      '</div>' +
+    '</div>' +
+    '<div class="demo-modal-footer">' +
+      '<button class="btn btn-outline" data-no-demo="true" onclick="document.getElementById(\'edytuj-karte-modal\').classList.remove(\'show\')">Anuluj</button>' +
+      button({ label: 'Zapisz i wy\u015blij powiadomienia', icon: 'fa-solid fa-paper-plane' }) +
     '</div>' +
   '</div>' +
 '</div>' +
@@ -1571,6 +1862,22 @@ window._duuSelect = function(name) {
 	if (inp) inp.value = name;
 	var dd = document.getElementById('duu-dropdown');
 	if (dd) dd.style.display = 'none';
+};
+
+/* ===== KARTA IMPREZY — potwierdzenie dzia\u0142u ===== */
+window._kiConfirmDept = function(dept) {
+	var card = document.getElementById('ki-' + dept + '-card');
+	if (!card) return;
+	card.style.border = '1px solid #bbf7d0';
+	card.style.background = '#f0fdf4';
+	var statusEl = document.getElementById('ki-' + dept + '-status');
+	if (statusEl) statusEl.innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--success-color)"></i> <span style="color:var(--success-color);font-weight:700">Potwierdzono</span>';
+	var dateEl = document.getElementById('ki-' + dept + '-date');
+	if (dateEl) dateEl.textContent = 'Anna K. \u00b7 Teraz';
+	var btn = document.getElementById('ki-' + dept + '-btn');
+	if (btn) btn.style.display = 'none';
+	var warn = document.getElementById('ki-main-warn');
+	if (warn) warn.style.display = 'none';
 };
 
 })();
