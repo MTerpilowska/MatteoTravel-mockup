@@ -17,10 +17,8 @@
 				<td><strong>${escapeHtml(c.id)}</strong></td>
 				<td>${escapeHtml(c.name)}</td>
 				<td><code style="font-size:0.8rem">${escapeHtml(c.group)}</code></td>
-				<td style="text-align:right;font-weight:600">${escapeHtml(c.value)}</td>
 				<td>${escapeHtml(c.signed)}</td>
 				<td><span class="type-pill">${escapeHtml(c.method)}</span></td>
-				<td>${c.docs === 'Komplet' ? '<span style="color:var(--success-color)"><i class="fa-solid fa-check-circle"></i> Komplet</span>' : `<span style="color:var(--warning-color)"><i class="fa-solid fa-triangle-exclamation"></i> ${escapeHtml(c.docs)}</span>`}</td>
 				<td>${statusBadge(c.status, c.statusTone)}</td>
 				<td>
 					<div style="display:flex;gap:0.3rem">
@@ -37,9 +35,66 @@
 				subtitle: 'Zarządzanie umowami uczestników, zbieranie dokumentów i skanów',
 				actions: [
 					button({ label: 'Wyślij link do podpisu', icon: 'fa-solid fa-link', variant: 'outline' }),
-					button({ label: 'Nowa umowa', icon: 'fa-solid fa-plus' })
+					button({ label: 'Nowa umowa', icon: 'fa-solid fa-plus', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('nowa-umowa-modal').classList.add('show')" } })
 				]
 			}),
+			`<div id="nowa-umowa-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove('show')">
+				<div class="demo-modal" style="max-width:580px;width:95%">
+					<div class="demo-modal-header">
+						<h2><i class="fa-solid fa-file-contract" style="margin-right:0.5rem;color:var(--primary-color)"></i>Nowa umowa</h2>
+						<button class="demo-modal-close" type="button" data-no-demo="true" onclick="document.getElementById('nowa-umowa-modal').classList.remove('show')"><i class="fa-solid fa-xmark"></i></button>
+					</div>
+					<div class="demo-modal-body">
+						<div class="form-mockup">
+							<div class="form-row-2">
+								<div class="form-field"><span>Uczestnik / Podmiot</span><input type="text" placeholder="Imię i nazwisko lub nazwa firmy" /></div>
+								<div class="form-field"><span>Nr umowy</span><input type="text" placeholder="np. U/2026/060" /></div>
+							</div>
+							<div class="form-row-2">
+								<div class="form-field"><span>Impreza</span>
+									<select>
+										<option>— wybierz —</option>
+										<option>MT-2026-WL-01 — Ziemia Święta</option>
+										<option>MT-2026-ES-02 — Liceum Pijarów</option>
+										<option>MT-2026-IT-03 — ZHP Gdańsk</option>
+									</select>
+								</div>
+								<div class="form-field"><span>Data podpisania</span><input type="date" /></div>
+							</div>
+							<div class="form-row-2">
+								<div class="form-field"><span>Ścieżka podpisu</span>
+									<select>
+										<option>Online — link do podpisu</option>
+										<option>Skan podpisanego dokumentu</option>
+										<option>Papierowa w biurze</option>
+									</select>
+								</div>
+								<div class="form-field"><span>Status</span>
+									<select>
+										<option>Oczekuje</option>
+										<option>Aktywna</option>
+										<option>Braki</option>
+										<option>Nie wydana</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-field"><span>Załącz plik umowy</span>
+								<label style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;border:2px dashed var(--border-color);border-radius:8px;padding:1.5rem 1rem;cursor:pointer;background:var(--bg-main);transition:border-color 0.2s" ondragover="event.preventDefault();this.style.borderColor='var(--primary-color)'" ondragleave="this.style.borderColor='var(--border-color)'" ondrop="event.preventDefault();this.style.borderColor='var(--border-color)';var name=event.dataTransfer.files[0]?.name;if(name)this.querySelector('span.filename').textContent=name">
+									<i class="fa-solid fa-cloud-arrow-up" style="font-size:1.8rem;color:var(--primary-color)"></i>
+									<span style="font-size:0.875rem;color:var(--text-muted);text-align:center">Przeciągnij plik tutaj lub <strong style="color:var(--primary-color)">wybierz z folderu</strong></span>
+									<span class="filename" style="font-size:0.8rem;color:var(--text-muted)">PDF, JPG, PNG — maks. 20 MB</span>
+									<input type="file" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="this.closest('label').querySelector('span.filename').textContent=this.files[0]?.name||'PDF, JPG, PNG — maks. 20 MB'" />
+								</label>
+							</div>
+							<div class="form-field"><span>Uwagi</span><textarea rows="2" placeholder="Opcjonalne uwagi..."></textarea></div>
+						</div>
+					</div>
+					<div class="demo-modal-footer">
+						<button class="btn btn-outline" data-no-demo="true" onclick="document.getElementById('nowa-umowa-modal').classList.remove('show')">Anuluj</button>
+						${button({ label: 'Zapisz umowę', icon: 'fa-solid fa-check' })}
+					</div>
+				</div>
+			</div>`,
 			`<div class="stats-grid">
 				${statCard({ title: 'Wszystkich umów', value: '156', icon: 'fa-solid fa-file-contract', iconTone: 'blue' })}
 				${statCard({ title: 'Podpisanych', value: '138', icon: 'fa-solid fa-signature', iconTone: 'green', trend: '<i class="fa-solid fa-check"></i> 88% kompletnych', trendTone: 'positive' })}
@@ -54,7 +109,7 @@
 					</div>`,
 					body: `<div class="table-container">
 						<table>
-							<thead><tr><th>Nr umowy</th><th>Uczestnik</th><th>Impreza</th><th style="text-align:right">Wartość</th><th>Podpisana</th><th>Ścieżka</th><th>Dokumenty</th><th>Status</th><th></th></tr></thead>
+							<thead><tr><th>Nr umowy</th><th>Uczestnik</th><th>Impreza</th><th>Podpisana</th><th>Ścieżka</th><th>Status</th><th></th></tr></thead>
 							<tbody>${rows}</tbody>
 						</table>
 					</div>`
@@ -138,18 +193,24 @@
 				subtitle: 'Rejestr wpłat i wypłat, wielowalutowe rozliczenia, monitoring terminów',
 				actions: [
 					button({ label: 'Import wyciągu bankowego', icon: 'fa-solid fa-upload', variant: 'outline' }),
-					button({ label: 'Rejestruj wpłatę', icon: 'fa-solid fa-plus', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('rejestruj-wplate-modal').classList.add('show')" } })
+					button({ label: 'Rejestruj przelew', icon: 'fa-solid fa-plus', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('rejestruj-wplate-modal').classList.add('show')" } })
 				]
 			}),
 			`<div id="rejestruj-wplate-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove('show')">
 				<div class="demo-modal" style="max-width:580px;width:95%">
 					<div class="demo-modal-header">
-						<h2><i class="fa-solid fa-money-bill-wave" style="margin-right:0.5rem;color:var(--primary-color)"></i>Rejestruj wpłatę</h2>
+						<h2><i class="fa-solid fa-money-bill-wave" style="margin-right:0.5rem;color:var(--primary-color)"></i>Rejestruj przelew</h2>
 						<button class="demo-modal-close" type="button" data-no-demo="true" onclick="document.getElementById('rejestruj-wplate-modal').classList.remove('show')"><i class="fa-solid fa-xmark"></i></button>
 					</div>
 					<div class="demo-modal-body">
 						<div class="form-mockup">
 							<div class="form-row-2">
+								<div class="form-field"><span>Wpłata / Wypłata</span>
+									<select>
+										<option>Wpłata</option>
+										<option>Wypłata</option>
+									</select>
+								</div>
 								<div class="form-field"><span>Typ płatności</span>
 									<select>
 										<option>Wpłata od uczestnika</option>
@@ -208,7 +269,7 @@
 					</div>
 					<div class="demo-modal-footer">
 						<button class="btn btn-outline" data-no-demo="true" onclick="document.getElementById('rejestruj-wplate-modal').classList.remove('show')">Anuluj</button>
-						${button({ label: 'Zarejestruj wpłatę', icon: 'fa-solid fa-check' })}
+						${button({ label: 'Zarejestruj przelew', icon: 'fa-solid fa-check' })}
 					</div>
 				</div>
 			</div>`,
@@ -247,6 +308,7 @@
 				subtitle: 'Rozliczenia TFG/TFP, faktury, VAT marża, eksport do systemu zewnętrznego',
 				actions: [
 					button({ label: 'Eksport do Subiekta', icon: 'fa-solid fa-arrow-up-from-bracket', variant: 'outline' }),
+					button({ label: 'Importuj faktury', icon: 'fa-solid fa-file-import', variant: 'outline' }),
 					button({ label: 'Nowa faktura', icon: 'fa-solid fa-receipt', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('nowa-faktura-modal').classList.add('show')" } })
 				]
 			}),

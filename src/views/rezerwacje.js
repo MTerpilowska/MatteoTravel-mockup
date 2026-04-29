@@ -66,11 +66,24 @@
 				var docsOk = p.docs === 'OK';
 				return '<tr>' +
 					'<td style="text-align:center;color:var(--text-muted);font-weight:600;font-size:0.8rem">' + p.lp + '</td>' +
-					'<td><strong style="font-size:0.83rem">' + escapeHtml(p.name) + '</strong></td>' +
+					'<td>' +
+		  '<div style="font-weight:600;font-size:0.83rem">' + escapeHtml(p.name) + '</div>' +
+		  '<div style="color:var(--text-muted);font-size:0.72rem">' + (p.age||45) + ' lat &bull; ' + escapeHtml(p.city||'Warszawa') + '</div>' +
+'</td>' +
 					'<td><span class="room-pill" style="font-size:0.75rem">' + escapeHtml(p.room) + '</span></td>' +
 					'<td><code style="font-size:0.77rem">' + escapeHtml(p.flight) + '</code></td>' +
-					'<td style="text-align:right;font-weight:600;font-size:0.83rem">' + (p.total > 0 ? p.total.toLocaleString('pl-PL') + ' zł' : '<span style="color:var(--text-muted)">Gratis</span>') + '</td>' +
-					'<td style="text-align:right;color:var(--success-color);font-weight:600;font-size:0.83rem">' + (p.paid > 0 ? p.paid.toLocaleString('pl-PL') + ' zł' : '—') + '</td>' +
+					'<td style="text-align:right;font-weight:600;font-size:0.83rem">' + 
+                                                (p.total > 0 ? p.total.toLocaleString('pl-PL') + ' zł' : '<span style="color:var(--text-muted)">Gratis</span>') + 
+                                        '</td>' +
+                                        '<td style="text-align:right;font-weight:600;font-size:0.83rem;color:var(--text-muted)">' + 
+                                                (p.foreignTotal > 0 ? p.foreignTotal.toLocaleString('pl-PL') + ' ' + (p.foreignCurrency||'USD') : '—') +
+                                        '</td>' +
+                                        '<td style="text-align:right;color:var(--success-color);font-weight:600;font-size:0.83rem">' + 
+                                                (p.paid > 0 ? p.paid.toLocaleString('pl-PL') + ' zł' : '—') +
+                                        '</td>' +
+                                        '<td style="text-align:right;color:var(--success-color);font-weight:600;font-size:0.83rem">' + 
+                                                (p.foreignPaid > 0 ? p.foreignPaid.toLocaleString('pl-PL') + ' ' + (p.foreignCurrency||'USD') : '—') +
+                                        '</td>' +
 					'<td style="text-align:right;font-weight:700;font-size:0.83rem;color:' + (bal < 0 ? 'var(--danger-color)' : 'var(--success-color)') + '">' +
 						(bal < 0 ? bal.toLocaleString('pl-PL') + ' zł' : (p.total > 0 ? '<i class="fa-solid fa-check"></i>' : '—')) +
 					'</td>' +
@@ -79,7 +92,10 @@
 						? '<span style="color:var(--success-color);font-size:0.8rem"><i class="fa-solid fa-check-circle"></i> OK</span>'
 						: '<span style="color:var(--warning-color);font-size:0.8rem"><i class="fa-solid fa-triangle-exclamation"></i> ' + escapeHtml(p.docs) + '</span>') + '</td>' +
 					'<td>' + statusBadge(p.status, p.statusTone) + '</td>' +
-					'<td>' + button({ label: 'Edytuj', variant: 'outline' }) + '</td>' +
+					'<td style="white-space:nowrap">' +
+    button({ label: 'Kartoteka', variant: 'outline', attrs: { onclick: "window.AppNavigation.setActivePage('kartoteka')", style: 'margin-right:0.25rem; font-size:0.75rem; padding: 0.25rem 0.5rem;' } }) +
+    button({ label: 'Edytuj', variant: 'outline', attrs: { style: 'font-size:0.75rem; padding: 0.25rem 0.5rem;' } }) +
+  '</td>' +
 				'</tr>';
 			}).join('');
 
@@ -110,9 +126,11 @@
 								'<th>Uczestnik</th>' +
 								'<th>Pokój</th>' +
 								'<th>Lot</th>' +
-								'<th style="text-align:right">Wartość</th>' +
-								'<th style="text-align:right">Wpłacono</th>' +
-								'<th style="text-align:right">Saldo</th>' +
+								'<th style="text-align:right">Wartość (PLN)</th>' +
+   '<th style="text-align:right">Wartość (USD)</th>' +
+   '<th style="text-align:right">Wpłacono (PLN)</th>' +
+   '<th style="text-align:right">Wpłacono (USD)</th>' +
+   '<th style="text-align:right">Saldo</th>' +
 								'<th>Umowa</th>' +
 								'<th>Dokumenty</th>' +
 								'<th>Status</th>' +

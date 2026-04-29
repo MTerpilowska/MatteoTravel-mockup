@@ -191,6 +191,77 @@ return '<div class="trip-timeline-row">' +
 '</div>';
 }).join('');
 
+/* ===== PLAN IMPREZY (timeline) ===== */
+var planDaysData = [
+  {
+    day: 1, date: '24.01.2026', title: 'Przelot do Kairu',
+    events: [
+      { time: '14:00', icon: 'fa-plane-departure', color: '#3b82f6', title: 'Zbiórka na lotnisku (WAW)', desc: 'Spotkanie z pilotem przy stanowisku odpraw. Wydanie dokumentów i sprzętu. Msza św. na lotnisku.' },
+      { time: '16:30', icon: 'fa-plane', color: '#8b5cf6', title: 'Wlot do Kairu', desc: 'Lot bezpośredni PLL LOT (LO4KL2).' },
+      { time: '21:45', icon: 'fa-plane-arrival', color: '#3b82f6', title: 'Lądowanie', desc: 'Odbiór przez lokalnego kontrahenta, transfer do hotelu Azal Pyramids.' },
+      { time: '23:30', icon: 'fa-utensils', color: '#f59e0b', title: 'Późna kolacja', desc: 'Zakwaterowanie w pokojach i kolacja (w formie bufetu / zimna płyta).' }
+    ]
+  },
+  {
+    day: 2, date: '25.01.2026', title: 'Piramidy w Gizie',
+    events: [
+      { time: '07:30', icon: 'fa-mug-hot', color: '#10b981', title: 'Śniadanie', desc: 'Śniadanie w hotelu.' },
+      { time: '09:00', icon: 'fa-bus', color: '#64748b', title: 'Wyjazd z hotelu', desc: 'Przejazd pod Piramidy w Gizie z polskojęzycznym przewodnikiem.' },
+      { time: '09:30', icon: 'fa-monument', color: '#f59e0b', title: 'Zwiedzanie', desc: 'Zwiedzanie wielkiej trójki piramid oraz posągu Sfinksa.' },
+      { time: '14:00', icon: 'fa-utensils', color: '#10b981', title: 'Obiad lokalny', desc: 'Obiad w cenie: tradycyjny falafel i duszona baranina.' },
+      { time: '17:00', icon: 'fa-train', color: '#8b5cf6', title: 'Pociąg nocny', desc: 'Zajęcie miejsc w pociągu sypialnym Kair-Luksur. Nocleg (w cenie).' }
+    ]
+  },
+  {
+    day: 3, date: '26.01.2026', title: 'Luksor i Karnak',
+    events: [
+      { time: '08:30', icon: 'fa-train-subway', color: '#8b5cf6', title: 'Przyjazd i śniadanie', desc: 'Przyjazd do Luksoru. Śniadanie serwowane w pociągu lub po wyjściu lokalnie.' },
+      { time: '10:00', icon: 'fa-monument', color: '#f59e0b', title: 'Świątynie Karnak', desc: 'Kompleks Karnak: Aleja Sfinksów, Wielka Sala Kolumnowa, obeliks.' },
+      { time: '14:30', icon: 'fa-bed', color: '#10b981', title: 'Zakwaterowanie i wolne', desc: 'Przejazd autokarem do Hurghady. Bella Vista Hotel.' }
+    ]
+  }
+];
+
+var planHtml = planDaysData.map(function(d) {
+  var evs = d.events.map(function(e) {
+    return '<div style="position:relative;">' +
+      '<div style="position:absolute; left:-1.95rem; top:0.25rem; width:14px; height:14px; border-radius:50%; background:' + e.color + '; border:3px solid #fff; box-shadow:0 0 0 1px var(--border-color)"></div>' +
+      '<div style="display:flex; gap:1rem; align-items:flex-start;">' +
+        '<div style="font-weight:700; font-size:0.85rem; color:var(--text-muted); width:45px; flex-shrink:0; padding-top:0.15rem;">' + e.time + '</div>' +
+        '<div style="flex:1; background:var(--bg-main, #fff); border:1px solid var(--border-color, #e2e8f0); border-radius:8px; padding:0.75rem 1rem; box-shadow:0 1px 2px rgba(0,0,0,0.02); display:flex; justify-content:space-between; align-items:flex-start; transition: border-color 0.2s;" onmouseenter="this.style.borderColor=\'var(--primary-color)\'" onmouseleave="this.style.borderColor=\'var(--border-color)\'">' +
+          '<div>' +
+            '<h4 style="margin:0 0 0.35rem; font-size:0.9rem; color:var(--text-main); display:flex; align-items:center; gap:0.5rem;">' +
+              '<i class="fa-solid ' + e.icon + '" style="color:' + e.color + '"></i> ' + escapeHtml(e.title) +
+            '</h4>' +
+            '<p style="margin:0; font-size:0.82rem; color:var(--text-muted); line-height:1.45;">' + escapeHtml(e.desc) + '</p>' +
+          '</div>' +
+          '<div style="display:flex; gap:0.25rem; opacity:0.5; transition:opacity 0.2s" onmouseover="this.style.opacity=\'1\'" onmouseout="this.style.opacity=\'0.5\'">' +
+            '<button class="btn btn-ghost" style="padding:0.25rem 0.4rem; font-size:0.75rem" title="Edytuj godzinę"><i class="fa-solid fa-pen"></i></button>' +
+            '<button class="btn btn-ghost" style="padding:0.25rem 0.4rem; font-size:0.75rem; color:var(--danger-color)" title="Usu\u0144"><i class="fa-solid fa-trash"></i></button>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  return '<div style="margin-bottom: 2rem;">' +
+    '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; padding-bottom:0.5rem; border-bottom:1px solid var(--border-color);">' +
+      '<h3 style="margin:0; font-size:1rem; color:var(--text-main); display:flex; align-items:center; gap:0.75rem;">' +
+        '<span style="background:var(--primary-light); color:var(--primary-color); padding:0.2rem 0.6rem; border-radius:6px; font-size:0.8rem;">Dzie\u0144 ' + d.day + '</span>' +
+        escapeHtml(d.title) +
+        '<small style="color:var(--text-muted); font-weight:normal; font-size:0.85rem; margin-left:0.25rem;">' + escapeHtml(d.date) + '</small>' +
+      '</h3>' +
+      '<div style="display:flex; gap:0.5rem;">' +
+        '<button class="btn btn-ghost" style="font-size:0.75rem; padding:0.3rem 0.6rem;" data-no-demo="true"><i class="fa-solid fa-plus"></i> Dodaj punkt</button>' +
+        '<button class="btn btn-outline" style="font-size:0.75rem; padding:0.3rem 0.6rem;" data-no-demo="true"><i class="fa-solid fa-pen"></i> Edytuj dzie\u0144</button>' +
+      '</div>' +
+    '</div>' +
+    '<div style="position:relative; padding-left:1.5rem; border-left:2px solid var(--border-color); margin-left:2.5rem; display:flex; flex-direction:column; gap:1rem;">' +
+      evs +
+    '</div>' +
+  '</div>';
+}).join('');
+
 /* ===== KARTA GRUPY — Egipt Żebrowska ===== */
 var kartaGrupy = '<div class="group-card-detail">' +
 '<div class="group-card-hero">' +
@@ -212,6 +283,7 @@ button({ label: 'Edytuj', icon: 'fa-solid fa-pen', variant: 'outline', attrs: { 
 '</div>' +
 '<div class="group-card-tabs">' +
 '<button class="group-tab active" data-tab="przeglad">Przeg\u0142\u0105d</button>' +
+'<button class="group-tab" data-tab="plan">Plan</button>' +
 '<button class="group-tab" data-tab="hotele">Hotele</button>' +
 '<button class="group-tab" data-tab="bilety">Bilety lotnicze</button>' +
 '<button class="group-tab" data-tab="transport">Transport</button>' +
@@ -244,7 +316,7 @@ panel({ title: 'Informacje ogólne', body:
 '<div class="info-row"><span>Prowizja biuro</span><strong>2%</strong></div>' +
 '</div>'
 }) +
-panel({ title: 'Bilety lotnicze — szczegóły', body:
+  var hotelRows = hotels.map(function(h) {
 '<div class="info-table">' +
 '<div class="info-row"><span>Bilety grupowe (44 os.)</span><strong style="font-family:monospace">W6Y73A</strong></div>' +
 '<div class="info-row"><span>Bilet indywidualny (1 os.)</span><strong style="font-family:monospace">TD236Z</strong></div>' +
@@ -293,21 +365,28 @@ panel({ title: 'Umowy i dokumentacja', body:
 '</div>' +  /* end group-status-col */
 '</div>' +  /* end group-overview-grid */
 
-panel({ title: 'Uwagi specjalne', body:
-'<div class="notes-list">' +
-'<div class="note-item"><span class="note-group" style="font-size:0.72rem;font-weight:700;color:var(--primary-color);background:var(--primary-light);padding:0.1rem 0.45rem;border-radius:4px">Dieta</span><p style="margin:0;font-size:0.82rem">1 uczestnik — alergia na gluten (wszystkie hotele).</p></div>' +
-'<div class="note-item" style="margin-top:0.5rem"><span class="note-group" style="font-size:0.72rem;font-weight:700;color:var(--warning-color);background:#fff7ed;padding:0.1rem 0.45rem;border-radius:4px">Logistyka</span><p style="margin:0;font-size:0.82rem">Rooming list wysłany do hoteli 8.01.2026 (Iza Strzelak SENT).</p></div>' +
-'</div>' +
-'<button class="btn btn-ghost" style="margin-top:0.75rem;font-size:0.8rem" data-no-demo="true"><i class="fa-solid fa-plus"></i> Dodaj uwagę</button>'
-}) +
-
 '</div>' +  /* end przegląd tab panel */
+
+/* ==== PLAN tab ==== */
+'<div class="group-tab-panel" data-panel="plan">' +
+panel({
+  title: 'Plan imprezy (Podgląd i edycja)',
+  action: '<div style="display:flex;gap:0.5rem">' +
+    button({ label: 'Zapisz wszystkie zmiany', icon: 'fa-solid fa-save', variant: 'primary', attrs: { 'data-no-demo': 'true' } }) +
+    button({ label: 'Dodaj kolejny dzie\u0144', icon: 'fa-solid fa-plus', variant: 'outline', attrs: { 'data-no-demo': 'true' } }) +
+  '</div>',
+  body: '<div class="plan-days-timeline" style="margin-top:1rem">' +
+    planHtml +
+  '</div>'
+}) +
+'</div>' +
 
 /* ==== HOTELE tab ==== */
 '<div class="group-tab-panel" data-panel="hotele">' +
 panel({
   title: 'Hotele i noclegi — Egipt Żebrowska / Lipka · 24–31.01.2026',
   action: '<div style="display:flex;gap:0.5rem">' +
+    button({ label: 'Lista hoteli PDF', icon: 'fa-solid fa-file-pdf', variant: 'outline' }) +
     '<button class="btn btn-ghost" data-no-demo="true" onclick="document.getElementById(\'hotel-historia-modal\').classList.add(\'show\')"><i class="fa-solid fa-clock-rotate-left"></i> Historia rezerwacji</button>' +
     button({ label: 'Dodaj nocleg', icon: 'fa-solid fa-plus', variant: 'primary', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('dodaj-nocleg-modal').classList.add('show')" } }) +
     '</div>',
@@ -387,6 +466,12 @@ panel({
     '<span><i class="fa-solid fa-circle-info" style="color:var(--primary-color)"></i> Potwierdzenie grupy: <strong style="color:var(--text-default)">430\u202fz\u0142/gr \u2014 f.\u202f250400486 (14.04.2025)</strong></span>' +
     '<span>Zmiana nazwisk: <strong style="color:var(--text-default)">f.\u202f0566/01/26 \u2212 korekta f.k.\u202f0080/01/26 = 825,72\u202fz\u0142 dop\u0142ata</strong></span>' +
   '</div>'
+}) +
+panel({ title: 'Uwagi specjalne (Bilety lotnicze)', body:
+'<div class="notes-list">' +
+'<div class="note-item"><span class="note-group" style="font-size:0.72rem;font-weight:700;color:var(--primary-color);background:var(--primary-light);padding:0.1rem 0.45rem;border-radius:4px">Miejsca</span><p style="margin:0;font-size:0.82rem">Zg\u0142oszono pro\u015bb\u0119 o miejsce przy oknie dla wybranych uczestnik\u00f3w.</p></div>' +
+'</div>' +
+'<button class="btn btn-ghost" style="margin-top:0.75rem;font-size:0.8rem" data-no-demo="true"><i class="fa-solid fa-plus"></i> Dodaj uwag\u0119</button>'
 }) +
 '</div>' +
 
@@ -650,24 +735,30 @@ panel({ title: 'Pasażerowie — 44 / 45 (Egipt Żebrowska / Lipka)', action:
 '<div class="group-tab-panel" data-panel="rezerwacje">' +
 (function(button, panel, statCard, statusBadge, escapeHtml) {
 	var rez_participants = [
-		{ lp: 1, name: 'Wiśniewski Adam',         pesel: '75010***** (Ppkt 37)', room: 'DBL 101',  flight: 'LO4KL2', paid: 4990, total: 4990, balance: 0,     contract: 'Podpisana', docs: 'OK',             status: 'Kompletny',   statusTone: 'success' },
-		{ lp: 2, name: 'Wiśniewska Maria',         pesel: '78032***** (Ppkt 38)', room: 'DBL 101',  flight: 'LO4KL2', paid: 4990, total: 4990, balance: 0,     contract: 'Podpisana', docs: 'OK',             status: 'Kompletny',   statusTone: 'success' },
-		{ lp: 3, name: 'ks. Jan Kowalczyk',        pesel: '69045***** (Ppkt 30)', room: 'SGL 105',  flight: 'LO4KL2', paid: 0,    total: 0,    balance: 0,     contract: 'Podpisana', docs: 'OK',             status: 'Gratis',      statusTone: 'purple'  },
-		{ lp: 4, name: 'Nowak Barbara',            pesel: '82071***** (Ppkt 55)', room: 'SGL+ 203', flight: 'LO4KL2', paid: 3500, total: 5880, balance: -2380, contract: 'Podpisana', docs: 'Brak paszportu', status: 'Nieopłacony', statusTone: 'warning' },
-		{ lp: 5, name: 'Zielińska Anna',           pesel: '91120***** (Ppkt 34)', room: 'DBL 204',  flight: 'LO4KL2', paid: 2000, total: 4990, balance: -2990, contract: 'Wysłana',  docs: 'Brak paszportu', status: 'Nieopłacony', statusTone: 'warning' },
-		{ lp: 6, name: 'Zieliński Marek',          pesel: '88093***** (Ppkt 38)', room: 'DBL 204',  flight: 'LO4KL2', paid: 4990, total: 4990, balance: 0,     contract: 'Podpisana', docs: 'Weryfikacja',    status: 'Dokumenty',   statusTone: 'info'    },
-		{ lp: 7, name: 'Malczewski Tomasz',        pesel: '95060***** (Ppkt 30)', room: 'DBL 301',  flight: 'LO4KL3', paid: 0,    total: 4990, balance: -4990, contract: 'Brak',     docs: 'Brak',           status: 'Brak wpłaty', statusTone: 'danger'  },
-		{ lp: 8, name: 'Malczewska Ewa',           pesel: '97110***** (Ppkt 28)', room: 'DBL 301',  flight: 'LO4KL3', paid: 0,    total: 4990, balance: -4990, contract: 'Brak',     docs: 'Brak',           status: 'Brak wpłaty', statusTone: 'danger'  },
+		{ lp: 1, name: 'Wiśniewski Adam',         pesel: '75010***** (Ppkt 37)', room: 'DBL 101',  flight: 'LO4KL2', paid: 4990, total: 4990, foreignPaid: 100, foreignTotal: 100, foreignCurrency: "USD", balance: 0,     contract: 'Podpisana', docs: 'OK',             status: 'Kompletny',   statusTone: 'success' },
+		{ lp: 2, name: 'Wiśniewska Maria',         pesel: '78032***** (Ppkt 38)', room: 'DBL 101',  flight: 'LO4KL2', paid: 4990, total: 4990, foreignPaid: 100, foreignTotal: 100, foreignCurrency: "USD", balance: 0,     contract: 'Podpisana', docs: 'OK',             status: 'Kompletny',   statusTone: 'success' },
+		{ lp: 3, name: 'ks. Jan Kowalczyk',        pesel: '69045***** (Ppkt 30)', room: 'SGL 105',  flight: 'LO4KL2', paid: 0,    total: 0,    foreignPaid: 0, foreignTotal: 0, foreignCurrency: "USD", balance: 0,     contract: 'Podpisana', docs: 'OK',             status: 'Gratis',      statusTone: 'purple'  },
+		{ lp: 4, name: 'Nowak Barbara',            pesel: '82071***** (Ppkt 55)', room: 'SGL+ 203', flight: 'LO4KL2', paid: 3500, total: 5880, foreignPaid: 0, foreignTotal: 150, foreignCurrency: "USD", balance: -2380, contract: 'Podpisana', docs: 'Brak paszportu', status: 'Nieopłacony', statusTone: 'warning' },
+		{ lp: 5, name: 'Zielińska Anna',           pesel: '91120***** (Ppkt 34)', room: 'DBL 204',  flight: 'LO4KL2', paid: 2000, total: 4990, foreignPaid: 0, foreignTotal: 100, foreignCurrency: "USD", balance: -2990, contract: 'Wysłana',  docs: 'Brak paszportu', status: 'Nieopłacony', statusTone: 'warning' },
+		{ lp: 6, name: 'Zieliński Marek',          pesel: '88093***** (Ppkt 38)', room: 'DBL 204',  flight: 'LO4KL2', paid: 4990, total: 4990, foreignPaid: 100, foreignTotal: 100, foreignCurrency: "USD", balance: 0,     contract: 'Podpisana', docs: 'Weryfikacja',    status: 'Dokumenty',   statusTone: 'info'    },
+		{ lp: 7, name: 'Malczewski Tomasz',        pesel: '95060***** (Ppkt 30)', room: 'DBL 301',  flight: 'LO4KL3', paid: 0,    total: 4990, foreignPaid: 0, foreignTotal: 100, foreignCurrency: "USD", balance: -4990, contract: 'Brak',     docs: 'Brak',           status: 'Brak wpłaty', statusTone: 'danger'  },
+		{ lp: 8, name: 'Malczewska Ewa',           pesel: '97110***** (Ppkt 28)', room: 'DBL 301',  flight: 'LO4KL3', paid: 0,    total: 4990, foreignPaid: 0, foreignTotal: 100, foreignCurrency: "USD", balance: -4990, contract: 'Brak',     docs: 'Brak',           status: 'Brak wpłaty', statusTone: 'danger'  },
 	];
-	var rez_rows = rez_participants.map(function(p) {
-		var docsOk = p.docs === 'OK';
-		return '<tr>' +
-			'<td style="text-align:center;font-weight:600;color:var(--text-muted);font-size:0.8rem">' + p.lp + '</td>' +
-			'<td><strong style="font-size:0.83rem">' + escapeHtml(p.name) + '</strong><br><small style="color:var(--text-muted);font-family:monospace;font-size:0.72rem">' + escapeHtml(p.pesel) + '</small></td>' +
-			'<td><span class="room-pill">' + escapeHtml(p.room) + '</span></td>' +
-			'<td><code style="font-size:0.78rem">' + escapeHtml(p.flight) + '</code></td>' +
-			'<td style="text-align:right;font-weight:600;font-size:0.83rem">' + (p.total > 0 ? p.total.toLocaleString('pl-PL') + ' zł' : '<span style="color:var(--text-muted)">Gratis</span>') + '</td>' +
-			'<td style="text-align:right;color:var(--success-color);font-weight:600;font-size:0.83rem">' + (p.paid > 0 ? p.paid.toLocaleString('pl-PL') + ' zł' : '—') + '</td>' +
+	        var rez_rows = rez_participants.map(function(p) {
+                var docsOk = p.docs === 'OK';
+                
+                return '<tr>' +
+                        '<td style="text-align:center;font-weight:600;color:var(--text-muted);font-size:0.8rem">' + p.lp + '</td>' +
+                        '<td>' +
+          '<div style="font-weight:600;font-size:0.83rem">' + escapeHtml(p.name) + '</div>' +
+          '<div style="color:var(--text-muted);font-size:0.72rem">' + (p.age||45) + ' lat &bull; ' + escapeHtml(p.city||'Warszawa') + '</div>' +
+'</td>' +
+                        '<td><span class="room-pill">' + escapeHtml(p.room) + '</span></td>' +
+                        '<td><code style="font-size:0.78rem">' + escapeHtml(p.flight) + '</code></td>' +
+                        '<td style="text-align:right;font-weight:600;font-size:0.83rem">' + (p.total > 0 ? p.total.toLocaleString('pl-PL') + ' zł' : '<span style="color:var(--text-muted)">Gratis</span>') + '</td>' +
+                        '<td style="text-align:right;font-weight:600;font-size:0.83rem;color:var(--text-muted)">' + (p.foreignTotal > 0 ? p.foreignTotal.toLocaleString('pl-PL') + ' USD' : '—') + '</td>' +
+                        '<td style="text-align:right;color:var(--success-color);font-weight:600;font-size:0.83rem">' + (p.paid > 0 ? p.paid.toLocaleString('pl-PL') + ' zł' : '—') + '</td>' +
+                        '<td style="text-align:right;color:var(--success-color);font-weight:600;font-size:0.83rem">' + (p.foreignPaid > 0 ? p.foreignPaid.toLocaleString('pl-PL') + ' USD' : (p.foreignTotal > 0 ? '0 USD' : '—')) + '</td>' +
 			'<td style="text-align:right;font-weight:700;font-size:0.83rem;color:' + (p.balance < 0 ? 'var(--danger-color)' : 'var(--success-color)') + '">' +
 				(p.balance < 0 ? p.balance.toLocaleString('pl-PL') + ' zł' : (p.total > 0 ? '<i class="fa-solid fa-check"></i>' : '—')) +
 			'</td>' +
@@ -688,17 +779,19 @@ panel({ title: 'Pasażerowie — 44 / 45 (Egipt Żebrowska / Lipka)', action:
 			action: '<div style="display:flex;gap:0.5rem;flex-wrap:wrap">' +
 				'<select class="inline-select"><option>Wszyscy</option><option>Nieopłaceni</option><option>Brak dokumentów</option><option>Brak umowy</option></select>' +
 				button({ label: 'Lista do biletowania', icon: 'fa-solid fa-list', variant: 'outline' }) +
-				button({ label: 'Export Excel', icon: 'fa-solid fa-download', variant: 'ghost' }) +
+				button({ label: 'Export Excel', icon: 'fa-solid fa-download', variant: 'ghost', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('export-excel-modal').classList.add('show')" } }) +
 				button({ label: 'Dodaj uczestnika', icon: 'fa-solid fa-user-plus', variant: 'primary', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('dodaj-uczestnika-modal').classList.add('show')" } }) +
 			'</div>',
 			body: '<div class="table-container"><table class="data-table">' +
 				'<thead><tr>' +
 					'<th style="text-align:center">Lp</th>' +
-					'<th>Uczestnik / PESEL</th>' +
+					'<th>Uczestnik</th>' +
 					'<th>Pokój</th>' +
 					'<th>Nr lotu</th>' +
-					'<th style="text-align:right">Wartość</th>' +
-					'<th style="text-align:right">Wpłacono</th>' +
+					'<th style="text-align:right">Wartość (PLN)</th>' +
+                                        '<th style="text-align:right">Wartość (USD)</th>' +
+                                        '<th style="text-align:right">Wpłacono (PLN)</th>' +
+                                        '<th style="text-align:right">Wpłacono (USD)</th>' +
 					'<th style="text-align:right">Saldo</th>' +
 					'<th>Umowa</th>' +
 					'<th>Dokumenty</th>' +
@@ -781,6 +874,13 @@ panel({
 		'</tr>' +
 	'</tbody>' +
 	'</table></div>'
+}) +
+panel({ title: 'Uwagi specjalne (Rooming & Dieta)', body:
+'<div class="notes-list">' +
+'<div class="note-item"><span class="note-group" style="font-size:0.72rem;font-weight:700;color:var(--primary-color);background:var(--primary-light);padding:0.1rem 0.45rem;border-radius:4px">Dieta</span><p style="margin:0;font-size:0.82rem">1 uczestnik \u2014 alergia na gluten (wszystkie hotele).</p></div>' +
+'<div class="note-item" style="margin-top:0.5rem"><span class="note-group" style="font-size:0.72rem;font-weight:700;color:var(--warning-color);background:#fff7ed;padding:0.1rem 0.45rem;border-radius:4px">Logistyka</span><p style="margin:0;font-size:0.82rem">Rooming list wys\u0142any do hoteli 8.01.2026 (Iza Strzelak SENT).</p></div>' +
+'</div>' +
+'<button class="btn btn-ghost" style="margin-top:0.75rem;font-size:0.8rem" data-no-demo="true"><i class="fa-solid fa-plus"></i> Dodaj uwag\u0119</button>'
 }) +
 '</div>' +
 
@@ -1153,6 +1253,9 @@ panel({
       '</div>' +
       '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin:1rem 0 0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-color)">Finansowe i administracyjne</div>' +
       '<div class="info-table">' +
+        '<div class="info-row"><span>Konto PLN</span><strong style="font-family:monospace;font-size:0.85rem">75 1240 1053 1111 0010 1234 5678</strong></div>' +
+        '<div class="info-row"><span>Konto walutowe</span><strong style="font-family:monospace;font-size:0.85rem">PL 42 1240 1053 1111 0010 8765 4321</strong></div>' +
+        '<div class="info-row"><span></span><span><button class="btn btn-outline" style="font-size:0.72rem;padding:0.25rem 0.5rem" data-no-demo="true" onclick="alert(\'Wysłano przypomnienie z numerami kont i instrukcją płatności do uczestnika (SMS/Email).\')"><i class="fa-solid fa-paper-plane" style="margin-right:0.3rem"></i> Wyślij numery do wpłaty (SMS/Email)</button></span></div>' +
         '<div class="info-row"><span>Kwota umowy</span><strong style="color:var(--primary-color)">4\u202f990 z\u0142</strong></div>' +
         '<div class="info-row"><span>Wp\u0142acono</span><strong style="color:var(--success-color)">4\u202f990 z\u0142</strong></div>' +
         '<div class="info-row"><span>Saldo</span><strong style="color:var(--success-color)"><i class="fa-solid fa-check"></i> Wyr\u00f3wnane</strong></div>' +
@@ -1622,6 +1725,35 @@ panel({
     '</div>' +
     '<div class="demo-modal-footer">' +
       button({ label: 'Eksport logu', icon: 'fa-solid fa-download', variant: 'ghost' }) +
+    '</div>' +
+  '</div>' +
+'</div>' +
+
+/* ==== EXPORT EXCEL MODAL ==== */
+'<div id="export-excel-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
+  '<div class="demo-modal" style="max-width:500px;width:95%;">' +
+    '<div class="demo-modal-header">' +
+      '<h2><i class="fa-solid fa-file-excel" style="margin-right:0.5rem;color:var(--success-color)"></i>Eksport danych uczestnik\u00f3w</h2>' +
+      '<button class="demo-modal-close" type="button" onclick="document.getElementById(\'export-excel-modal\').classList.remove(\'show\')"><i class="fa-solid fa-xmark"></i></button>' +
+    '</div>' +
+    '<div class="demo-modal-body" style="padding:1.5rem;max-height:70vh;overflow-y:auto;">' +
+      '<p style="margin-bottom:1rem;color:var(--text-muted);font-size:0.85rem;">Wybierz kolumny, kt\u00f3re maj\u0105 zosta\u0107 zawarte w pliku Excel:</p>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">' +
+        '<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--primary-color)"> <strong>Imi\u0119</strong></label>' +
+        '<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--primary-color)"> <strong>Nazwisko</strong></label>' +
+        '<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--primary-color)"> <strong>Telefon</strong></label>' +
+        '<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" style="accent-color:var(--primary-color)"> <strong>Email</strong></label>' +
+        '<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" style="accent-color:var(--primary-color)"> <strong>PESEL / Dokument</strong></label>' +
+        '<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" style="accent-color:var(--primary-color)"> <strong>Data urodzenia</strong></label>' +
+        '<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" style="accent-color:var(--primary-color)"> <strong>Pok\u00f3j</strong></label>' +
+        '<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" style="accent-color:var(--primary-color)"> <strong>Kwoty (Wp\u0142acono/Saldo)</strong></label>' +
+        '<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" style="accent-color:var(--primary-color)"> <strong>Uwagi/Diety</strong></label>' +
+        '<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" style="accent-color:var(--primary-color)"> <strong>Status umowy/dok.</strong></label>' +
+      '</div>' +
+    '</div>' +
+    '<div class="demo-modal-footer">' +
+      '<button class="btn btn-outline" type="button" data-no-demo="true" onclick="document.getElementById(\'export-excel-modal\').classList.remove(\'show\')">Anuluj</button>' +
+      button({ label: 'Pobierz Excel (.xlsx)', icon: 'fa-solid fa-download', variant: 'primary' }) +
     '</div>' +
   '</div>' +
 '</div>' +

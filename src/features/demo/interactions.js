@@ -177,7 +177,7 @@
 			]
 		},
 		platnosci: {
-			title: 'Zarejestruj wpłatę',
+			title: 'Zarejestruj przelew',
 			fields: [
 				{ label: 'Uczestnik', placeholder: 'Imię i nazwisko' },
 				{ label: 'Impreza', placeholder: 'np. MT-2026-WL-01' },
@@ -935,7 +935,7 @@
 			'Nowa grupa': 'grupy',
 			'Nowa rezerwacja': 'rezerwacje',
 			'Nowa umowa': 'umowy',
-			'Rejestruj wpłatę': 'platnosci',
+			'Rejestruj przelew': 'platnosci',
 			'Nowe spotkanie': 'kalendarz'
 		};
 		var page = pageMap[label] || 'default';
