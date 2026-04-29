@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test widoków kontaktów</title>
+</head>
+<body>
+    <h1>Test ładowania widoków</h1>
+    <div id="output"></div>
+
+    <script src="src/shared/ui/shared-ui.js"></script>
+    <script src="src/views/piloci.js?v=2.0"></script>
+    <script src="src/views/lokalni.js?v=2.0"></script>
+    <script src="src/views/hotele_kontakty.js?v=2.0"></script>
+    
+    <script>
+        const output = document.getElementById('output');
+        const tests = [
+            { name: 'PilociView', obj: window.PilociView },
+            { name: 'LokalniView', obj: window.LokalniView },
+            { name: 'HoteleKontaktyView', obj: window.HoteleKontaktyView }
+        ];
+        
+        tests.forEach(test => {
+            const result = test.obj ? '✓ OK' : '✗ BRAK';
+            const color = test.obj ? 'green' : 'red';
+            output.innerHTML += `<div style="color: ${color}">${test.name}: ${result}</div>`;
+            
+            if (test.obj && test.obj.renderPiloci) {
+                output.innerHTML += `<div style="margin-left: 20px; color: green">→ renderPiloci: ✓</div>`;
+            } else if (test.obj && test.obj.renderLokalni) {
+                output.innerHTML += `<div style="margin-left: 20px; color: green">→ renderLokalni: ✓</div>`;
+            } else if (test.obj && test.obj.renderHoteleKontakty) {
+                output.innerHTML += `<div style="margin-left: 20px; color: green">→ renderHoteleKontakty: ✓</div>`;
+            }
+        });
+    </script>
+</body>
+</html>

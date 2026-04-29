@@ -11,10 +11,10 @@
         ];
 
         const ROLE_PAGES = {
-                admin: ['dashboard', 'crm', 'zapytania', 'grupy', 'rezerwacje', 'umowy', 'platnosci', 'ksiegowosc', 'bilety', 'hotele', 'msze', 'wysylki', 'teczka', 'poczta', 'sms', 'czat', 'kalendarz', 'leady', 'kampanie', 'social', 'raporty', 'ustawienia'],
+                admin: ['dashboard', 'crm', 'zapytania', 'grupy', 'rezerwacje', 'umowy', 'platnosci', 'ksiegowosc', 'bilety', 'hotele', 'msze', 'piloci', 'lokalni', 'hotele_kontakty', 'autokary', 'atrakcje', 'msze_kontakty', 'kontrahenci', 'restauracje', 'platnosci_kontakty', 'wysylki', 'teczka', 'poczta', 'sms', 'czat', 'kalendarz', 'leady', 'kampanie', 'social', 'raporty', 'ustawienia'],
                 ofertowanie: ['dashboard', 'crm', 'zapytania', 'grupy', 'rezerwacje', 'umowy', 'poczta', 'czat', 'kalendarz'],
                 bok: ['dashboard', 'crm', 'zapytania', 'rezerwacje', 'umowy', 'poczta', 'sms', 'czat', 'kalendarz'],
-                booking: ['dashboard', 'rezerwacje', 'hotele', 'umowy', 'platnosci', 'poczta', 'czat', 'msze'],
+                booking: ['dashboard', 'rezerwacje', 'hotele', 'umowy', 'platnosci', 'poczta', 'czat', 'msze', 'piloci', 'lokalni', 'hotele_kontakty', 'autokary', 'atrakcje', 'msze_kontakty', 'kontrahenci', 'restauracje', 'platnosci_kontakty'],
                 bilety: ['dashboard', 'rezerwacje', 'bilety', 'poczta', 'czat', 'wysylki'],
                 ksiegowosc: ['dashboard', 'platnosci', 'ksiegowosc', 'umowy', 'raporty', 'ustawienia'],
                 marketing: ['dashboard', 'crm', 'leady', 'kampanie', 'social', 'raporty'],
@@ -33,6 +33,15 @@
                 { key: 'bilety', label: 'Bilety Lotnicze' },
                 { key: 'hotele', label: 'Booking / Hotele' },
                 { key: 'msze', label: 'Msze Święte' },
+                { key: 'piloci', label: 'Piloci' },
+                { key: 'lokalni', label: 'Lokalni' },
+                { key: 'hotele_kontakty', label: 'Hotele (kontakty)' },
+                { key: 'autokary', label: 'Autokary' },
+                { key: 'atrakcje', label: 'Atrakcje' },
+                { key: 'msze_kontakty', label: 'Msze Święte (kontakty)' },
+                { key: 'kontrahenci', label: 'Kontrahenci' },
+                { key: 'restauracje', label: 'Restauracje' },
+                { key: 'platnosci_kontakty', label: 'Płatności (kontakty)' },
                 { key: 'wysylki', label: 'Wysyłki / Logistyka' },
                 { key: 'teczka', label: 'Teczka Pilota' },
                 { key: 'poczta', label: 'Poczta' },
