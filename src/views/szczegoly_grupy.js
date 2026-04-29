@@ -56,6 +56,28 @@ if (h.payments && h.payments.length > 0) {
 
 var modaledHtmlSafe = paymentsHtml.replace(/'/g, "&#39;").replace(/"/g, "&quot;");
 
+// Formatowanie informacji o płatnościach
+var platnosciInfo = '';
+if (h.payments && h.payments.length > 0) {
+  platnosciInfo = '<div style="font-size:0.75rem;display:flex;flex-direction:column;gap:0.4rem">';
+  h.payments.forEach(function(p) {
+    platnosciInfo += '<div style="display:flex;flex-direction:column;gap:0.15rem;padding:0.35rem 0.5rem;background:var(--surface-secondary);border-radius:4px;border-left:3px solid ' + 
+      (p.statusTone === 'success' ? 'var(--success-color)' : p.statusTone === 'warning' ? '#f59e0b' : 'var(--text-muted)') + '">' +
+      '<div style="display:flex;align-items:center;gap:0.4rem">' +
+        '<span style="font-weight:700;color:var(--primary-color)">' + escapeHtml(p.amount) + '</span>' +
+        '<span style="color:var(--text-muted);font-size:0.7rem">' + escapeHtml(p.type) + '</span>' +
+      '</div>' +
+      '<div style="display:flex;align-items:center;gap:0.35rem;flex-wrap:wrap">' +
+        statusBadge(p.status, p.statusTone) +
+        '<span style="color:var(--text-muted);font-size:0.7rem">' + escapeHtml(p.method) + '</span>' +
+      '</div>' +
+    '</div>';
+  });
+  platnosciInfo += '</div>';
+} else {
+  platnosciInfo = '<span style="color:var(--text-muted);font-size:0.75rem">—</span>';
+}
+
 return '<tr>' +
 '<td style="text-align:center;font-weight:700;font-size:0.8rem">' + escapeHtml(h.dates) + '</td>' +
 '<td><span style="font-size:0.75rem;background:#e0e7ff;color:#3730a3;padding:0.1rem 0.4rem;border-radius:4px;font-weight:600">' + escapeHtml(h.nights) + '</span></td>' +
@@ -65,26 +87,19 @@ return '<tr>' +
 (h.adres !== '—' ? '<br><small style="color:var(--text-muted)">' + escapeHtml(h.adres) + '</small>' : '') +
 '</td>' +
 '<td style="text-align:center"><span class="type-pill">' + escapeHtml(h.typ) + '</span></td>' +
-'<td style="font-weight:700;color:var(--text-main); white-space: nowrap;">' + 
-  escapeHtml(h.usd) + 
-  (paymentsHtml ? '<button title="Szczegóły płatności" style="border:none;background:transparent;cursor:pointer;padding:0.25rem;margin-left:0.5rem;" onclick="window.showPaymentsModal(this.dataset.html, this.dataset.title)" data-title="' + escapeHtml(h.hotel).replace(/'/g, "&#39;").replace(/"/g, "&quot;") + '" data-html="' + modaledHtmlSafe + '"><i class="fa-solid fa-circle-info" style="font-size:0.9rem; color:var(--primary-color)"></i></button>' : '') +
-'</td>' +
+'<td style="font-weight:700;color:var(--text-main);">' + escapeHtml(h.usd) + '</td>' +
+'<td>' + platnosciInfo + '</td>' +
 '<td>' + statusBadge(h.status, h.statusTone) + '</td>' +
 '<td><small style="color:var(--text-muted)">' + escapeHtml(h.note) + '</small></td>' +
 '</tr>';
 }).join('');
 
 
-/* ===== DODATKOWE REZERWACJE ===== */
-var dodRez = [
-{ ico: 'fa-ship', typ: 'Rejs Nilu (Didanos)', opis: 'Hurghada — rejs wieczorny', termin: '29.01.2026', kwota: '$3 000', waluta: 'USD', status: 'cash na miejscu', statusTone: 'warning', kto: 'Alicja Aziz' },
-{ ico: 'fa-monument', typ: 'Wstępy do piramid', opis: 'Kair — 2 firmy lokalne (piramidy Gizy + Sfinks)', termin: '31.01.2026', kwota: '$6 000', waluta: 'USD', status: 'cash na miejscu', statusTone: 'warning', kto: 'Alicja Aziz' },
-{ ico: 'fa-bus', typ: 'Autokar lokalny', opis: 'Transport na miejscu — Regency (cały wyjazd)', termin: 'przez cały wyjazd', kwota: 'w cenie hotelu', waluta: '—', status: 'uwzględnione', statusTone: 'success', kto: 'Iza Strzelak' },
+/* ===== MSZE ŚWIĘTE ===== */
+var msze = [
 { ico: 'fa-church', typ: 'Msza na lotnisku WAW', opis: 'Lotnisko Chopina — sala odpraw — g. 14:00', termin: '24.01.2026', kwota: 'bezpłatna', waluta: '—', status: 'potwierdzona', statusTone: 'success', kto: 'BOK' },
-{ ico: 'fa-radio', typ: 'Radyjka — wysyłka', opis: 'OrlenPaczka: Cichej Łąki 5, Piaseczno', termin: '19.01.2026', kwota: '—', waluta: '—', status: 'odesłane 13.02', statusTone: 'success', kto: 'BOK' },
-{ ico: 'fa-briefcase', typ: 'Teczki pilota — wysyłka', opis: 'InPost: 603901479635210133492690', termin: '19.01.2026', kwota: '—', waluta: '—', status: 'odesłane InPost', statusTone: 'success', kto: 'BOK' },
 ];
-var dodRezRows = dodRez.map(function(r) {
+var mszeRows = msze.map(function(r) {
 return '<tr>' +
 '<td><div style="display:flex;align-items:center;gap:0.5rem">' +
 '<div style="width:30px;height:30px;background:var(--primary-light);color:var(--primary-color);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid ' + r.ico + '" style="font-size:0.75rem"></i></div>' +
@@ -93,6 +108,56 @@ return '<tr>' +
 '<td><small>' + escapeHtml(r.opis) + '</small></td>' +
 '<td><small>' + escapeHtml(r.termin) + '</small></td>' +
 '<td><strong>' + escapeHtml(r.kwota) + '</strong> <small style="color:var(--text-muted)">' + escapeHtml(r.waluta) + '</small></td>' +
+'<td>' + statusBadge(r.status, r.statusTone) + '</td>' +
+'<td><small style="color:var(--text-muted)">' + escapeHtml(r.kto) + '</small></td>' +
+'</tr>';
+}).join('');
+
+/* ===== DODATKOWE REZERWACJE ===== */
+var dodRez = [
+{ ico: 'fa-ship', typ: 'Rejs Nilu (Didanos)', opis: 'Hurghada — rejs wieczorny', termin: '29.01.2026', kwota: '$3 000', waluta: 'USD', status: 'cash na miejscu', statusTone: 'warning', kto: 'Alicja Aziz', payments: [
+    { type: 'Płatność końcowa', amount: '$3 000', date: '29.01.2026', method: 'Gotówka', status: 'Cash na miejscu', statusTone: 'warning', note: 'Rozliczenie z pilotem Alicją Aziz na miejscu' }
+]},
+{ ico: 'fa-monument', typ: 'Wstępy do piramid', opis: 'Kair — 2 firmy lokalne (piramidy Gizy + Sfinks)', termin: '31.01.2026', kwota: '$6 000', waluta: 'USD', status: 'Rozłożone płatności', statusTone: 'warning', kto: 'Alicja Aziz', payments: [
+    { type: 'Depozyt', amount: '$2 000', date: '15.01.2026', method: 'Przelew', status: 'Rozliczone', statusTone: 'success', note: 'Wpłata zaliczki dla firm lokalnych' },
+    { type: 'Dopłata', amount: '$4 000', date: '31.01.2026', method: 'Gotówka', status: 'Cash na miejscu', statusTone: 'warning', note: 'Reszta płatności — pilot na miejscu' }
+]},
+{ ico: 'fa-bus', typ: 'Autokar lokalny', opis: 'Transport na miejscu — Regency (cały wyjazd)', termin: 'przez cały wyjazd', kwota: 'w cenie hotelu', waluta: '—', status: 'uwzględnione', statusTone: 'success', kto: 'Iza Strzelak', payments: [] },
+{ ico: 'fa-radio', typ: 'Radyjka — wysyłka', opis: 'OrlenPaczka: Cichej Łąki 5, Piaseczno', termin: '19.01.2026', kwota: '—', waluta: '—', status: 'odesłane 13.02', statusTone: 'success', kto: 'BOK', payments: [] },
+{ ico: 'fa-briefcase', typ: 'Teczki pilota — wysyłka', opis: 'InPost: 603901479635210133492690', termin: '19.01.2026', kwota: '—', waluta: '—', status: 'odesłane InPost', statusTone: 'success', kto: 'BOK', payments: [] },
+];
+var dodRezRows = dodRez.map(function(r) {
+// Formatowanie informacji o płatnościach
+var platnosciInfo = '';
+if (r.payments && r.payments.length > 0) {
+  platnosciInfo = '<div style="font-size:0.75rem;display:flex;flex-direction:column;gap:0.4rem">';
+  r.payments.forEach(function(p) {
+    platnosciInfo += '<div style="display:flex;flex-direction:column;gap:0.15rem;padding:0.35rem 0.5rem;background:var(--surface-secondary);border-radius:4px;border-left:3px solid ' + 
+      (p.statusTone === 'success' ? 'var(--success-color)' : p.statusTone === 'warning' ? '#f59e0b' : 'var(--text-muted)') + '">' +
+      '<div style="display:flex;align-items:center;gap:0.4rem">' +
+        '<span style="font-weight:700;color:var(--primary-color)">' + escapeHtml(p.amount) + '</span>' +
+        '<span style="color:var(--text-muted);font-size:0.7rem">' + escapeHtml(p.type) + '</span>' +
+      '</div>' +
+      '<div style="display:flex;align-items:center;gap:0.35rem;flex-wrap:wrap">' +
+        statusBadge(p.status, p.statusTone) +
+        '<span style="color:var(--text-muted);font-size:0.7rem">' + escapeHtml(p.method) + '</span>' +
+      '</div>' +
+    '</div>';
+  });
+  platnosciInfo += '</div>';
+} else {
+  platnosciInfo = '<span style="color:var(--text-muted);font-size:0.75rem">—</span>';
+}
+
+return '<tr>' +
+'<td><div style="display:flex;align-items:center;gap:0.5rem">' +
+'<div style="width:30px;height:30px;background:var(--primary-light);color:var(--primary-color);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid ' + r.ico + '" style="font-size:0.75rem"></i></div>' +
+'<strong style="font-size:0.82rem">' + escapeHtml(r.typ) + '</strong>' +
+'</div></td>' +
+'<td><small>' + escapeHtml(r.opis) + '</small></td>' +
+'<td><small>' + escapeHtml(r.termin) + '</small></td>' +
+'<td><strong>' + escapeHtml(r.kwota) + '</strong> <small style="color:var(--text-muted)">' + escapeHtml(r.waluta) + '</small></td>' +
+'<td>' + platnosciInfo + '</td>' +
 '<td>' + statusBadge(r.status, r.statusTone) + '</td>' +
 '<td><small style="color:var(--text-muted)">' + escapeHtml(r.kto) + '</small></td>' +
 '</tr>';
@@ -139,8 +204,8 @@ var docs = [
 { name: 'Certyfikat Uniqa', done: true }, { name: 'Ubezpieczenie grupy', done: true },
 { name: 'Bilety lotnicze', done: true }, { name: 'Wjazdówki', done: false },
 { name: 'Msze Święte', done: true }, { name: 'Przewodnicy lokalni', done: true },
-{ name: 'Vouchery hotelowe', done: true }, { name: 'Koperty uczestników', done: false },
-{ name: 'Lista wsiadania', done: true }, { name: 'Plakat / grafika MS', done: true },
+{ name: 'Vouchery hotelowe', done: true }, { name: 'Koperta', done: false },
+{ name: 'Lista wsiadania', done: true }, { name: 'Prowizje', done: false },
 ];
 var doneCount = docs.filter(function(d) { return d.done; }).length;
 
@@ -199,17 +264,17 @@ var planDaysData = [
       { time: '14:00', icon: 'fa-plane-departure', color: '#3b82f6', title: 'Zbiórka na lotnisku (WAW)', desc: 'Spotkanie z pilotem przy stanowisku odpraw. Wydanie dokumentów i sprzętu. Msza św. na lotnisku.' },
       { time: '16:30', icon: 'fa-plane', color: '#8b5cf6', title: 'Wlot do Kairu', desc: 'Lot bezpośredni PLL LOT (LO4KL2).' },
       { time: '21:45', icon: 'fa-plane-arrival', color: '#3b82f6', title: 'Lądowanie', desc: 'Odbiór przez lokalnego kontrahenta, transfer do hotelu Azal Pyramids.' },
-      { time: '23:30', icon: 'fa-utensils', color: '#f59e0b', title: 'Późna kolacja', desc: 'Zakwaterowanie w pokojach i kolacja (w formie bufetu / zimna płyta).' }
+      { time: '23:30', icon: 'fa-utensils', color: '#f59e0b', title: 'Późna kolacja', desc: 'Zakwaterowanie w pokojach i kolacja (w formie bufetu / zimna płyta).', hotel: { name: 'Azal Pyramids Hotel', nights: '3 noce', dates: '24–27.01' } }
     ]
   },
   {
     day: 2, date: '25.01.2026', title: 'Piramidy w Gizie',
     events: [
-      { time: '07:30', icon: 'fa-mug-hot', color: '#10b981', title: 'Śniadanie', desc: 'Śniadanie w hotelu.' },
+      { time: '07:30', icon: 'fa-mug-hot', color: '#10b981', title: 'Śniadanie', desc: 'Śniadanie w hotelu.', hotel: { name: 'Azal Pyramids Hotel', nights: '3 noce', dates: '24–27.01' } },
       { time: '09:00', icon: 'fa-bus', color: '#64748b', title: 'Wyjazd z hotelu', desc: 'Przejazd pod Piramidy w Gizie z polskojęzycznym przewodnikiem.' },
       { time: '09:30', icon: 'fa-monument', color: '#f59e0b', title: 'Zwiedzanie', desc: 'Zwiedzanie wielkiej trójki piramid oraz posągu Sfinksa.' },
       { time: '14:00', icon: 'fa-utensils', color: '#10b981', title: 'Obiad lokalny', desc: 'Obiad w cenie: tradycyjny falafel i duszona baranina.' },
-      { time: '17:00', icon: 'fa-train', color: '#8b5cf6', title: 'Pociąg nocny', desc: 'Zajęcie miejsc w pociągu sypialnym Kair-Luksur. Nocleg (w cenie).' }
+      { time: '17:00', icon: 'fa-train', color: '#8b5cf6', title: 'Pociąg nocny', desc: 'Zajęcie miejsc w pociągu sypialnym Kair-Luksur. Nocleg (w cenie).', hotel: { name: 'Wagon sypialny — trasa Kair–Luksur', nights: '1 noc', dates: '27–28.01' } }
     ]
   },
   {
@@ -217,7 +282,7 @@ var planDaysData = [
     events: [
       { time: '08:30', icon: 'fa-train-subway', color: '#8b5cf6', title: 'Przyjazd i śniadanie', desc: 'Przyjazd do Luksoru. Śniadanie serwowane w pociągu lub po wyjściu lokalnie.' },
       { time: '10:00', icon: 'fa-monument', color: '#f59e0b', title: 'Świątynie Karnak', desc: 'Kompleks Karnak: Aleja Sfinksów, Wielka Sala Kolumnowa, obeliks.' },
-      { time: '14:30', icon: 'fa-bed', color: '#10b981', title: 'Zakwaterowanie i wolne', desc: 'Przejazd autokarem do Hurghady. Bella Vista Hotel.' }
+      { time: '14:30', icon: 'fa-bed', color: '#10b981', title: 'Zakwaterowanie i wolne', desc: 'Przejazd autokarem do Hurghady. Bella Vista Hotel.', hotel: { name: 'Bella Vista Resort', nights: '2 noce', dates: '28–30.01' } }
     ]
   }
 ];
@@ -229,15 +294,29 @@ var planHtml = planDaysData.map(function(d) {
       '<div style="display:flex; gap:1rem; align-items:flex-start;">' +
         '<div style="font-weight:700; font-size:0.85rem; color:var(--text-muted); width:45px; flex-shrink:0; padding-top:0.15rem;">' + e.time + '</div>' +
         '<div style="flex:1; background:var(--bg-main, #fff); border:1px solid var(--border-color, #e2e8f0); border-radius:8px; padding:0.75rem 1rem; box-shadow:0 1px 2px rgba(0,0,0,0.02); display:flex; justify-content:space-between; align-items:flex-start; transition: border-color 0.2s;" onmouseenter="this.style.borderColor=\'var(--primary-color)\'" onmouseleave="this.style.borderColor=\'var(--border-color)\'">' +
-          '<div>' +
+          '<div style="flex:1">' +
             '<h4 style="margin:0 0 0.35rem; font-size:0.9rem; color:var(--text-main); display:flex; align-items:center; gap:0.5rem;">' +
               '<i class="fa-solid ' + e.icon + '" style="color:' + e.color + '"></i> ' + escapeHtml(e.title) +
             '</h4>' +
             '<p style="margin:0; font-size:0.82rem; color:var(--text-muted); line-height:1.45;">' + escapeHtml(e.desc) + '</p>' +
+            (e.hotel ? 
+              '<div style="margin-top:0.6rem; padding:0.5rem 0.7rem; background:#eff6ff; border:1px solid #bfdbfe; border-radius:6px; display:flex; align-items:center; gap:0.5rem;">' +
+                '<i class="fa-solid fa-bed" style="color:#3b82f6; font-size:0.75rem"></i>' +
+                '<div style="flex:1">' +
+                  '<div style="font-size:0.8rem; font-weight:600; color:var(--text-main)">' + escapeHtml(e.hotel.name) + '</div>' +
+                  '<div style="font-size:0.72rem; color:var(--text-muted)">' + escapeHtml(e.hotel.nights) + ' • ' + escapeHtml(e.hotel.dates) + '</div>' +
+                '</div>' +
+                '<button class="btn btn-ghost" style="padding:0.2rem 0.4rem; font-size:0.7rem" title="Usuń hotel" data-no-demo="true"><i class="fa-solid fa-xmark"></i></button>' +
+              '</div>'
+            : '') +
           '</div>' +
-          '<div style="display:flex; gap:0.25rem; opacity:0.5; transition:opacity 0.2s" onmouseover="this.style.opacity=\'1\'" onmouseout="this.style.opacity=\'0.5\'">' +
-            '<button class="btn btn-ghost" style="padding:0.25rem 0.4rem; font-size:0.75rem" title="Edytuj godzinę"><i class="fa-solid fa-pen"></i></button>' +
-            '<button class="btn btn-ghost" style="padding:0.25rem 0.4rem; font-size:0.75rem; color:var(--danger-color)" title="Usu\u0144"><i class="fa-solid fa-trash"></i></button>' +
+          '<div style="display:flex; gap:0.25rem; opacity:0.5; transition:opacity 0.2s; flex-shrink:0" onmouseover="this.style.opacity=\'1\'" onmouseout="this.style.opacity=\'0.5\'">' +
+            (e.hotel ? 
+              '<button class="btn btn-ghost" style="padding:0.25rem 0.4rem; font-size:0.75rem" title="Zmień hotel" data-no-demo="true" onclick="document.getElementById(\'dodaj-hotel-do-punktu-modal\').classList.add(\'show\')"><i class="fa-solid fa-bed"></i></button>' :
+              '<button class="btn btn-ghost" style="padding:0.25rem 0.4rem; font-size:0.75rem" title="Dodaj hotel/nocleg" data-no-demo="true" onclick="document.getElementById(\'dodaj-hotel-do-punktu-modal\').classList.add(\'show\')"><i class="fa-solid fa-bed"></i></button>'
+            ) +
+            '<button class="btn btn-ghost" style="padding:0.25rem 0.4rem; font-size:0.75rem" title="Edytuj punkt" data-no-demo="true"><i class="fa-solid fa-pen"></i></button>' +
+            '<button class="btn btn-ghost" style="padding:0.25rem 0.4rem; font-size:0.75rem; color:var(--danger-color)" title="Usu\u0144" data-no-demo="true"><i class="fa-solid fa-trash"></i></button>' +
           '</div>' +
         '</div>' +
       '</div>' +
@@ -276,24 +355,26 @@ var kartaGrupy = '<div class="group-card-detail">' +
 '<span><i class="fa-solid fa-user"></i> BOK: Kamila (K) · Bilety: Edyta (E)</span>' +
 '</div>' +
 '</div>' +
-'<div style="display:flex;gap:0.5rem;flex-wrap:wrap">' +
+'<div style="display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center">' +
 statusBadge('Zakończona', 'success') +
 button({ label: 'Edytuj', icon: 'fa-solid fa-pen', variant: 'outline', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('edytuj-impreze-modal').classList.add('show')" } }) +
+button({ label: 'Historia zmian', icon: 'fa-solid fa-clock-rotate-left', variant: 'outline', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('historia-zmian-modal').classList.add('show')" } }) +
 '</div>' +
 '</div>' +
 '<div class="group-card-tabs">' +
-'<button class="group-tab active" data-tab="przeglad">Przeg\u0142\u0105d</button>' +
+'<button class="group-tab active" data-tab="przeglad">Ogólne</button>' +
+'<button class="group-tab" data-tab="karta-imprezy">Karta Imprezy <span class="tab-badge" style="background:#f59e0b;color:#fff;font-weight:700">!</span></button>' +
+'<button class="group-tab" data-tab="rezerwacje">Rezerwacje <span class="tab-badge">8</span></button>' +
+'<button class="group-tab" data-tab="platnosci">Płatności i faktury</button>' +
 '<button class="group-tab" data-tab="plan">Plan</button>' +
 '<button class="group-tab" data-tab="hotele">Hotele</button>' +
+'<button class="group-tab" data-tab="dod-rezerwacje">Dod. rezerwacje <span class="tab-badge">5</span></button>' +
+'<button class="group-tab" data-tab="msze">Msze <span class="tab-badge">1</span></button>' +
 '<button class="group-tab" data-tab="bilety">Bilety lotnicze</button>' +
 '<button class="group-tab" data-tab="transport">Transport</button>' +
-'<button class="group-tab" data-tab="pasazerowie">Pasa\u017cerowie <span class="tab-badge">44</span></button>' +
-'<button class="group-tab" data-tab="rezerwacje">Rezerwacje <span class="tab-badge">8</span></button>' +
+'<button class="group-tab" data-tab="teczka-pilota">Teczka pilota</button>' +
 '<button class="group-tab" data-tab="rooming">Rooming list</button>' +
-'<button class="group-tab" data-tab="dod-rezerwacje">Dod. rezerwacje <span class="tab-badge">6</span></button>' +
-'<button class="group-tab" data-tab="dokumenty">Dokumenty</button>' +
-'<button class="group-tab" data-tab="karta-imprezy">Karta Imprezy <span class="tab-badge" style="background:#f59e0b;color:#fff;font-weight:700">!</span></button>' +
-'<button data-no-demo="true" title="Historia zmian" onclick="document.getElementById(\'historia-modal\').classList.add(\'show\')" style="margin-left:auto;background:none;border:none;cursor:pointer;padding:0.4rem 0.6rem;color:var(--text-muted);border-radius:var(--radius-sm);display:flex;align-items:center;gap:0.4rem;font-size:0.8rem;font-weight:500;" onmouseenter="this.style.color=\'var(--primary-color)\'" onmouseleave="this.style.color=\'var(--text-muted)\'"><i class="fa-solid fa-clock-rotate-left"></i> Historia zmian</button>' +
+'<button class="group-tab" data-tab="dokumenty">Checklista</button>' +
 '</div>' +
 '</div>' +
 '<div class="group-card-body">' +
@@ -303,7 +384,7 @@ button({ label: 'Edytuj', icon: 'fa-solid fa-pen', variant: 'outline', attrs: { 
 panel({ title: 'Informacje ogólne', body:
 '<div class="info-table">' +
 '<div class="info-row"><span>Organizatorzy</span><strong>Izabela Żebrowska + ks. Wojciech Lipka</strong></div>' +
-'<div class="info-row"><span>Pilot</span><strong>Alicja Aziz</strong></div>' +
+'<div class="info-row"><span>Pilot</span><strong style="display:flex;align-items:center;gap:0.3rem">Alicja Aziz<i class="fa-solid fa-circle-info" style="font-size:0.75rem;color:var(--primary-color);cursor:help" title="Tel: +48 501 234 567&#10;Email: alicja.aziz@example.com"></i></strong></div>' +
 '<div class="info-row"><span>Kontrahent (in-dest.)</span><strong>Iza Strzelak (SENT)</strong></div>' +
 '<div class="info-row"><span>Kierunek</span><strong>Egipt — Kair · Luksur · Hurghada</strong></div>' +
 '<div class="info-row"><span>Termin</span><strong>24–31 stycznia 2026 (7 nocy, 8 dni)</strong></div>' +
@@ -372,6 +453,7 @@ panel({ title: 'Umowy i dokumentacja', body:
 panel({
   title: 'Plan imprezy (Podgląd i edycja)',
   action: '<div style="display:flex;gap:0.5rem">' +
+    button({ label: 'Rozpiska dla pilota', icon: 'fa-solid fa-file-lines', variant: 'outline', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('generuj-rozpisku-modal').classList.add('show')" } }) +
     button({ label: 'Zapisz wszystkie zmiany', icon: 'fa-solid fa-save', variant: 'primary', attrs: { 'data-no-demo': 'true' } }) +
     button({ label: 'Dodaj kolejny dzie\u0144', icon: 'fa-solid fa-plus', variant: 'outline', attrs: { 'data-no-demo': 'true' } }) +
   '</div>',
@@ -391,7 +473,7 @@ panel({
     button({ label: 'Dodaj nocleg', icon: 'fa-solid fa-plus', variant: 'primary', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('dodaj-nocleg-modal').classList.add('show')" } }) +
     '</div>',
   body: '<div class="table-container"><table class="data-table">' +
-    '<thead><tr><th>Daty</th><th>Noce</th><th>Miejscowość</th><th>Hotel / Sposób noclegu</th><th>Typ</th><th>Kwota (USD)</th><th>Status</th><th>Uwagi</th></tr></thead>' +
+    '<thead><tr><th>Daty</th><th>Noce</th><th>Miejscowość</th><th>Hotel / Sposób noclegu</th><th>Typ</th><th>Kwota (USD)</th><th>Płatności</th><th>Status</th><th>Uwagi</th></tr></thead>' +
     '<tbody>' + hotelRows + '</tbody>' +
     '<tfoot><tr><td colspan="4" style="font-weight:700;text-align:right;padding-top:0.75rem">Suma (przelewem + cash)</td><td></td><td style="font-weight:700;color:var(--primary-color)">$36 120 USD</td><td colspan="2"></td></tr></tfoot>' +
     '</table></div>'
@@ -693,7 +775,6 @@ panel({ title: 'Uwagi specjalne (Bilety lotnicze)', body:
 '<div class="group-tab-panel" data-panel="transport">' +
 panel({ title: 'Transport — szczegóły Egipt 24–31.01.2026',
   action: '<div style="display:flex;gap:0.5rem">' +
-    button({ label: 'Dodaj mszę', icon: 'fa-solid fa-church', variant: 'outline', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('dodaj-msza-modal').classList.add('show')" } }) +
     button({ label: 'Dodaj element', icon: 'fa-solid fa-plus', variant: 'primary', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('dodaj-transport-modal').classList.add('show')" } }) +
   '</div>',
   body:
@@ -705,28 +786,6 @@ panel({ title: 'Transport — szczegóły Egipt 24–31.01.2026',
   '<div class="info-row"><span>Autokar na miejscu</span><strong>Regency — całodobowo przez cały wyjazd</strong></div>' +
   '<div class="info-row"><span>Kontrahent na miejscu</span><strong>Iza Strzelak (SENT — rooming list 8.01)</strong></div>' +
   '<div class="info-row"><span>Pociąg nocny</span><strong>Kair → Luksur — 27/28.01 (wagony sypialne, $5 000)</strong></div>' +
-  '</div>'
-}) +
-'</div>' +
-
-/* ==== PASAŻEROWIE tab ==== */
-'<div class="group-tab-panel" data-panel="pasazerowie">' +
-panel({ title: 'Pasażerowie — 44 / 45 (Egipt Żebrowska / Lipka)', action:
-  '<div style="display:flex;gap:0.5rem">' +
-  button({ label: 'Import z Excela', icon: 'fa-solid fa-file-excel', variant: 'outline' }) +
-  button({ label: 'Eksport listy', icon: 'fa-solid fa-download', variant: 'ghost' }) +
-  button({ label: 'Dodaj pasażera', icon: 'fa-solid fa-plus', variant: 'primary', attrs: { 'data-no-demo': 'true', onclick: 'event.stopPropagation(); window.showAddPassengerModal()' } }) +
-  '</div>',
-  body:
-  '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0.6rem">' +
-  [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16].map(function(i) {
-    var names = ['Alicja Aziz (pilot)','Izabela Żebrowska','ks. Wojciech Lipka','Barbara Grzesiak','Violetta Zdanowska','Aldona Skrońska','Mariusz Kozioł','Sławomir Zaręba','Renata Kowalczyk','Piotr Nowak','Maria Jankowska','Anna Wiśniewska','Tomasz Zieliński','Krystyna Malinowska','Zbigniew Dąbrowski','Helena Pawlak'];
-    return '<div style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem;background:var(--bg-main);border-radius:7px;border:1px solid var(--border-color)">' +
-      '<div style="width:28px;height:28px;background:var(--primary-light);color:var(--primary-color);border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.72rem;flex-shrink:0">' + i + '</div>' +
-      '<span style="font-size:0.82rem">' + names[i-1] + '</span>' +
-      '</div>';
-  }).join('') +
-  '<div style="display:flex;align-items:center;justify-content:center;padding:0.5rem;background:var(--bg-main);border-radius:7px;border:1px dashed var(--border-color);color:var(--text-muted);font-size:0.78rem;grid-column:span 2">+ 28 kolejnych uczestników</div>' +
   '</div>'
 }) +
 '</div>' +
@@ -803,6 +862,86 @@ panel({ title: 'Pasażerowie — 44 / 45 (Egipt Żebrowska / Lipka)', action:
 		})
 	);
 })(button, panel, statCard, statusBadge, escapeHtml) +
+'</div>' +
+
+/* ==== TECZKA PILOTA tab ==== */
+'<div class="group-tab-panel" data-panel="teczka-pilota">' +
+'<div style="display:grid;grid-template-columns:1fr 2fr;gap:1.5rem">' +
+'<div style="display:flex;flex-direction:column;gap:1.25rem">' +
+panel({ 
+  title: 'Zawartość teczki', 
+  body: 
+    '<div class="teczka-sections">' +
+      '<button class="teczka-section active"><i class="fa-solid fa-address-card"></i> Strona tytułowa</button>' +
+      '<button class="teczka-section"><i class="fa-solid fa-users"></i> Lista uczestników (44)</button>' +
+      '<button class="teczka-section"><i class="fa-solid fa-bed"></i> Rooming list</button>' +
+      '<button class="teczka-section"><i class="fa-solid fa-route"></i> Program wyjazdu</button>' +
+      '<button class="teczka-section"><i class="fa-solid fa-calculator"></i> Kosztorys pilota</button>' +
+      '<button class="teczka-section"><i class="fa-solid fa-money-bills"></i> Wpłaty na miejscu</button>' +
+      '<button class="teczka-section"><i class="fa-solid fa-shield-halved"></i> Polisy ubezpieczeniowe</button>' +
+      '<button class="teczka-section"><i class="fa-solid fa-file-pen"></i> Authority Letter</button>' +
+    '</div>' +
+    '<div style="margin-top:1rem">' +
+      button({ label: 'Generuj teczkę PDF', icon: 'fa-solid fa-file-pdf', variant: 'outline', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('generuj-teczke-pilota-modal').classList.add('show')" } }) +
+    '</div>'
+}) +
+panel({ 
+  title: 'Wersje teczki', 
+  body: 
+    '<div class="version-list">' +
+      '<div class="version-row active"><span class="version-badge">v2 · Bieżąca</span><div><small>15.01.2026, 11:20</small><p>Aktualizacja uczestników</p></div></div>' +
+      '<div class="version-row"><span class="version-badge old">v1</span><div><small>20.09.2025</small><p>Pierwsza wersja</p></div></div>' +
+    '</div>'
+}) +
+'</div>' +
+panel({ 
+  title: '📄 Podgląd — Strona tytułowa',
+  action: '<div style="display:flex;gap:0.5rem">' +
+    button({ label: 'Generuj teczkę PDF', icon: 'fa-solid fa-file-pdf', variant: 'outline', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('generuj-teczke-pilota-modal').classList.add('show')" } }) +
+    button({ label: 'Wyślij do pilota', icon: 'fa-solid fa-paper-plane', attrs: { 'data-no-demo': 'true' } }) +
+  '</div>',
+  body: 
+    '<div class="teczka-preview">' +
+      '<div class="teczka-header-block">' +
+        '<div class="teczka-logo-placeholder">MATTEO TRAVEL</div>' +
+        '<h1>TECZKA PILOTA</h1>' +
+        '<h2>Egipt — Piramidy, Pociąg Nocny, Hurghada</h2>' +
+        '<div class="teczka-meta-grid">' +
+          '<div><span>Kod imprezy:</span><strong>MT-2026-EG-01</strong></div>' +
+          '<div><span>Termin:</span><strong>24–31.01.2026 (7 nocy, 8 dni)</strong></div>' +
+          '<div><span>Organizator:</span><strong>Izabela Żebrowska + ks. Wojciech Lipka</strong></div>' +
+          '<div><span>Parafia:</span><strong>—</strong></div>' +
+          '<div><span>Pilot:</span><strong>Alicja Aziz</strong></div>' +
+          '<div><span>Uczestnicy:</span><strong>44 osoby (+ pilot)</strong></div>' +
+          '<div><span>Lot out:</span><strong>LOT LO4KL2 WAW→CAI, 24.01 godz. 16:30</strong></div>' +
+          '<div><span>Lot return:</span><strong>LOT — 31.01.2026</strong></div>' +
+          '<div><span>Hotele:</span><strong>Azal Pyramids (3n) + Pociąg nocny (1n) + Bella Vista (2n) + Azal Pyramids (1n)</strong></div>' +
+          '<div><span>Ubezpieczenie:</span><strong>Allianz Travel, polisa gr. MT/2026/EG01</strong></div>' +
+          '<div><span>Kontakt biuro:</span><strong>Kamila W. (BOK) · 601 234 567</strong></div>' +
+          '<div><span>Wygenerowano:</span><strong>15.01.2026 · wersja 2</strong></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="teczka-alert">' +
+        '<i class="fa-solid fa-triangle-exclamation"></i>' +
+        'Dokument zawiera dane osobowe uczestników. Nie udostępniać osobom nieupoważnionym.' +
+      '</div>' +
+    '</div>'
+}) +
+'</div>' +
+'</div>' +
+
+/* ==== PŁATNOŚCI I FAKTURY tab ==== */
+'<div class="group-tab-panel" data-panel="platnosci">' +
+panel({
+	title: 'Płatności i faktury',
+	action: '<div style="display:flex;gap:0.5rem">' +
+		button({ label: 'Dodaj płatność', icon: 'fa-solid fa-plus', variant: 'primary', attrs: { 'data-no-demo': 'true' } }) +
+	'</div>',
+	body: '<div style="padding:2rem;text-align:center;color:var(--text-muted)">' +
+		'<i class="fa-solid fa-file-invoice-dollar" style="font-size:3rem;color:var(--border-color);margin-bottom:1rem"></i>' +
+		'<p style="margin:0;font-size:0.9rem">Treść zakładki zostanie dodana wkrótce</p>' +
+	'</div>'
+}) +
 '</div>' +
 
 /* ==== ROOMING LIST tab ==== */
@@ -890,7 +1029,7 @@ panel({
   title: 'Dodatkowe rezerwacje (poza hotelami)',
   action: button({ label: 'Dodaj rezerwację', icon: 'fa-solid fa-plus', variant: 'primary', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('dodaj-rez-modal').classList.add('show')" } }),
   body: '<div class="table-container"><table class="data-table">' +
-    '<thead><tr><th>Typ</th><th>Opis</th><th>Termin</th><th>Kwota</th><th>Status</th><th>Odpowiada</th></tr></thead>' +
+    '<thead><tr><th>Typ</th><th>Opis</th><th>Termin</th><th>Kwota</th><th>Płatności</th><th>Status</th><th>Odpowiada</th></tr></thead>' +
     '<tbody>' + dodRezRows + '</tbody>' +
     '</table></div>'
 }) +
@@ -925,10 +1064,22 @@ panel({
 }) +
 '</div>' +
 
+/* ==== MSZE tab ==== */
+'<div class="group-tab-panel" data-panel="msze">' +
+panel({
+  title: 'Msze Święte',
+  action: button({ label: 'Dodaj mszę', icon: 'fa-solid fa-plus', variant: 'primary', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('dodaj-msza-modal').classList.add('show')" } }),
+  body: '<div class="table-container"><table class="data-table">' +
+    '<thead><tr><th>Typ</th><th>Opis</th><th>Termin</th><th>Kwota</th><th>Status</th><th>Odpowiada</th></tr></thead>' +
+    '<tbody>' + mszeRows + '</tbody>' +
+    '</table></div>'
+}) +
+'</div>' +
+
 /* ==== DOKUMENTY tab ==== */
 '<div class="group-tab-panel" data-panel="dokumenty">' +
 panel({
-  title: 'Dokumenty — lista kontrolna',
+  title: 'Checklista — lista kontrolna',
   action: '<span style="font-size:0.8rem;color:var(--text-muted);font-weight:600;margin-right:0.75rem"><i class="fa-solid fa-circle-check" style="color:var(--success-color)"></i> ' + doneCount + ' / ' + docs.length + '</span>' +
     '<button class="btn btn-outline" data-no-demo="true" onclick="var w=document.getElementById(\'doc-checklist-wrap\');var e=w.dataset.editing===\'1\';w.dataset.editing=e?\'0\':\'1\';this.textContent=e?\'Edytuj list\u0119\':\'Gotowe\';">Edytuj list\u0119</button>',
   body: docGrid
@@ -961,6 +1112,16 @@ panel({
       '</div>' +
       '<div style="color:var(--success-color);font-weight:700;font-size:0.82rem"><i class="fa-solid fa-circle-check"></i> Potwierdzono</div>' +
       '<div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.2rem">Edyta M. \u00b7 17.04.2026 g. 10:15</div>' +
+    '</div>' +
+
+    /* Księgowość — potwierdzone */
+    '<div style="border:1px solid #bbf7d0;border-radius:var(--radius-md);padding:1rem;background:#f0fdf4">' +
+      '<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">' +
+        '<div style="width:30px;height:30px;background:#dcfce7;color:#166534;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-calculator" style="font-size:0.78rem"></i></div>' +
+        '<strong style="font-size:0.85rem">Ksi\u0119gowo\u015b\u0107</strong>' +
+      '</div>' +
+      '<div style="color:var(--success-color);font-weight:700;font-size:0.82rem"><i class="fa-solid fa-circle-check"></i> Potwierdzono</div>' +
+      '<div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.2rem">Barbara N. \u00b7 17.04.2026 g. 11:30</div>' +
     '</div>' +
 
     /* Marketing — oczekuje */
@@ -1360,6 +1521,146 @@ panel({
   '</div>' +
 '</div>' +
 
+/* ==== HISTORIA ZMIAN modal ==== */
+'<div id="historia-zmian-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
+  '<div class="demo-modal" style="max-width:900px;width:95%">' +
+    '<div class="demo-modal-header">' +
+      '<h2><i class="fa-solid fa-clock-rotate-left" style="margin-right:0.5rem;color:var(--primary-color)"></i>Historia zmian — MT-2026-EG-01</h2>' +
+      '<button class="demo-modal-close" type="button" data-no-demo="true" onclick="document.getElementById(\'historia-zmian-modal\').classList.remove(\'show\')"><i class="fa-solid fa-xmark"></i></button>' +
+    '</div>' +
+    '<div class="demo-modal-body" style="max-height:75vh;overflow-y:auto;padding:0">' +
+      '<div style="border-bottom:1px solid var(--border-color);padding:1rem 1.5rem;background:var(--surface-secondary)">' +
+        '<div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center">' +
+          '<label class="form-field" style="margin:0;flex:1;min-width:220px"><span style="font-size:0.75rem">Filtruj po użytkowniku</span>' +
+            '<select><option selected>Wszyscy użytkownicy</option><option>Kamila (K)</option><option>Edyta (E)</option><option>Ania</option><option>Barbara (Księgowość)</option></select>' +
+          '</label>' +
+          '<label class="form-field" style="margin:0;flex:1;min-width:220px"><span style="font-size:0.75rem">Filtruj po typie zmiany</span>' +
+            '<select><option selected>Wszystkie zmiany</option><option>Dane podstawowe</option><option>Rezerwacje</option><option>Płatności</option><option>Plan</option><option>Uczestnik</option></select>' +
+          '</label>' +
+        '</div>' +
+      '</div>' +
+      '<div style="padding:0">' +
+        /* Wpis 1 */
+        '<div style="padding:1.25rem 1.5rem;border-bottom:1px solid var(--border-color)">' +
+          '<div style="display:flex;gap:1rem;align-items:flex-start">' +
+            '<div style="flex-shrink:0;width:3rem;height:3rem;background:linear-gradient(135deg,#3b82f6,#8b5cf6);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.9rem">KK</div>' +
+            '<div style="flex:1">' +
+              '<div style="display:flex;gap:0.75rem;align-items:baseline;flex-wrap:wrap;margin-bottom:0.25rem">' +
+                '<strong style="color:var(--text-main);font-size:0.95rem">Kamila Kowalska</strong>' +
+                '<span style="color:var(--text-muted);font-size:0.8rem"><i class="fa-solid fa-calendar" style="margin-right:0.25rem"></i>28.04.2026 15:42</span>' +
+                '<span style="background:#dbeafe;color:#1e40af;padding:0.15rem 0.5rem;border-radius:12px;font-size:0.7rem;font-weight:600">PŁATNOŚCI</span>' +
+              '</div>' +
+              '<div style="color:var(--text-main);font-size:0.88rem;line-height:1.5;margin-top:0.5rem">' +
+                'Dodano płatność: <strong>Przedpłata 2 ($5 000 USD)</strong> — Przelew SWIFT, termin: 15.03.2026' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        /* Wpis 2 */
+        '<div style="padding:1.25rem 1.5rem;border-bottom:1px solid var(--border-color)">' +
+          '<div style="display:flex;gap:1rem;align-items:flex-start">' +
+            '<div style="flex-shrink:0;width:3rem;height:3rem;background:linear-gradient(135deg,#ec4899,#f43f5e);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.9rem">EW</div>' +
+            '<div style="flex:1">' +
+              '<div style="display:flex;gap:0.75rem;align-items:baseline;flex-wrap:wrap;margin-bottom:0.25rem">' +
+                '<strong style="color:var(--text-main);font-size:0.95rem">Edyta Wiśniewska</strong>' +
+                '<span style="color:var(--text-muted);font-size:0.8rem"><i class="fa-solid fa-calendar" style="margin-right:0.25rem"></i>24.04.2026 10:15</span>' +
+                '<span style="background:#fef3c7;color:#92400e;padding:0.15rem 0.5rem;border-radius:12px;font-size:0.7rem;font-weight:600">REZERWACJE</span>' +
+              '</div>' +
+              '<div style="color:var(--text-main);font-size:0.88rem;line-height:1.5;margin-top:0.5rem">' +
+                'Zaktualizowano rezerwację noclegu: <strong>Bella Vista Hurghada Hotel</strong> — zmiana statusu na "Oczekuje"' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        /* Wpis 3 */
+        '<div style="padding:1.25rem 1.5rem;border-bottom:1px solid var(--border-color)">' +
+          '<div style="display:flex;gap:1rem;align-items:flex-start">' +
+            '<div style="flex-shrink:0;width:3rem;height:3rem;background:linear-gradient(135deg,#10b981,#14b8a6);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.9rem">AN</div>' +
+            '<div style="flex:1">' +
+              '<div style="display:flex;gap:0.75rem;align-items:baseline;flex-wrap:wrap;margin-bottom:0.25rem">' +
+                '<strong style="color:var(--text-main);font-size:0.95rem">Anna Nowak</strong>' +
+                '<span style="color:var(--text-muted);font-size:0.8rem"><i class="fa-solid fa-calendar" style="margin-right:0.25rem"></i>18.04.2026 14:20</span>' +
+                '<span style="background:#e0e7ff;color:#3730a3;padding:0.15rem 0.5rem;border-radius:12px;font-size:0.7rem;font-weight:600">UCZESTNIK</span>' +
+              '</div>' +
+              '<div style="color:var(--text-main);font-size:0.88rem;line-height:1.5;margin-top:0.5rem">' +
+                'Dodano uczestnika: <strong>Jan Kowalski</strong> (ur. 15.03.1985) — pokój 204' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        /* Wpis 4 */
+        '<div style="padding:1.25rem 1.5rem;border-bottom:1px solid var(--border-color)">' +
+          '<div style="display:flex;gap:1rem;align-items:flex-start">' +
+            '<div style="flex-shrink:0;width:3rem;height:3rem;background:linear-gradient(135deg,#f59e0b,#f97316);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.9rem">BN</div>' +
+            '<div style="flex:1">' +
+              '<div style="display:flex;gap:0.75rem;align-items:baseline;flex-wrap:wrap;margin-bottom:0.25rem">' +
+                '<strong style="color:var(--text-main);font-size:0.95rem">Barbara Nowacka</strong>' +
+                '<span style="color:var(--text-muted);font-size:0.8rem"><i class="fa-solid fa-calendar" style="margin-right:0.25rem"></i>17.04.2026 11:30</span>' +
+                '<span style="background:#dcfce7;color:#166534;padding:0.15rem 0.5rem;border-radius:12px;font-size:0.7rem;font-weight:600">KSIĘGOWOŚĆ</span>' +
+              '</div>' +
+              '<div style="color:var(--text-main);font-size:0.88rem;line-height:1.5;margin-top:0.5rem">' +
+                'Zatwierdzono rozliczenie księgowe: <strong>Faktury hoteli rozliczone</strong>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        /* Wpis 5 */
+        '<div style="padding:1.25rem 1.5rem;border-bottom:1px solid var(--border-color)">' +
+          '<div style="display:flex;gap:1rem;align-items:flex-start">' +
+            '<div style="flex-shrink:0;width:3rem;height:3rem;background:linear-gradient(135deg,#3b82f6,#8b5cf6);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.9rem">KK</div>' +
+            '<div style="flex:1">' +
+              '<div style="display:flex;gap:0.75rem;align-items:baseline;flex-wrap:wrap;margin-bottom:0.25rem">' +
+                '<strong style="color:var(--text-main);font-size:0.95rem">Kamila Kowalska</strong>' +
+                '<span style="color:var(--text-muted);font-size:0.8rem"><i class="fa-solid fa-calendar" style="margin-right:0.25rem"></i>10.04.2026 09:15</span>' +
+                '<span style="background:#fce7f3;color:#9f1239;padding:0.15rem 0.5rem;border-radius:12px;font-size:0.7rem;font-weight:600">PLAN</span>' +
+              '</div>' +
+              '<div style="color:var(--text-main);font-size:0.88rem;line-height:1.5;margin-top:0.5rem">' +
+                'Zaktualizowano plan dnia: <strong>Dzień 3 (26.01) — dodano punkt: Muzeum Egipskie w Kairze</strong>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        /* Wpis 6 */
+        '<div style="padding:1.25rem 1.5rem;border-bottom:1px solid var(--border-color)">' +
+          '<div style="display:flex;gap:1rem;align-items:flex-start">' +
+            '<div style="flex-shrink:0;width:3rem;height:3rem;background:linear-gradient(135deg,#ec4899,#f43f5e);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.9rem">EW</div>' +
+            '<div style="flex:1">' +
+              '<div style="display:flex;gap:0.75rem;align-items:baseline;flex-wrap:wrap;margin-bottom:0.25rem">' +
+                '<strong style="color:var(--text-main);font-size:0.95rem">Edyta Wiśniewska</strong>' +
+                '<span style="color:var(--text-muted);font-size:0.8rem"><i class="fa-solid fa-calendar" style="margin-right:0.25rem"></i>05.04.2026 16:45</span>' +
+                '<span style="background:#d1fae5;color:#065f46;padding:0.15rem 0.5rem;border-radius:12px;font-size:0.7rem;font-weight:600">DANE PODSTAWOWE</span>' +
+              '</div>' +
+              '<div style="color:var(--text-main);font-size:0.88rem;line-height:1.5;margin-top:0.5rem">' +
+                'Zmieniono status imprezy z "Aktywna" na <strong>"Zakończona"</strong>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        /* Wpis 7 */
+        '<div style="padding:1.25rem 1.5rem">' +
+          '<div style="display:flex;gap:1rem;align-items:flex-start">' +
+            '<div style="flex-shrink:0;width:3rem;height:3rem;background:linear-gradient(135deg,#10b981,#14b8a6);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.9rem">AN</div>' +
+            '<div style="flex:1">' +
+              '<div style="display:flex;gap:0.75rem;align-items:baseline;flex-wrap:wrap;margin-bottom:0.25rem">' +
+                '<strong style="color:var(--text-main);font-size:0.95rem">Anna Nowak</strong>' +
+                '<span style="color:var(--text-muted);font-size:0.8rem"><i class="fa-solid fa-calendar" style="margin-right:0.25rem"></i>15.01.2026 10:00</span>' +
+                '<span style="background:#d1fae5;color:#065f46;padding:0.15rem 0.5rem;border-radius:12px;font-size:0.7rem;font-weight:600">DANE PODSTAWOWE</span>' +
+              '</div>' +
+              '<div style="color:var(--text-main);font-size:0.88rem;line-height:1.5;margin-top:0.5rem">' +
+                'Utworzono imprezę: <strong>MT-2026-EG-01 — Egipt — Piramidy, Pociąg Nocny, Hurghada</strong>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="demo-modal-footer">' +
+      '<button class="btn btn-outline" data-no-demo="true" onclick="document.getElementById(\'historia-zmian-modal\').classList.remove(\'show\')">Zamknij</button>' +
+      button({ label: 'Eksportuj historię PDF', icon: 'fa-solid fa-file-pdf', variant: 'ghost' }) +
+    '</div>' +
+  '</div>' +
+'</div>' +
+
 /* ==== EDYTUJ KART\u0118 IMPREZY modal ==== */
 '<div id="edytuj-karte-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
   '<div class="demo-modal" style="max-width:820px;width:95%">' +
@@ -1665,6 +1966,206 @@ panel({
     '<div class="demo-modal-footer">' +
       '<button class="btn btn-outline" data-no-demo="true" onclick="document.getElementById(\'dodaj-msza-modal\').classList.remove(\'show\')">Anuluj</button>' +
       button({ label: 'Dodaj mszę', icon: 'fa-solid fa-check' }) +
+    '</div>' +
+  '</div>' +
+'</div>' +
+
+/* ==== DODAJ HOTEL DO PUNKTU PLANU modal ==== */
+'<div id="dodaj-hotel-do-punktu-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
+  '<div class="demo-modal" style="max-width:650px;width:95%">' +
+    '<div class="demo-modal-header">' +
+      '<h2><i class="fa-solid fa-bed" style="margin-right:0.5rem;color:var(--primary-color)"></i>Dodaj nocleg do planu</h2>' +
+      '<button class="demo-modal-close" type="button" data-no-demo="true" onclick="document.getElementById(\'dodaj-hotel-do-punktu-modal\').classList.remove(\'show\')"><i class="fa-solid fa-xmark"></i></button>' +
+    '</div>' +
+    '<div class="demo-modal-body">' +
+      '<div style="padding:0.75rem 1rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;margin-bottom:1.5rem">' +
+        '<div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:0.35rem"><i class="fa-solid fa-info-circle"></i> Dodajesz nocleg do punktu:</div>' +
+        '<div style="font-weight:600;font-size:0.9rem;color:var(--text-main)"><i class="fa-solid fa-utensils" style="color:#f59e0b;margin-right:0.5rem"></i>23:30 — Późna kolacja</div>' +
+        '<div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.2rem">Dzień 1 • 24.01.2026 • Przelot do Kairu</div>' +
+      '</div>' +
+      '<div class="form-mockup">' +
+        '<div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin:0 0 0.75rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border-color)">Podstawowe informacje</div>' +
+        '<label class="form-field" style="margin-bottom:0.75rem">' +
+          '<span>Nazwa hotelu / miejsca noclegu</span>' +
+          '<input type="text" placeholder="np. Azal Pyramids Hotel, Nocleg w autobusie" />' +
+        '</label>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field"><span>Liczba nocy</span><input type="text" placeholder="np. 3 noce" value="1 noc" /></label>' +
+          '<label class="form-field"><span>Daty pobytu</span><input type="text" placeholder="np. 24–27.01" /></label>' +
+        '</div>' +
+        '<label class="form-field" style="margin-bottom:0.75rem">' +
+          '<span>Miejsce / lokalizacja</span>' +
+          '<input type="text" placeholder="np. Kair, Luksur, Hurghada" />' +
+        '</label>' +
+        '<div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin:1.25rem 0 0.75rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border-color)">Szczegóły rezerwacji (opcjonalne)</div>' +
+        '<label class="form-field" style="margin-bottom:0.75rem">' +
+          '<span>Adres hotelu</span>' +
+          '<input type="text" placeholder="np. Al Haram Giza, 12511 Cairo" />' +
+        '</label>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field">' +
+            '<span>Typ wyżywienia</span>' +
+            '<select><option value="">— wybierz —</option><option>BB (śniadania)</option><option>HB (śniadania + obiadokolacje)</option><option>FB (pełne wyżywienie)</option><option>AI (all inclusive)</option><option>Brak</option></select>' +
+          '</label>' +
+          '<label class="form-field"><span>Kwota (USD/PLN)</span><input type="text" placeholder="np. $7 000, 28 000 PLN" /></label>' +
+        '</div>' +
+        '<div class="form-row-2">' +
+          '<label class="form-field">' +
+            '<span>Status płatności</span>' +
+            '<select><option>Wpłacono całość</option><option>Wpłacono częściowo</option><option>Oczekuje wpłaty</option><option>Cash na miejscu</option><option>Uwzględnione w cenie</option></select>' +
+          '</label>' +
+          '<label class="form-field"><span>Uwagi</span><input type="text" placeholder="np. Zaliczki w toku" /></label>' +
+        '</div>' +
+        '<label class="form-field" style="margin-top:1rem">' +
+          '<span style="font-size:0.82rem;color:var(--text-main);font-weight:600;display:flex;align-items:center;gap:0.4rem">' +
+            '<input type="checkbox" checked style="accent-color:var(--primary-color)" />' +
+            'Dodaj ten nocleg do listy rezerwacji w zakładce „Hotele"' +
+          '</span>' +
+          '<small style="display:block;margin-top:0.25rem;color:var(--text-muted);font-size:0.75rem;margin-left:1.3rem">Nocleg będzie widoczny w planie oraz w zakładce Hotele jako osobna pozycja rezerwacji.</small>' +
+        '</label>' +
+      '</div>' +
+    '</div>' +
+    '<div class="demo-modal-footer">' +
+      '<button class="btn btn-outline" data-no-demo="true" onclick="document.getElementById(\'dodaj-hotel-do-punktu-modal\').classList.remove(\'show\')">Anuluj</button>' +
+      button({ label: 'Dodaj nocleg', icon: 'fa-solid fa-check' }) +
+    '</div>' +
+  '</div>' +
+'</div>' +
+
+/* ==== GENERUJ ROZPISKĘ DLA PILOTA modal ==== */
+'<div id="generuj-rozpisku-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
+  '<div class="demo-modal" style="max-width:580px;width:95%">' +
+    '<div class="demo-modal-header">' +
+      '<h2><i class="fa-solid fa-file-lines" style="margin-right:0.5rem;color:var(--primary-color)"></i>Generuj rozpiskę dla pilota</h2>' +
+      '<button class="demo-modal-close" type="button" data-no-demo="true" onclick="document.getElementById(\'generuj-rozpisku-modal\').classList.remove(\'show\')"><i class="fa-solid fa-xmark"></i></button>' +
+    '</div>' +
+    '<div class="demo-modal-body">' +
+      '<div style="padding:0.75rem 1rem;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;margin-bottom:1.5rem">' +
+        '<div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:0.35rem"><i class="fa-solid fa-info-circle"></i> Impreza</div>' +
+        '<div style="font-weight:600;font-size:0.9rem;color:var(--text-main)">Egipt — Piramidy, Pociąg Nocny, Hurghada</div>' +
+        '<div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.2rem">MT-2026-EG-01 • 24–31.01.2026 • Pilot: Alicja Aziz</div>' +
+      '</div>' +
+      '<div class="form-mockup">' +
+        '<div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin:0 0 0.75rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border-color)">Zawartość rozpiski</div>' +
+        '<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:0.5rem">' +
+          '<input type="checkbox" checked style="accent-color:var(--primary-color);margin-top:0.2rem">' +
+          '<div><strong>Plan imprezy dzień po dniu</strong><div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.1rem">Szczegółowy harmonogram z godzinami i opisami</div></div>' +
+        '</label>' +
+        '<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:0.5rem">' +
+          '<input type="checkbox" checked style="accent-color:var(--primary-color);margin-top:0.2rem">' +
+          '<div><strong>Informacje o uczestnikach</strong><div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.1rem">Lista PAX, dane kontaktowe, uwagi specjalne</div></div>' +
+        '</label>' +
+        '<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:0.5rem">' +
+          '<input type="checkbox" checked style="accent-color:var(--primary-color);margin-top:0.2rem">' +
+          '<div><strong>Hotele i noclegi</strong><div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.1rem">Adresy, telefony, dane rezerwacji</div></div>' +
+        '</label>' +
+        '<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:0.5rem">' +
+          '<input type="checkbox" checked style="accent-color:var(--primary-color);margin-top:0.2rem">' +
+          '<div><strong>Transport i bilety</strong><div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.1rem">Loty, autokary, numery PNR</div></div>' +
+        '</label>' +
+        '<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:0.5rem">' +
+          '<input type="checkbox" checked style="accent-color:var(--primary-color);margin-top:0.2rem">' +
+          '<div><strong>Kontakty awaryjne</strong><div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.1rem">BOK, biuro, kontrahenci lokalni</div></div>' +
+        '</label>' +
+        '<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:0.5rem">' +
+          '<input type="checkbox" style="accent-color:var(--primary-color);margin-top:0.2rem">' +
+          '<div><strong>Informacje finansowe</strong><div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.1rem">Gratisy, cash na miejscu, rozliczenia</div></div>' +
+        '</label>' +
+        '<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:1rem">' +
+          '<input type="checkbox" style="accent-color:var(--primary-color);margin-top:0.2rem">' +
+          '<div><strong>Rooming list</strong><div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.1rem">Podział pokoi we wszystkich hotelach</div></div>' +
+        '</label>' +
+        '<div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin:1.25rem 0 0.75rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border-color)">Format dokumentu</div>' +
+        '<label class="form-field" style="margin-bottom:0.75rem">' +
+          '<span>Typ pliku</span>' +
+          '<select style="font-size:0.85rem">' +
+            '<option value="pdf">PDF — gotowy do druku</option>' +
+            '<option value="docx">DOCX — edytowalny Word</option>' +
+            '<option value="html">HTML — podgląd w przeglądarce</option>' +
+          '</select>' +
+        '</label>' +
+        '<label class="form-field">' +
+          '<span>Dodatkowe uwagi dla pilota</span>' +
+          '<textarea rows="2" placeholder="np. Zwrócić uwagę na..., Pamiętać o..." style="font-size:0.85rem"></textarea>' +
+        '</label>' +
+      '</div>' +
+    '</div>' +
+    '<div class="demo-modal-footer">' +
+      '<button class="btn btn-outline" data-no-demo="true" onclick="document.getElementById(\'generuj-rozpisku-modal\').classList.remove(\'show\')">Anuluj</button>' +
+      button({ label: 'Generuj rozpiskę', icon: 'fa-solid fa-download' }) +
+    '</div>' +
+  '</div>' +
+'</div>' +
+
+/* ==== GENERUJ TECZKĘ PILOTA modal ==== */
+'<div id="generuj-teczke-pilota-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
+  '<div class="demo-modal" style="max-width:620px;width:95%">' +
+    '<div class="demo-modal-header">' +
+      '<h2><i class="fa-solid fa-file-pdf" style="margin-right:0.5rem;color:var(--primary-color)"></i>Generuj teczkę pilota — PDF</h2>' +
+      '<button class="demo-modal-close" type="button" data-no-demo="true" onclick="document.getElementById(\'generuj-teczke-pilota-modal\').classList.remove(\'show\')"><i class="fa-solid fa-xmark"></i></button>' +
+    '</div>' +
+    '<div class="demo-modal-body">' +
+      '<div style="padding:0.75rem 1rem;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;margin-bottom:1.5rem">' +
+        '<div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:0.35rem"><i class="fa-solid fa-info-circle"></i> Impreza</div>' +
+        '<div style="font-weight:600;font-size:0.9rem;color:var(--text-main)">Egipt — Piramidy, Pociąg Nocny, Hurghada</div>' +
+        '<div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.2rem">MT-2026-EG-01 • 24–31.01.2026 • Pilot: Alicja Aziz</div>' +
+      '</div>' +
+      '<div class="form-mockup">' +
+        '<div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin:0 0 0.75rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border-color)">Sekcje do wygenerowania</div>' +
+        '<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:0.5rem">' +
+          '<input type="checkbox" checked style="accent-color:var(--primary-color);margin-top:0.2rem">' +
+          '<div><strong><i class="fa-solid fa-address-card" style="width:1.2rem;color:var(--text-muted)"></i> Strona tytułowa</strong><div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.1rem">Podstawowe informacje o imprezę, loty, hotele, kontakty</div></div>' +
+        '</label>' +
+        '<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:0.5rem">' +
+          '<input type="checkbox" checked style="accent-color:var(--primary-color);margin-top:0.2rem">' +
+          '<div><strong><i class="fa-solid fa-users" style="width:1.2rem;color:var(--text-muted)"></i> Lista uczestników</strong><div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.1rem">PAX list z danymi osobowymi i kontaktowymi (44 os.)</div></div>' +
+        '</label>' +
+        '<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:0.5rem">' +
+          '<input type="checkbox" checked style="accent-color:var(--primary-color);margin-top:0.2rem">' +
+          '<div><strong><i class="fa-solid fa-bed" style="width:1.2rem;color:var(--text-muted)"></i> Rooming list</strong><div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.1rem">Podział pokoi we wszystkich hotelach</div></div>' +
+        '</label>' +
+        '<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:0.5rem">' +
+          '<input type="checkbox" checked style="accent-color:var(--primary-color);margin-top:0.2rem">' +
+          '<div><strong><i class="fa-solid fa-route" style="width:1.2rem;color:var(--text-muted)"></i> Program wyjazdu</strong><div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.1rem">Szczegółowy plan dzień po dniu</div></div>' +
+        '</label>' +
+        '<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:0.5rem">' +
+          '<input type="checkbox" style="accent-color:var(--primary-color);margin-top:0.2rem">' +
+          '<div><strong><i class="fa-solid fa-calculator" style="width:1.2rem;color:var(--text-muted)"></i> Kosztorys pilota</strong><div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.1rem">Rozliczenia finansowe, gratisy, prowizje</div></div>' +
+        '</label>' +
+        '<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:0.5rem">' +
+          '<input type="checkbox" style="accent-color:var(--primary-color);margin-top:0.2rem">' +
+          '<div><strong><i class="fa-solid fa-money-bills" style="width:1.2rem;color:var(--text-muted)"></i> Wpłaty na miejscu</strong><div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.1rem">Cash do rozliczenia, płatności lokalne</div></div>' +
+        '</label>' +
+        '<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:0.5rem">' +
+          '<input type="checkbox" style="accent-color:var(--primary-color);margin-top:0.2rem">' +
+          '<div><strong><i class="fa-solid fa-shield-halved" style="width:1.2rem;color:var(--text-muted)"></i> Polisy ubezpieczeniowe</strong><div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.1rem">Dokumenty i numery polis grupy</div></div>' +
+        '</label>' +
+        '<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:1rem">' +
+          '<input type="checkbox" style="accent-color:var(--primary-color);margin-top:0.2rem">' +
+          '<div><strong><i class="fa-solid fa-file-pen" style="width:1.2rem;color:var(--text-muted)"></i> Authority Letter</strong><div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.1rem">Pełnomocnictwo dla pilota</div></div>' +
+        '</label>' +
+        '<div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin:1.25rem 0 0.75rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border-color)">Opcje dodatkowe</div>' +
+        '<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:0.5rem">' +
+          '<input type="checkbox" checked style="accent-color:var(--primary-color);margin-top:0.2rem">' +
+          '<div><strong>Dołącz spis treści</strong></div>' +
+        '</label>' +
+        '<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:0.5rem">' +
+          '<input type="checkbox" style="accent-color:var(--primary-color);margin-top:0.2rem">' +
+          '<div><strong>Numeracja stron</strong></div>' +
+        '</label>' +
+        '<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:1rem">' +
+          '<input type="checkbox" checked style="accent-color:var(--primary-color);margin-top:0.2rem">' +
+          '<div><strong>Znak wodny "POUFNE"</strong></div>' +
+        '</label>' +
+        '<label class="form-field">' +
+          '<span>Dodatkowe uwagi do teczki</span>' +
+          '<textarea rows="2" placeholder="np. Zwrócić uwagę na..., Pamiętać o..." style="font-size:0.85rem"></textarea>' +
+        '</label>' +
+      '</div>' +
+    '</div>' +
+    '<div class="demo-modal-footer">' +
+      '<button class="btn btn-outline" data-no-demo="true" onclick="document.getElementById(\'generuj-teczke-pilota-modal\').classList.remove(\'show\')">Anuluj</button>' +
+      button({ label: 'Generuj i pobierz PDF', icon: 'fa-solid fa-download' }) +
     '</div>' +
   '</div>' +
 '</div>' +

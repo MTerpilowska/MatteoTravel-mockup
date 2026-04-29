@@ -102,8 +102,8 @@
 				title: 'Teczka Pilota',
 				subtitle: 'Automatycznie generowana dokumentacja wyjazdowa dla ks. Jan Wiśniewski — MT-2026-WL-01',
 				actions: [
-					button({ label: 'Pobierz PDF', icon: 'fa-solid fa-file-pdf', variant: 'outline' }),
-					button({ label: 'Wyślij do pilota', icon: 'fa-solid fa-paper-plane' })
+					button({ label: 'Generuj teczkę PDF', icon: 'fa-solid fa-file-pdf', variant: 'outline', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('generuj-teczke-logistyka-modal').classList.add('show')" } }),
+					button({ label: 'Wyślij do pilota', icon: 'fa-solid fa-paper-plane', attrs: { 'data-no-demo': 'true' } })
 				]
 			}),
 			`<div class="dashboard-grid" style="grid-template-columns:1fr 2fr">
@@ -120,7 +120,7 @@
 							<button class="teczka-section"><i class="fa-solid fa-file-pen"></i> Authority Letter</button>
 						</div>
 						<div style="margin-top:1rem">
-							${button({ label: 'Generuj całość PDF', icon: 'fa-solid fa-file-pdf', variant: 'outline' })}
+							${button({ label: 'Generuj teczkę PDF', icon: 'fa-solid fa-file-pdf', variant: 'outline', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('generuj-teczke-logistyka-modal').classList.add('show')" } })}
 						</div>
 					` })}
 					${panel({ title: 'Wersje teczki', body: `
@@ -158,6 +158,77 @@
 						</div>
 					</div>
 				` })}
+			</div>`,
+			`<div id="generuj-teczke-logistyka-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove('show')">
+				<div class="demo-modal" style="max-width:620px;width:95%">
+					<div class="demo-modal-header">
+						<h2><i class="fa-solid fa-file-pdf" style="margin-right:0.5rem;color:var(--primary-color)"></i>Generuj teczkę pilota — PDF</h2>
+						<button class="demo-modal-close" type="button" data-no-demo="true" onclick="document.getElementById('generuj-teczke-logistyka-modal').classList.remove('show')"><i class="fa-solid fa-xmark"></i></button>
+					</div>
+					<div class="demo-modal-body">
+						<div style="padding:0.75rem 1rem;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;margin-bottom:1.5rem">
+							<div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:0.35rem"><i class="fa-solid fa-info-circle"></i> Impreza</div>
+							<div style="font-weight:600;font-size:0.9rem;color:var(--text-main)">Jubileuszowa Pielgrzymka do Ziemi Świętej</div>
+							<div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.2rem">MT-2026-WL-01 • 25.04–02.05.2026 • Pilot: Krzysztof Tomaszewski</div>
+						</div>
+						<div class="form-mockup">
+							<div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin:0 0 0.75rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border-color)">Sekcje do wygenerowania</div>
+							<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:0.5rem">
+								<input type="checkbox" checked style="accent-color:var(--primary-color);margin-top:0.2rem">
+								<div><strong><i class="fa-solid fa-address-card" style="width:1.2rem;color:var(--text-muted)"></i> Strona tytułowa</strong><div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.1rem">Podstawowe informacje o imprezę, loty, hotele, kontakty</div></div>
+							</label>
+							<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:0.5rem">
+								<input type="checkbox" checked style="accent-color:var(--primary-color);margin-top:0.2rem">
+								<div><strong><i class="fa-solid fa-users" style="width:1.2rem;color:var(--text-muted)"></i> Lista uczestników</strong><div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.1rem">PAX list z danymi osobowymi i kontaktowymi (42 os.)</div></div>
+							</label>
+							<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:0.5rem">
+								<input type="checkbox" checked style="accent-color:var(--primary-color);margin-top:0.2rem">
+								<div><strong><i class="fa-solid fa-bed" style="width:1.2rem;color:var(--text-muted)"></i> Rooming list</strong><div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.1rem">Podział pokoi we wszystkich hotelach</div></div>
+							</label>
+							<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:0.5rem">
+								<input type="checkbox" checked style="accent-color:var(--primary-color);margin-top:0.2rem">
+								<div><strong><i class="fa-solid fa-route" style="width:1.2rem;color:var(--text-muted)"></i> Program wyjazdu</strong><div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.1rem">Szczegółowy plan dzień po dniu</div></div>
+							</label>
+							<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:0.5rem">
+								<input type="checkbox" style="accent-color:var(--primary-color);margin-top:0.2rem">
+								<div><strong><i class="fa-solid fa-calculator" style="width:1.2rem;color:var(--text-muted)"></i> Kosztorys pilota</strong><div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.1rem">Rozliczenia finansowe, gratisy, prowizje</div></div>
+							</label>
+							<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:0.5rem">
+								<input type="checkbox" style="accent-color:var(--primary-color);margin-top:0.2rem">
+								<div><strong><i class="fa-solid fa-money-bills" style="width:1.2rem;color:var(--text-muted)"></i> Wpłaty na miejscu</strong><div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.1rem">Cash do rozliczenia, płatności lokalne</div></div>
+							</label>
+							<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:0.5rem">
+								<input type="checkbox" style="accent-color:var(--primary-color);margin-top:0.2rem">
+								<div><strong><i class="fa-solid fa-shield-halved" style="width:1.2rem;color:var(--text-muted)"></i> Polisy ubezpieczeniowe</strong><div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.1rem">Dokumenty i numery polis grupy</div></div>
+							</label>
+							<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:1rem">
+								<input type="checkbox" style="accent-color:var(--primary-color);margin-top:0.2rem">
+								<div><strong><i class="fa-solid fa-file-pen" style="width:1.2rem;color:var(--text-muted)"></i> Authority Letter</strong><div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.1rem">Pełnomocnictwo dla pilota</div></div>
+							</label>
+							<div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin:1.25rem 0 0.75rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border-color)">Opcje dodatkowe</div>
+							<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:0.5rem">
+								<input type="checkbox" checked style="accent-color:var(--primary-color);margin-top:0.2rem">
+								<div><strong>Dołącz spis treści</strong></div>
+							</label>
+							<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:0.5rem">
+								<input type="checkbox" style="accent-color:var(--primary-color);margin-top:0.2rem">
+								<div><strong>Numeracja stron</strong></div>
+							</label>
+							<label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.85rem;cursor:pointer;margin-bottom:1rem">
+								<input type="checkbox" checked style="accent-color:var(--primary-color);margin-top:0.2rem">
+								<div><strong>Znak wodny "POUFNE"</strong></div>
+							</label>
+							<label class="form-field">
+								<span>Dodatkowe uwagi do teczki</span>
+								<textarea rows="2" placeholder="np. Zwrócić uwagę na..., Pamiętać o..." style="font-size:0.85rem"></textarea>
+							</label>
+						</div>
+					</div>
+					<div class="demo-modal-footer">
+						<button class="btn btn-outline" data-no-demo="true" onclick="document.getElementById('generuj-teczke-logistyka-modal').classList.remove('show')">Anuluj</button>
+						${button({ label: 'Generuj i pobierz PDF', icon: 'fa-solid fa-download' })}
+					</div>
+				</div>
 			</div>`
 		].join('');
 	}

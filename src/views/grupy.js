@@ -11,7 +11,7 @@ section: 'Styczeń 2026', id: 'MT-2026-EG-00', anulowana: true,
 name: 'EGIPT — na sprzedaż (anulacja 29.10.2025)',
 org: 'brak — nie ma nikogo', autor: 'Ania', bok: '—', bilety: '—',
 dest: 'Egipt', from: '22.01.2026', to: '29.01.2026',
-pilot: '—', kontrahent: 'Iza SENT', transport: 'samolot LOT', trans_ico: 'fa-plane',
+pilot: '—', pilotPhone: '', pilotEmail: '', kontrahent: 'Iza SENT', transport: 'samolot LOT', trans_ico: 'fa-plane',
 trans_lotnisko: 'nie', msza: '—', bilety_nr: 'ZVEQA4', pax: 0, paxMax: 45,
 umowy: '—', gratisy: '—', status: 'Anulowana', statusTone: 'neutral',
 prowizja: '—'
@@ -21,7 +21,7 @@ section: null, id: 'MT-2026-EG-01', anulowana: false,
 name: 'Egipt — Piramidy, pociąg, Hurghada',
 org: 'Izabela Żebrowska / ks. Wojciech Lipka', autor: 'Ania', bok: 'K', bilety: 'E',
 dest: 'Egipt', from: '24.01.2026', to: '31.01.2026',
-pilot: 'Alicja Aziz', kontrahent: 'Iza Strzelak SENT', transport: 'samolot LOT + autokar (Regency)', trans_ico: 'fa-plane',
+pilot: 'Alicja Aziz', pilotPhone: '+48 501 234 567', pilotEmail: 'alicja.aziz@example.com', kontrahent: 'Iza Strzelak SENT', transport: 'samolot LOT + autokar (Regency)', trans_ico: 'fa-plane',
 trans_lotnisko: 'nie', msza: '24.01 g. 14:00 — WAW', bilety_nr: '44×W6Y73A / 1×TD236Z', pax: 44, paxMax: 45,
 umowy: 'wysłana', gratisy: '80 USD/os. (karta)', status: 'Zakończona', statusTone: 'success',
 prowizja: '2%'
@@ -31,7 +31,7 @@ section: null, id: 'MT-2026-KE-01', anulowana: false,
 name: 'Kenia — Nairobi, Subukia, Watamu',
 org: 'ks. Paweł Antosiak / ks. Wojciech Iwanicki', autor: 'Natalia', bok: 'P', bilety: 'M',
 dest: 'Kenia', from: '25.01.2026', to: '08.02.2026',
-pilot: 'Radosław Malinowski', kontrahent: 'ks. Antosiak (sam organizuje)', transport: 'samolot Ethiopian Airlines', trans_ico: 'fa-plane',
+pilot: 'Radosław Malinowski', pilotPhone: '+48 602 345 678', pilotEmail: 'radoslaw.malinowski@example.com', kontrahent: 'ks. Antosiak (sam organizuje)', transport: 'samolot Ethiopian Airlines', trans_ico: 'fa-plane',
 trans_lotnisko: 'nie', msza: '—', bilety_nr: '11×WLJENV / 1×8IAKUH', pax: 11, paxMax: 12,
 umowy: 'wysłana 17.10.2025', gratisy: '150 PLN/os.', status: 'Zakończona', statusTone: 'success',
 prowizja: '2%'
@@ -42,7 +42,7 @@ section: 'Luty 2026', id: 'MT-2026-EG-02', anulowana: false,
 name: 'Egipt — Kair, Sharm el Sheikh, Krzysiak',
 org: 'Józefa Krzysiak / ks. Michał Nędza', autor: 'Ania', bok: 'P', bilety: 'E',
 dest: 'Egipt', from: '31.01.2026', to: '07.02.2026',
-pilot: 'Alicja Aziz', kontrahent: 'Iza Strzelak SENT', transport: 'samolot LOT + autokar (Regency)', trans_ico: 'fa-plane',
+pilot: 'Alicja Aziz', pilotPhone: '+48 501 234 567', pilotEmail: 'alicja.aziz@example.com', kontrahent: 'Iza Strzelak SENT', transport: 'samolot LOT + autokar (Regency)', trans_ico: 'fa-plane',
 trans_lotnisko: 'nie', msza: '31.01 g. 15:00 — lotnisko Chopina', bilety_nr: '33×73QAVQ', pax: 33, paxMax: 33,
 umowy: 'wysłana 28.02.2025', gratisy: '—', status: 'Zakończona', statusTone: 'success',
 prowizja: '2%'
@@ -52,7 +52,7 @@ section: null, id: 'MT-2026-PT-01', anulowana: false,
 name: 'Portugalia — Braga, Fatima, Santiago',
 org: 'ks. Henryk Hendzel', autor: 'Zuzia', bok: 'K', bilety: 'E',
 dest: 'Portugalia / Hiszpania', from: '03.02.2026', to: '10.02.2026',
-pilot: 'TBD', kontrahent: 'Zuzia SENT', transport: 'samolot', trans_ico: 'fa-plane',
+pilot: 'TBD', pilotPhone: '', pilotEmail: '', kontrahent: 'Zuzia SENT', transport: 'samolot', trans_ico: 'fa-plane',
 trans_lotnisko: 'tak', msza: '—', bilety_nr: 'TBD', pax: 35, paxMax: 40,
 umowy: 'wysłana', gratisy: '—', status: 'Zakończona', statusTone: 'success',
 prowizja: '2%'
@@ -62,7 +62,7 @@ section: null, id: 'MT-2026-WL-01', anulowana: false,
 name: 'Ziemia Święta — ks. Maciej Gierula',
 org: 'ks. Maciej Gierula', autor: 'Anna', bok: 'P', bilety: 'M',
 dest: 'Izrael / Palestyna', from: '08.02.2026', to: '16.02.2026',
-pilot: 'Peter', kontrahent: 'Peter rooming sent 11.12', transport: 'samolot', trans_ico: 'fa-plane',
+pilot: 'Peter', pilotPhone: '+972 54 123 4567', pilotEmail: 'peter.pilot@example.com', kontrahent: 'Peter rooming sent 11.12', transport: 'samolot', trans_ico: 'fa-plane',
 trans_lotnisko: 'nie', msza: '—', bilety_nr: 'TBD', pax: 18, paxMax: 25,
 umowy: 'wysłana', gratisy: '—', status: 'Zakończona', statusTone: 'success',
 prowizja: '2%'
@@ -72,7 +72,7 @@ section: null, id: 'MT-2026-WL-02', anulowana: false,
 name: 'Ziemia Święta — ks. Tomasz Radliński',
 org: 'ks. Tomasz Radliński', autor: 'Anna', bok: 'P', bilety: 'M',
 dest: 'Izrael / Palestyna', from: '13.02.2026', to: '20.02.2026',
-pilot: 'Peter', kontrahent: 'Peter sent 13.01', transport: 'samolot', trans_ico: 'fa-plane',
+pilot: 'Peter', pilotPhone: '+972 54 123 4567', pilotEmail: 'peter.pilot@example.com', kontrahent: 'Peter sent 13.01', transport: 'samolot', trans_ico: 'fa-plane',
 trans_lotnisko: 'nie', msza: '—', bilety_nr: 'TBD', pax: 22, paxMax: 30,
 umowy: 'wysłana', gratisy: '—', status: 'Zakończona', statusTone: 'success',
 prowizja: '2%'
@@ -83,7 +83,7 @@ section: 'Kwiecień 2026', id: 'MT-2026-IT-01', anulowana: false,
 name: 'Rzym, Asyż, Watykan — Parafia Bożego Ciała',
 org: 'Parafia Bożego Ciała, Poznań', autor: 'Marek', bok: 'K', bilety: 'E',
 dest: 'Włochy', from: '12.04.2026', to: '19.04.2026',
-pilot: 'Monika B.', kontrahent: 'Kontrahent IT', transport: 'samolot', trans_ico: 'fa-plane',
+pilot: 'Monika B.', pilotPhone: '+48 606 789 012', pilotEmail: 'monika.b@example.com', kontrahent: 'Kontrahent IT', transport: 'samolot', trans_ico: 'fa-plane',
 trans_lotnisko: 'tak', msza: '—', bilety_nr: '45×GRP-IT-03', pax: 45, paxMax: 45,
 umowy: 'wysłana', gratisy: '—', status: 'Gotowy do wyjazdu', statusTone: 'success',
 prowizja: '2%'
@@ -93,7 +93,7 @@ section: null, id: 'MT-2026-WL-03', anulowana: false,
 name: 'Pielgrzymka jubileuszowa Ziemia Święta',
 org: 'ks. Jan Wiśniewski', autor: 'Anna', bok: 'K', bilety: 'E',
 dest: 'Izrael / Palestyna', from: '25.04.2026', to: '02.05.2026',
-pilot: 'Krzysztof T.', kontrahent: 'Peter', transport: 'samolot LOT', trans_ico: 'fa-plane',
+pilot: 'Krzysztof T.', pilotPhone: '+48 505 678 901', pilotEmail: 'krzysztof.t@example.com', kontrahent: 'Peter', transport: 'samolot LOT', trans_ico: 'fa-plane',
 trans_lotnisko: 'tak', msza: '—', bilety_nr: '42×LO4KL2', pax: 42, paxMax: 50,
 umowy: 'wysłana', gratisy: '2 miejsca (co 20 os.)', status: 'Potwierdzony', statusTone: 'success',
 prowizja: '2%'
@@ -104,7 +104,7 @@ section: 'Maj 2026', id: 'MT-2026-ES-01', anulowana: false,
 name: 'Santiago de Compostela — LO Pijarów',
 org: 'Liceum Pijarów Kraków', autor: 'Piotr', bok: 'P', bilety: 'M',
 dest: 'Hiszpania', from: '05.05.2026', to: '12.05.2026',
-pilot: 'TBD', kontrahent: '—', transport: 'samolot', trans_ico: 'fa-plane',
+pilot: 'TBD', pilotPhone: '', pilotEmail: '', kontrahent: '—', transport: 'samolot', trans_ico: 'fa-plane',
 trans_lotnisko: 'nie', msza: '—', bilety_nr: 'opcja (30 miejsc)', pax: 20, paxMax: 30,
 umowy: 'w przygotowaniu', gratisy: '—', status: 'W trakcie zbierania', statusTone: 'info',
 prowizja: '—'
@@ -114,7 +114,7 @@ section: null, id: 'MT-2026-PT-02', anulowana: false,
 name: 'Fatima i Lizbona — pielgrzymka maryjna',
 org: 'ks. Marek Kowalski', autor: 'Anna', bok: 'K', bilety: 'E',
 dest: 'Portugalia', from: '18.05.2026', to: '25.05.2026',
-pilot: 'TBD', kontrahent: '—', transport: 'samolot', trans_ico: 'fa-plane',
+pilot: 'TBD', pilotPhone: '', pilotEmail: '', kontrahent: '—', transport: 'samolot', trans_ico: 'fa-plane',
 trans_lotnisko: 'nie', msza: '—', bilety_nr: '—', pax: 18, paxMax: 35,
 umowy: 'w przygotowaniu', gratisy: '—', status: 'W trakcie zbierania', statusTone: 'info',
 prowizja: '—'
@@ -150,7 +150,18 @@ var dataRow = '<tr' + rowCls + ' onclick="window.AppNavigation.setActivePage(\'s
 ' <span style="font-size:0.72rem;background:#fef3c7;color:#92400e;padding:0.1rem 0.35rem;border-radius:3px;font-weight:700">' + escapeHtml(g.bilety) + '</span>' +
 '</td>' +
 '<td><strong style="font-size:0.82rem">' + escapeHtml(g.dest) + '</strong><br><small style="white-space:nowrap">' + escapeHtml(g.from) + ' – ' + escapeHtml(g.to) + '</small></td>' +
-'<td><small>' + escapeHtml(g.pilot) + '</small></td>' +
+'<td>' + 
+(function() {
+  var tooltipParts = [];
+  if (g.pilotPhone) tooltipParts.push('Tel: ' + escapeHtml(g.pilotPhone));
+  if (g.pilotEmail) tooltipParts.push('Email: ' + escapeHtml(g.pilotEmail));
+  var tooltipText = tooltipParts.join('&#10;');
+  return '<div style="font-size:0.82rem;font-weight:600;display:flex;align-items:center;gap:0.3rem">' + 
+    escapeHtml(g.pilot) +
+    (tooltipText ? '<i class="fa-solid fa-circle-info" style="font-size:0.75rem;color:var(--primary-color);cursor:help" title="' + tooltipText + '"></i>' : '') +
+    '</div>';
+})() +
+'</td>' +
 '<td><small>' + bikona + escapeHtml(g.transport) + '</small></td>' +
 '<td>' +
 '<div class="pax-cell"><span style="font-weight:700;color:' + paxCol + ';font-size:0.9rem">' + g.pax + '/' + g.paxMax + '</span>' +
@@ -392,7 +403,10 @@ function renderCalendarMonth(yr, mo) {
             var ico = g.trans_ico || 'fa-plane';
             var barText = escapeHtml(g.dest) + ' \u00b7 ' + escapeHtml(g.from.slice(0,5)) + '\u2013' + escapeHtml(g.to.slice(0,5));
             if (es.colEnd - es.colStart >= 2) barText += ' \u00b7 ' + g.pax + '/' + g.paxMax + ' os.';
-            var tip = escapeHtml([g.name, g.org, 'Status: ' + g.status, 'PAX: ' + g.pax + '/' + g.paxMax, 'Pilot: ' + g.pilot, g.transport].join('\n'));
+            var pilotInfo = 'Pilot: ' + g.pilot;
+            if (g.pilotPhone) pilotInfo += ' | Tel: ' + g.pilotPhone;
+            if (g.pilotEmail) pilotInfo += ' | Email: ' + g.pilotEmail;
+            var tip = escapeHtml([g.name, g.org, 'Status: ' + g.status, 'PAX: ' + g.pax + '/' + g.paxMax, pilotInfo, g.transport].join('\n'));
             return '<div title="' + tip + '"'
                 + ' onclick="window.AppNavigation && window.AppNavigation.setActivePage(\'szczegoly_grupy\')"'
                 + ' style="position:absolute;left:calc(' + lp + ' + 2px);width:calc(' + wp + ' - 4px);'
