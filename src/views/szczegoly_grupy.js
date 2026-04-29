@@ -316,7 +316,7 @@ panel({ title: 'Informacje ogólne', body:
 '<div class="info-row"><span>Prowizja biuro</span><strong>2%</strong></div>' +
 '</div>'
 }) +
-  var hotelRows = hotels.map(function(h) {
+panel({ title: 'Bilety lotnicze', body:
 '<div class="info-table">' +
 '<div class="info-row"><span>Bilety grupowe (44 os.)</span><strong style="font-family:monospace">W6Y73A</strong></div>' +
 '<div class="info-row"><span>Bilet indywidualny (1 os.)</span><strong style="font-family:monospace">TD236Z</strong></div>' +

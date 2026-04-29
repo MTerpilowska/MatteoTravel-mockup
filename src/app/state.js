@@ -5,6 +5,7 @@
 			currentPage: 'dashboard',
 			selectedRoleFilter: 'admin',
 			selectedPageFilter: 'dashboard',
+			selectedGroupId: null,
 			feedbackOpen: false,
 			captureMode: false,
 			markersVisible: false,

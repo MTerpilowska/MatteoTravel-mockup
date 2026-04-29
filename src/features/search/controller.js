@@ -5,18 +5,18 @@
 	/* ------------------------------------------------------------------ */
 	var MOCK_DATA = [
 		/* Uczestnicy */
-		{ type: 'client', icon: 'fa-user', title: 'Anna Kowalska', sub: 'ul. Kwiatowa 12, Warszawa · +48 500 100 200', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm' },
-		{ type: 'client', icon: 'fa-user', title: 'Jan Malinowski', sub: 'ul. Lipowa 3, Kraków · +48 600 200 300', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm' },
-		{ type: 'client', icon: 'fa-user', title: 'Maria Wiśniewska', sub: 'ul. Różana 7, Wrocław · +48 700 300 400', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm' },
-		{ type: 'client', icon: 'fa-user', title: 'Tomasz Jabłoński', sub: 'Gdańsk · RES-2026-051', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm' },
-		{ type: 'client', icon: 'fa-user', title: 'Katarzyna Zielińska', sub: 'Łódź · ZS-2026-067', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm' },
-		{ type: 'client', icon: 'fa-user', title: 'Paweł Dąbrowski', sub: 'Poznań · pielgrzymka Ziemia Święta', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm' },
-		{ type: 'client', icon: 'fa-user', title: 'Elżbieta Wróbel', sub: 'Szczecin · RES-2026-019', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm' },
-		{ type: 'client', icon: 'fa-user', title: 'Michał Kowalczyk', sub: 'Lublin · depozyt do zapłaty', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm' },
-		{ type: 'client', icon: 'fa-user', title: 'Barbara Lewandowska', sub: 'Kraków · 3 rezerwacje', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm' },
-		{ type: 'client', icon: 'fa-user', title: 'ks. Marcin Olszewski', sub: 'Warszawa · zapytanie z formularza WWW', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm' },
-		{ type: 'client', icon: 'fa-user', title: 'Joanna Kwiatkowska', sub: 'Rzeszów · +48 510 900 111', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm' },
-		{ type: 'client', icon: 'fa-user', title: 'Rafał Nowakowski', sub: 'Białystok · 2 rezerwacje · ZS-2026-089', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm' },
+		{ type: 'client', icon: 'fa-user', title: 'Anna Kowalska', sub: 'ul. Kwiatowa 12, Warszawa · +48 500 100 200', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm', groups: ['Rzym + Watykan — maj 2026', 'Egipt — Hurghada All Inclusive'] },
+		{ type: 'client', icon: 'fa-user', title: 'Jan Malinowski', sub: 'ul. Lipowa 3, Kraków · +48 600 200 300', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm', groups: ['Turcja — Stambuł i Kappadocja', 'Egipt — Hurghada All Inclusive'] },
+		{ type: 'client', icon: 'fa-user', title: 'Maria Wiśniewska', sub: 'ul. Różana 7, Wrocław · +48 700 300 400', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm', groups: ['Lourdes — pielgrzymka chorych'] },
+		{ type: 'client', icon: 'fa-user', title: 'Tomasz Jabłoński', sub: 'Gdańsk · RES-2026-051', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm', groups: ['Egipt — Hurghada All Inclusive'] },
+		{ type: 'client', icon: 'fa-user', title: 'Katarzyna Zielińska', sub: 'Łódź · ZS-2026-067', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm', groups: ['Egipt — Hurghada All Inclusive'] },
+		{ type: 'client', icon: 'fa-user', title: 'Paweł Dąbrowski', sub: 'Poznań · pielgrzymka Ziemia Święta', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm', groups: ['Ziemia Święta z Jordanią — kwiecień 2026', 'Medjugorie — pielgrzymka parafialna'] },
+		{ type: 'client', icon: 'fa-user', title: 'Elżbieta Wróbel', sub: 'Szczecin · RES-2026-019', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm', groups: ['Turcja — Stambuł i Kappadocja'] },
+		{ type: 'client', icon: 'fa-user', title: 'Michał Kowalczyk', sub: 'Lublin · depozyt do zapłaty', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm', groups: ['Fatima i Santiago de Compostela'] },
+		{ type: 'client', icon: 'fa-user', title: 'Barbara Lewandowska', sub: 'Kraków · 3 rezerwacje', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm', groups: ['Ziemia Święta z Jordanią — kwiecień 2026', 'Rzym + Watykan — maj 2026', 'Lourdes — pielgrzymka chorych'] },
+		{ type: 'client', icon: 'fa-user', title: 'ks. Marcin Olszewski', sub: 'Warszawa · zapytanie z formularza WWW', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm', groups: ['Ziemia Święta z Jordanią — kwiecień 2026'] },
+		{ type: 'client', icon: 'fa-user', title: 'Joanna Kwiatkowska', sub: 'Rzeszów · +48 510 900 111', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm', groups: ['Lourdes — pielgrzymka chorych', 'Medjugorie — pielgrzymka parafialna'] },
+		{ type: 'client', icon: 'fa-user', title: 'Rafał Nowakowski', sub: 'Białystok · 2 rezerwacje · ZS-2026-089', page: 'crm', cat: 'Uczestnicy', badge: 'CRM', badgeCls: 'badge-crm', groups: ['Fatima i Santiago de Compostela', 'Medjugorie — pielgrzymka parafialna'] },
 
 		/* Grupy */
 		{ type: 'group', icon: 'fa-people-group', title: 'Ziemia Święta z Jordanią — kwiecień 2026', sub: 'GR-2026-008 · 34 uczestników · od 8 590 PLN', page: 'grupy', cat: 'Grupy / Imprezy', badge: 'Grupy', badgeCls: 'badge-grupy' },
@@ -110,11 +110,16 @@
 		var norm = normalize(query.trim());
 		if (!norm) return null; /* null = pokaż domyślne */
 		return MOCK_DATA.filter(function (item) {
-			return (
-				normalize(item.title).indexOf(norm) !== -1 ||
-				normalize(item.sub).indexOf(norm) !== -1 ||
-				normalize(item.cat).indexOf(norm) !== -1
-			);
+			var matchTitle = normalize(item.title).indexOf(norm) !== -1;
+			var matchSub = normalize(item.sub).indexOf(norm) !== -1;
+			var matchCat = normalize(item.cat).indexOf(norm) !== -1;
+			var matchGroups = false;
+			if (item.groups && item.groups.length > 0) {
+				matchGroups = item.groups.some(function(group) {
+					return normalize(group).indexOf(norm) !== -1;
+				});
+			}
+			return matchTitle || matchSub || matchCat || matchGroups;
 		});
 	}
 
@@ -219,6 +224,13 @@
 		}
 
 		function renderItem(item, query, idx) {
+			var groupsHtml = '';
+			if (item.type === 'client' && item.groups && item.groups.length > 0) {
+				groupsHtml = '<div class="search-modal-result-groups" style="margin-top:0.25rem;font-size:0.8rem;color:var(--text-muted);">' +
+					'<i class="fa-solid fa-people-group" style="font-size:0.7rem;margin-right:0.25rem;"></i>' +
+					'Grupy: ' + escHtml(item.groups.join(', ')) +
+					'</div>';
+			}
 			return (
 				'<div class="search-modal-result" data-idx="' + idx + '">' +
 				'<div class="search-modal-result-icon type-' + item.type + '">' +
@@ -227,6 +239,7 @@
 				'<div class="search-modal-result-text">' +
 				'<div class="search-modal-result-title">' + highlight(item.title, query) + '</div>' +
 				'<div class="search-modal-result-sub">' + escHtml(item.sub) + '</div>' +
+				groupsHtml +
 				'</div>' +
 				'<span class="search-modal-result-badge ' + item.badgeCls + '">' + escHtml(item.badge) + '</span>' +
 				'</div>'

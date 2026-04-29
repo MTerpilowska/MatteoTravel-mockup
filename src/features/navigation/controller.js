@@ -46,8 +46,11 @@
                         }
                 }
 
-                function setActivePage(pageKey) {
-                        state.currentPage = pageKey;
+function setActivePage(pageKey, params) {
+			state.currentPage = pageKey;
+			if (params && params.groupId !== undefined) {
+				state.selectedGroupId = params.groupId;
+			}
                         dom.navItems.forEach((item) => item.classList.toggle('active', item.dataset.page === pageKey));
                         onChange();
                 }

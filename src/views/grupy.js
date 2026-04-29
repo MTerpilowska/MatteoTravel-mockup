@@ -139,7 +139,7 @@ var mktOk = !g.anulowana && (g.status === 'Zako\u0144czona');
 var _p = function(l, ok) { return '<span style="font-size:0.62rem;padding:0.08rem 0.3rem;border-radius:3px;font-weight:700;white-space:nowrap;background:' + (ok ? '#dcfce7' : '#fef3c7') + ';color:' + (ok ? '#166534' : '#92400e') + '">' + l + (ok ? ' \u2713' : ' \u23f3') + '</span>'; };
 var deptPills = g.anulowana ? '' :
   '<div style="display:flex;gap:0.2rem;flex-wrap:wrap;margin-top:0.3rem">' + _p('BOK', bokOk) + _p('Bil.', bilOk) + _p('Mkt', mktOk) + '</div>';
-var dataRow = '<tr' + rowCls + ' onclick="window.AppNavigation.setActivePage(\'szczegoly_grupy\')" style="cursor:pointer">' +
+var dataRow = '<tr' + rowCls + ' onclick="window.AppNavigation.setActivePage(\'szczegoly_grupy\', {groupId: \'' + g.id + '\'})" style="cursor:pointer">' +
 '<td><code style="font-size:0.7rem">' + escapeHtml(g.id) + '</code></td>' +
 '<td><strong style="font-size:0.82rem">' + escapeHtml(g.org) + '</strong>' +
 (g.anulowana ? '<br><small style="color:var(--danger-color)"><i class="fa-solid fa-ban"></i> anulowana ' + escapeHtml(g.notes || '') + '</small>' : '') +
