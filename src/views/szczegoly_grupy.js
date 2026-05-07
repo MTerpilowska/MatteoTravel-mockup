@@ -838,7 +838,7 @@ panel({ title: 'Transport — szczegóły Egipt 24–31.01.2026',
 			action: '<div style="display:flex;gap:0.5rem;flex-wrap:wrap">' +
 				'<select class="inline-select"><option>Wszyscy</option><option>Nieopłaceni</option><option>Brak dokumentów</option><option>Brak umowy</option></select>' +
 				button({ label: 'Lista do biletowania', icon: 'fa-solid fa-list', variant: 'outline' }) +
-				button({ label: 'Export Excel', icon: 'fa-solid fa-download', variant: 'ghost', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('export-excel-modal').classList.add('show')" } }) +
+				button({ label: 'Export', icon: 'fa-solid fa-download', variant: 'ghost', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('export-modal').classList.add('show')" } }) +
 				button({ label: 'Dodaj uczestnika', icon: 'fa-solid fa-user-plus', variant: 'primary', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('dodaj-uczestnika-modal').classList.add('show')" } }) +
 			'</div>',
 			body: '<div class="table-container"><table class="data-table">' +
@@ -950,7 +950,7 @@ panel({
 	title: 'Rooming list',
 	action: '<div style="display:flex;gap:0.5rem">' +
 		button({ label: 'Export PDF', icon: 'fa-solid fa-file-pdf', variant: 'outline' }) +
-		button({ label: 'Export Excel', icon: 'fa-solid fa-download', variant: 'outline' }) +
+		button({ label: 'Export', icon: 'fa-solid fa-download', variant: 'outline' }) +
 	'</div>',
 	body: '<div class="table-container"><table class="data-table">' +
 		'<thead><tr>' +
@@ -2241,16 +2241,16 @@ panel({
   '</div>' +
 '</div>' +
 
-/* ==== EXPORT EXCEL MODAL ==== */
-'<div id="export-excel-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
+/* ==== EXPORT MODAL ==== */
+'<div id="export-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove(\'show\')">' +
   '<div class="demo-modal" style="max-width:500px;width:95%;">' +
     '<div class="demo-modal-header">' +
-      '<h2><i class="fa-solid fa-file-excel" style="margin-right:0.5rem;color:var(--success-color)"></i>Eksport danych uczestnik\u00f3w</h2>' +
-      '<button class="demo-modal-close" type="button" onclick="document.getElementById(\'export-excel-modal\').classList.remove(\'show\')"><i class="fa-solid fa-xmark"></i></button>' +
+      '<h2><i class="fa-solid fa-file-export" style="margin-right:0.5rem;color:var(--success-color)"></i>Eksport danych uczestnik\u00f3w</h2>' +
+      '<button class="demo-modal-close" type="button" onclick="document.getElementById(\'export-modal\').classList.remove(\'show\')"><i class="fa-solid fa-xmark"></i></button>' +
     '</div>' +
     '<div class="demo-modal-body" style="padding:1.5rem;max-height:70vh;overflow-y:auto;">' +
-      '<p style="margin-bottom:1rem;color:var(--text-muted);font-size:0.85rem;">Wybierz kolumny, kt\u00f3re maj\u0105 zosta\u0107 zawarte w pliku Excel:</p>' +
-      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">' +
+      '<p style="margin-bottom:1rem;color:var(--text-muted);font-size:0.85rem;">Wybierz kolumny, kt\u00f3re maj\u0105 zosta\u0107 zawarte w pliku:</p>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.5rem;">' +
         '<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--primary-color)"> <strong>Imi\u0119</strong></label>' +
         '<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--primary-color)"> <strong>Nazwisko</strong></label>' +
         '<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--primary-color)"> <strong>Telefon</strong></label>' +
@@ -2262,10 +2262,29 @@ panel({
         '<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" style="accent-color:var(--primary-color)"> <strong>Uwagi/Diety</strong></label>' +
         '<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" style="accent-color:var(--primary-color)"> <strong>Status umowy/dok.</strong></label>' +
       '</div>' +
+      '<div style="margin-bottom:1.5rem;">' +
+        '<p style="margin-bottom:0.75rem;color:var(--text-muted);font-size:0.85rem;">Format eksportu:</p>' +
+        '<div style="display:flex;gap:1.5rem;">' +
+          '<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer">' +
+            '<input type="radio" name="export-format" value="excel" checked style="accent-color:var(--primary-color)">' +
+            '<strong>Excel (.xlsx)</strong>' +
+          '</label>' +
+          '<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer">' +
+            '<input type="radio" name="export-format" value="pdf" style="accent-color:var(--primary-color)">' +
+            '<strong>PDF</strong>' +
+          '</label>' +
+        '</div>' +
+      '</div>' +
+      '<div style="border-top:1px solid var(--border-color);padding-top:1rem;">' +
+        '<label style="display:flex;align-items:center;gap:0.65rem;font-size:0.9rem;cursor:pointer">' +
+          '<input type="checkbox" id="export-no-polish" style="accent-color:var(--primary-color);width:18px;height:18px;">' +
+          '<span style="color:var(--text-main)">Bez polskich znak\u00f3w</span>' +
+        '</label>' +
+      '</div>' +
     '</div>' +
     '<div class="demo-modal-footer">' +
-      '<button class="btn btn-outline" type="button" data-no-demo="true" onclick="document.getElementById(\'export-excel-modal\').classList.remove(\'show\')">Anuluj</button>' +
-      button({ label: 'Pobierz Excel (.xlsx)', icon: 'fa-solid fa-download', variant: 'primary' }) +
+      '<button class="btn btn-outline" type="button" data-no-demo="true" onclick="document.getElementById(\'export-modal\').classList.remove(\'show\')">Anuluj</button>' +
+      '<button class="btn btn-primary" type="button" onclick="window.exportParticipants()"><i class="fa-solid fa-download" style="margin-right:0.5rem;"></i>Pobierz</button>' +
     '</div>' +
   '</div>' +
 '</div>' +
@@ -2522,6 +2541,22 @@ window._kiConfirmDept = function(dept) {
 	if (btn) btn.style.display = 'none';
 	var warn = document.getElementById('ki-main-warn');
 	if (warn) warn.style.display = 'none';
+};
+
+/* ===== EKSPORT UCZESTNIK\u00d3W ===== */
+window.exportParticipants = function() {
+	var selectedFormat = document.querySelector('input[name="export-format"]:checked');
+	var noPolish = document.getElementById('export-no-polish').checked;
+	var format = selectedFormat ? selectedFormat.value : 'excel';
+	
+	// Symulacja eksportu - w rzeczywistej aplikacji tutaj by\u0142by wywo\u0142anie API
+	var msg = 'Eksportuj\u0119 do formatu: ' + (format === 'excel' ? 'Excel (.xlsx)' : 'PDF');
+	if (noPolish) {
+		msg += '\nBez polskich znak\u00f3w';
+	}
+	
+	window.showToast && window.showToast('Eksport uczestnik\u00f3w', msg, 'success');
+	document.getElementById('export-modal').classList.remove('show');
 };
 
 })();

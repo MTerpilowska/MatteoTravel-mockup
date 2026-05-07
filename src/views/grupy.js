@@ -55,7 +55,7 @@ const groups = [
 {
 section: 'Styczeń 2026', id: 'MT-2026-EG-00', anulowana: true,
 name: 'EGIPT — na sprzedaż (anulacja 29.10.2025)',
-org: 'brak — nie ma nikogo', orgPhone: '', orgEmail: '', autor: 'Ania', bok: '—', booking: '—', bilety: '—',
+org: 'brak — nie ma nikogo', orgPhone: '', orgEmail: '', autor: 'Ania', bok: '—', booking: '—', bilety: '—', marketing: '—',
 dest: 'Egipt', from: '22.01.2026', to: '29.01.2026',
 pilot: '—', pilotPhone: '', pilotEmail: '', kontrahent: 'Iza SENT', transport: 'samolot LOT', trans_ico: 'fa-plane',
 trans_lotnisko: 'nie', msza: '—', bilety_nr: 'ZVEQA4', pax: 0, paxMax: 45,
@@ -66,7 +66,7 @@ pilotFlightStatus: 'nie_leci', pilotFlightNumbers: ''
 {
 section: null, id: 'MT-2026-EG-01', anulowana: false,
 name: 'Egipt — Piramidy, pociąg, Hurghada',
-org: 'Izabela Żebrowska / ks. Wojciech Lipka', orgPhone: '+48 601 123 456', orgEmail: 'izabela.zebrowska@example.com', autor: 'Ania', bok: 'K', booking: 'A', bilety: 'E',
+org: 'Izabela Żebrowska / ks. Wojciech Lipka', orgPhone: '+48 601 123 456', orgEmail: 'izabela.zebrowska@example.com', autor: 'Ania', bok: 'K', booking: 'A', bilety: 'E', marketing: 'M',
 dest: 'Egipt', from: '24.01.2026', to: '31.01.2026',
 pilot: 'Alicja Aziz', pilotPhone: '+48 501 234 567', pilotEmail: 'alicja.aziz@example.com', kontrahent: 'Iza Strzelak SENT', transport: 'samolot LOT + autokar (Regency)', trans_ico: 'fa-plane',
 trans_lotnisko: 'nie', msza: '24.01 g. 14:00 — WAW', bilety_nr: '44×W6Y73A / 1×TD236Z', pax: 44, paxMax: 45,
@@ -77,7 +77,7 @@ pilotFlightStatus: 'leci_z_grupa', pilotFlightNumbers: ''
 {
 section: null, id: 'MT-2026-KE-01', anulowana: false,
 name: 'Kenia — Nairobi, Subukia, Watamu',
-org: 'ks. Paweł Antosiak / ks. Wojciech Iwanicki', orgPhone: '+48 602 987 654', orgEmail: 'antosiak@example.com', autor: 'Natalia', bok: 'P', booking: 'A', bilety: 'M',
+org: 'ks. Paweł Antosiak / ks. Wojciech Iwanicki', orgPhone: '+48 602 987 654', orgEmail: 'antosiak@example.com', autor: 'Natalia', bok: 'P', booking: 'A', bilety: 'M', marketing: 'A',
 dest: 'Kenia', from: '25.01.2026', to: '08.02.2026',
 pilot: 'Radosław Malinowski', pilotPhone: '+48 602 345 678', pilotEmail: 'radoslaw.malinowski@example.com', kontrahent: 'ks. Antosiak (sam organizuje)', transport: 'samolot Ethiopian Airlines', trans_ico: 'fa-plane',
 trans_lotnisko: 'nie', msza: '—', bilety_nr: '11×WLJENV / 1×8IAKUH', pax: 11, paxMax: 12,
@@ -89,7 +89,7 @@ pilotFlightStatus: 'dolatuje', pilotFlightNumbers: 'ET701, ET702'
 {
 section: 'Luty 2026', id: 'MT-2026-EG-02', anulowana: false,
 name: 'Egipt — Kair, Sharm el Sheikh, Krzysiak',
-org: 'Józefa Krzysiak / ks. Michał Nędza', orgPhone: '+48 603 456 789', orgEmail: 'krzysiak@example.com', autor: 'Ania', bok: 'P', booking: 'A', bilety: 'E',
+org: 'Józefa Krzysiak / ks. Michał Nędza', orgPhone: '+48 603 456 789', orgEmail: 'krzysiak@example.com', autor: 'Ania', bok: 'P', booking: 'A', bilety: 'E', marketing: 'M',
 dest: 'Egipt', from: '31.01.2026', to: '07.02.2026',
 pilot: 'Alicja Aziz', pilotPhone: '+48 501 234 567', pilotEmail: 'alicja.aziz@example.com', kontrahent: 'Iza Strzelak SENT', transport: 'samolot LOT + autokar (Regency)', trans_ico: 'fa-plane',
 trans_lotnisko: 'nie', msza: '31.01 g. 15:00 — lotnisko Chopina', bilety_nr: '33×73QAVQ', pax: 33, paxMax: 33,
@@ -100,7 +100,7 @@ pilotFlightStatus: 'leci_z_grupa', pilotFlightNumbers: ''
 {
 section: null, id: 'MT-2026-PT-01', anulowana: false,
 name: 'Portugalia — Braga, Fatima, Santiago',
-org: 'ks. Henryk Hendzel', orgPhone: '+48 604 111 222', orgEmail: 'h.hendzel@example.com', autor: 'Zuzia', bok: 'K', booking: 'A', bilety: 'E',
+org: 'ks. Henryk Hendzel', orgPhone: '+48 604 111 222', orgEmail: 'h.hendzel@example.com', autor: 'Zuzia', bok: 'K', booking: 'A', bilety: 'E', marketing: 'M',
 dest: 'Portugalia / Hiszpania', from: '03.02.2026', to: '10.02.2026',
 pilot: 'TBD', pilotPhone: '', pilotEmail: '', kontrahent: 'Zuzia SENT', transport: 'samolot', trans_ico: 'fa-plane',
 trans_lotnisko: 'tak', msza: '—', bilety_nr: 'TBD', pax: 35, paxMax: 40,
@@ -111,7 +111,7 @@ pilotFlightStatus: 'nie_leci', pilotFlightNumbers: ''
 {
 section: null, id: 'MT-2026-WL-01', anulowana: false,
 name: 'Ziemia Święta — ks. Maciej Gierula',
-org: 'ks. Maciej Gierula', orgPhone: '', orgEmail: '', autor: 'Anna', bok: 'P', booking: 'A', bilety: 'M',
+org: 'ks. Maciej Gierula', orgPhone: '', orgEmail: '', autor: 'Anna', bok: 'P', booking: 'A', bilety: 'M', marketing: 'A',
 dest: 'Izrael / Palestyna', from: '08.02.2026', to: '16.02.2026',
 pilot: 'Peter', pilotPhone: '+972 54 123 4567', pilotEmail: 'peter.pilot@example.com', kontrahent: 'Peter rooming sent 11.12', transport: 'samolot', trans_ico: 'fa-plane',
 trans_lotnisko: 'nie', msza: '—', bilety_nr: 'TBD', pax: 18, paxMax: 25,
@@ -122,7 +122,7 @@ pilotFlightStatus: 'nie_leci', pilotFlightNumbers: ''
 {
 section: null, id: 'MT-2026-WL-02', anulowana: false,
 name: 'Ziemia Święta — ks. Tomasz Radliński',
-org: 'ks. Tomasz Radliński', orgPhone: '', orgEmail: '', autor: 'Anna', bok: 'P', booking: 'A', bilety: 'M',
+org: 'ks. Tomasz Radliński', orgPhone: '', orgEmail: '', autor: 'Anna', bok: 'P', booking: 'A', bilety: 'M', marketing: 'M',
 dest: 'Izrael / Palestyna', from: '13.02.2026', to: '20.02.2026',
 pilot: 'Peter', pilotPhone: '+972 54 123 4567', pilotEmail: 'peter.pilot@example.com', kontrahent: 'Peter sent 13.01', transport: 'samolot', trans_ico: 'fa-plane',
 trans_lotnisko: 'nie', msza: '—', bilety_nr: 'TBD', pax: 22, paxMax: 30,
@@ -134,7 +134,7 @@ pilotFlightStatus: 'leci_z_grupa', pilotFlightNumbers: ''
 {
 section: 'Kwiecień 2026', id: 'MT-2026-IT-01', anulowana: false,
 name: 'Rzym, Asyż, Watykan — Parafia Bożego Ciała',
-org: 'Parafia Bożego Ciała, Poznań', orgPhone: '+48 61 875 4321', orgEmail: 'parafia@bozegociala.pl', autor: 'Marek', bok: 'K', booking: 'A', bilety: 'E',
+org: 'Parafia Bożego Ciała, Poznań', orgPhone: '+48 61 875 4321', orgEmail: 'parafia@bozegociala.pl', autor: 'Marek', bok: 'K', booking: 'A', bilety: 'E', marketing: 'M',
 dest: 'Włochy', from: '12.04.2026', to: '19.04.2026',
 pilot: 'Monika B.', pilotPhone: '+48 606 789 012', pilotEmail: 'monika.b@example.com', kontrahent: 'Kontrahent IT', transport: 'samolot', trans_ico: 'fa-plane',
 trans_lotnisko: 'tak', msza: '—', bilety_nr: '45×GRP-IT-03', pax: 45, paxMax: 45,
@@ -145,7 +145,7 @@ pilotFlightStatus: 'leci_z_grupa', pilotFlightNumbers: ''
 {
 section: null, id: 'MT-2026-WL-03', anulowana: false,
 name: 'Pielgrzymka jubileuszowa Ziemia Święta',
-org: 'ks. Jan Wiśniewski', orgPhone: '', orgEmail: '', autor: 'Anna', bok: 'K', booking: 'A', bilety: 'E',
+org: 'ks. Jan Wiśniewski', orgPhone: '', orgEmail: '', autor: 'Anna', bok: 'K', booking: 'A', bilety: 'E', marketing: 'A',
 dest: 'Izrael / Palestyna', from: '25.04.2026', to: '02.05.2026',
 pilot: 'Krzysztof T.', pilotPhone: '+48 505 678 901', pilotEmail: 'krzysztof.t@example.com', kontrahent: 'Peter', transport: 'samolot LOT', trans_ico: 'fa-plane',
 trans_lotnisko: 'tak', msza: '—', bilety_nr: '42×LO4KL2', pax: 42, paxMax: 50,
@@ -157,7 +157,7 @@ pilotFlightStatus: 'leci_z_grupa', pilotFlightNumbers: ''
 {
 section: 'Maj 2026', id: 'MT-2026-ES-01', anulowana: false,
 name: 'Santiago de Compostela — LO Pijarów',
-org: 'Liceum Pijarów Kraków', orgPhone: '', orgEmail: '', autor: 'Piotr', bok: 'P', booking: 'A', bilety: 'M',
+org: 'Liceum Pijarów Kraków', orgPhone: '', orgEmail: '', autor: 'Piotr', bok: 'P', booking: 'A', bilety: 'M', marketing: 'P',
 dest: 'Hiszpania', from: '05.05.2026', to: '12.05.2026',
 pilot: 'TBD', pilotPhone: '', pilotEmail: '', kontrahent: '—', transport: 'samolot', trans_ico: 'fa-plane',
 trans_lotnisko: 'nie', msza: '—', bilety_nr: 'opcja (30 miejsc)', pax: 20, paxMax: 30,
@@ -168,7 +168,7 @@ pilotFlightStatus: 'nie_leci', pilotFlightNumbers: ''
 {
 section: null, id: 'MT-2026-PT-02', anulowana: false,
 name: 'Fatima i Lizbona — pielgrzymka maryjna',
-org: 'ks. Marek Kowalski', orgPhone: '', orgEmail: '', autor: 'Anna', bok: 'K', booking: 'A', bilety: 'E',
+org: 'ks. Marek Kowalski', orgPhone: '', orgEmail: '', autor: 'Anna', bok: 'K', booking: 'A', bilety: 'E', marketing: 'A',
 dest: 'Portugalia', from: '18.05.2026', to: '25.05.2026',
 pilot: 'TBD', pilotPhone: '', pilotEmail: '', kontrahent: '—', transport: 'samolot', trans_ico: 'fa-plane',
 trans_lotnisko: 'nie', msza: '—', bilety_nr: '—', pax: 18, paxMax: 35,
@@ -184,7 +184,7 @@ var terminarzRows = groups.map(function(g) {
 var sectionRow = '';
 if (g.section && g.section !== lastSection) {
 lastSection = g.section;
-sectionRow = '<tr class="terminarz-section-row" style="cursor:default"><td colspan="13" class="terminarz-section"><i class="fa-solid fa-calendar-days" style="margin-right:0.4rem"></i>' + escapeHtml(g.section) + '</td></tr>';
+sectionRow = '<tr class="terminarz-section-row" style="cursor:default"><td colspan="10" class="terminarz-section"><i class="fa-solid fa-calendar-days" style="margin-right:0.4rem"></i>' + escapeHtml(g.section) + '</td></tr>';
 }
 var pct = g.paxMax ? Math.round(g.pax / g.paxMax * 100) : 0;
 var paxCol = pct >= 100 ? 'var(--success-color)' : pct >= 70 ? 'var(--primary-color)' : pct >= 40 ? 'var(--warning-color)' : 'var(--danger-color)';
@@ -214,10 +214,15 @@ var orgContent = (function() {
     '</div>' +
     (g.anulowana ? '<br><small style="color:var(--danger-color)"><i class="fa-solid fa-ban"></i> anulowana ' + escapeHtml(g.notes || '') + '</small>' : '');
 })();
-var autorContent = '<span style="font-size:0.75rem;background:#e0e7ff;color:#4338ca;padding:0.1rem 0.4rem;border-radius:4px;font-weight:700">' + escapeHtml(g.autor) + '</span>';
-var bokContent = '<span style="font-size:0.72rem;background:#dcfce7;color:#166534;padding:0.1rem 0.35rem;border-radius:3px;font-weight:700" title="BOK">' + escapeHtml(g.bok) + '</span>' +
-  (g.booking ? ' <span style="font-size:0.72rem;background:#e0e7ff;color:#4338ca;padding:0.1rem 0.35rem;border-radius:3px;font-weight:700" title="Booking">' + escapeHtml(g.booking) + '</span>' : '') +
-  ' <span style="font-size:0.72rem;background:#fef3c7;color:#92400e;padding:0.1rem 0.35rem;border-radius:3px;font-weight:700" title="Bilety lotnicze">' + escapeHtml(g.bilety) + '</span>';
+var autorBokContent = '<div style="display:flex;flex-direction:column;gap:0.35rem;align-items:flex-start">' +
+  '<span style="font-size:0.75rem;background:#e0e7ff;color:#4338ca;padding:0.1rem 0.4rem;border-radius:4px;font-weight:700">' + escapeHtml(g.autor) + '</span>' +
+  '<div style="display:flex;gap:0.25rem;flex-wrap:wrap">' +
+  '<span style="font-size:0.68rem;background:#dcfce7;color:#166534;padding:0.1rem 0.3rem;border-radius:3px;font-weight:700" title="BOK">' + escapeHtml(g.bok) + '</span>' +
+  (g.booking && g.booking !== '—' ? '<span style="font-size:0.68rem;background:#e0e7ff;color:#4338ca;padding:0.1rem 0.3rem;border-radius:3px;font-weight:700" title="Booking">' + escapeHtml(g.booking) + '</span>' : '') +
+  (g.bilety && g.bilety !== '—' ? '<span style="font-size:0.68rem;background:#fef3c7;color:#92400e;padding:0.1rem 0.3rem;border-radius:3px;font-weight:700" title="Bilety lotnicze">' + escapeHtml(g.bilety) + '</span>' : '') +
+  (g.marketing && g.marketing !== '—' ? '<span style="font-size:0.68rem;background:#fce7f3;color:#9f1239;padding:0.1rem 0.3rem;border-radius:3px;font-weight:700" title="Marketing">' + escapeHtml(g.marketing) + '</span>' : '') +
+  '</div>' +
+  '</div>';
 var destContent = '<strong style="font-size:0.82rem">' + escapeHtml(g.dest) + '</strong><br><small style="white-space:nowrap">' + escapeHtml(g.from) + ' – ' + escapeHtml(g.to) + '</small>';
 var pilotContent = (function() {
   var tooltipParts = [];
@@ -244,11 +249,20 @@ var pilotContent = (function() {
     (flightTag ? '<div>' + flightTag + '</div>' : '') +
     '</div>';
 })();
-var transportContent = bikona;
-var paxContent = '<div class="pax-cell"><span style="font-weight:700;color:' + paxCol + ';font-size:0.9rem">' + g.pax + '/' + g.paxMax + '</span>' +
-  '<div class="mini-progress" style="margin-top:3px"><div class="mini-progress-fill" style="width:' + pct + '%;background:' + paxCol + '"></div></div></div>';
-var biletyNrContent = '<small style="font-family:monospace;font-size:0.72rem">' + escapeHtml(g.bilety_nr) + '</small>';
-var mszaContent = '<small>' + (g.msza !== '—' ? '<span style="color:var(--success-color);font-weight:600">Tak</span>' : '<span style="color:var(--text-muted)">Nie</span>') + '</small>';
+var transportMszaContent = '<div style="display:flex;flex-direction:column;gap:0.3rem;align-items:center">' +
+  bikona +
+  '<small style="font-size:0.68rem">' + (g.msza !== '—' ? '<span style="color:var(--success-color);font-weight:600">✓ MS</span>' : '<span style="color:var(--text-muted)">—</span>') + '</small>' +
+  '</div>';
+var paxBiletyContent = (function() {
+  var biletyLines = g.bilety_nr.split(' / ').map(function(code) {
+    return '<div style="line-height:1.2"><small style="font-family:monospace;font-size:0.68rem;color:var(--text-muted)">' + escapeHtml(code.trim()) + '</small></div>';
+  }).join('');
+  return '<div style="display:flex;flex-direction:column;gap:0.3rem;align-items:flex-start">' +
+    '<div class="pax-cell"><span style="font-weight:700;color:' + paxCol + ';font-size:0.9rem">' + g.pax + '/' + g.paxMax + '</span>' +
+    '<div class="mini-progress" style="margin-top:3px"><div class="mini-progress-fill" style="width:' + pct + '%;background:' + paxCol + '"></div></div></div>' +
+    '<div style="display:flex;flex-direction:column;gap:0.1rem">' + biletyLines + '</div>' +
+    '</div>';
+})();
 var umowyContent = '<span style="font-size:0.78rem;' + (g.umowy === 'wysłana' || g.umowy === 'wysłana 17.10.2025' || g.umowy === 'wysłana 28.02.2025' ? 'color:var(--success-color);font-weight:600' : g.umowy === 'w przygotowaniu' ? 'color:var(--warning-color)' : 'color:var(--text-muted)') + '">' + escapeHtml(g.umowy) + '</span>';
 var statusContent = statusBadge(g.status, g.statusTone);
 var akcjeContent = '<div style="display:flex;gap:0.25rem">' +
@@ -258,14 +272,11 @@ var akcjeContent = '<div style="display:flex;gap:0.25rem">' +
 var dataRow = '<tr' + rowCls + ' class="group-row" data-group-id="' + g.id + '" style="cursor:pointer">' +
 makeEditableCell(g.id, 'kod', kodContent) +
 makeEditableCell(g.id, 'organizator', orgContent) +
-makeEditableCell(g.id, 'autor', autorContent, 'text-align:center') +
-makeEditableCell(g.id, 'bok', bokContent, 'text-align:center') +
+makeEditableCell(g.id, 'autor_bok', autorBokContent, 'text-align:center') +
 makeEditableCell(g.id, 'kierunek', destContent) +
 makeEditableCell(g.id, 'pilot', pilotContent) +
-makeEditableCell(g.id, 'transport', transportContent, 'text-align:center') +
-makeEditableCell(g.id, 'pax', paxContent) +
-makeEditableCell(g.id, 'bilety_nr', biletyNrContent) +
-makeEditableCell(g.id, 'msza', mszaContent, 'text-align:center') +
+makeEditableCell(g.id, 'transport_msza', transportMszaContent, 'text-align:center') +
+makeEditableCell(g.id, 'pax_bilety', paxBiletyContent) +
 makeEditableCell(g.id, 'umowy', umowyContent) +
 makeEditableCell(g.id, 'akcje', akcjeContent, '', true) +
 '</tr>';
@@ -575,15 +586,12 @@ button({ label: 'Eksport PDF', icon: 'fa-solid fa-download', variant: 'ghost' })
 body: '<div class="table-container" style="overflow-x:auto"><table class="data-table terminarz-table">' +
 '<thead><tr>' +
 '<th>Kod</th>' +
-'<th style="min-width:180px">Organizator</th>' +
-'<th>Autor</th>' +
-'<th title="BOK / Booking / Bilety lotnicze">BOK / BKG / BIL</th>' +
+'<th style="min-width:140px">Organizator</th>' +
+'<th title="Autor / BOK / Booking / Bilety / Marketing">Autor<br><small style="font-weight:400;opacity:0.7">BOK·BKG·BIL·MKT</small></th>' +
 '<th>Kierunek / Termin</th>' +
 '<th>Pilot</th>' +
-'<th>Transport</th>' +
-'<th>PAX</th>' +
-'<th>Nr biletów</th>' +
-'<th>Msza lotn.</th>' +
+'<th title="Transport / Msza lotnisko">Transport<br><small style="font-weight:400;opacity:0.7">Msza</small></th>' +
+'<th>PAX<br><small style="font-weight:400;opacity:0.7">Nr biletów</small></th>' +
 '<th>Umowy</th>' +
 '<th></th>' +
 '</tr></thead>' +

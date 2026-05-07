@@ -228,7 +228,7 @@
 					</div>
 					<div class="demo-modal-footer">
 						<button class="btn btn-outline" data-no-demo="true" onclick="this.closest('.demo-modal-overlay').classList.remove('show')">Zamknij</button>
-						${button({ label: 'Eksportuj PDF', icon: 'fa-solid fa-file-arrow-down', variant: 'outline' })}
+						${button({ label: 'Export', icon: 'fa-solid fa-download', variant: 'outline', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('export-biletowanie-modal').classList.add('show')" } })}
 					</div>
 				</div>
 			</div>`;
@@ -250,6 +250,7 @@
 			</div>`,
 			panel({
 				title: 'Rezerwacje lotnicze',
+				action: button({ label: 'Export', icon: 'fa-solid fa-download', variant: 'ghost', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('export-all-biletowanie-modal').classList.add('show')" } }),
 				body: `
 					<div class="alert-banner danger" style="margin-bottom:1rem">
 						<i class="fa-solid fa-bell"></i>
@@ -362,6 +363,97 @@
 					<div class="demo-modal-footer">
 						<button class="btn btn-outline" type="button" data-no-demo="true" onclick="document.getElementById('edytuj-pnr-modal').classList.remove('show')">Anuluj</button>
 						${button({ label: 'Zapisz zmiany', icon: 'fa-solid fa-check' })}
+					</div>
+				</div>
+			</div>`,
+
+			/* ==== EXPORT BILETOWANIE MODAL ==== */
+			`<div id="export-biletowanie-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove('show')">
+				<div class="demo-modal" style="max-width:500px;width:95%;">
+					<div class="demo-modal-header">
+						<h2><i class="fa-solid fa-file-export" style="margin-right:0.5rem;color:var(--success-color)"></i>Eksport listy do biletowania</h2>
+						<button class="demo-modal-close" type="button" onclick="document.getElementById('export-biletowanie-modal').classList.remove('show')"><i class="fa-solid fa-xmark"></i></button>
+					</div>
+					<div class="demo-modal-body" style="padding:1.5rem;max-height:70vh;overflow-y:auto;">
+						<p style="margin-bottom:1rem;color:var(--text-muted);font-size:0.85rem;">Wybierz kolumny, które mają zostać zawarte w pliku:</p>
+						<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.5rem;">
+							<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--primary-color)"> <strong>Imię i nazwisko</strong></label>
+							<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--primary-color)"> <strong>Nr paszportu</strong></label>
+							<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--primary-color)"> <strong>Ważność</strong></label>
+							<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" style="accent-color:var(--primary-color)"> <strong>Miejsce</strong></label>
+							<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" style="accent-color:var(--primary-color)"> <strong>Nr biletu</strong></label>
+							<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" style="accent-color:var(--primary-color)"> <strong>Status</strong></label>
+						</div>
+						<div style="margin-bottom:1.5rem;">
+							<p style="margin-bottom:0.75rem;color:var(--text-muted);font-size:0.85rem;">Format eksportu:</p>
+							<div style="display:flex;gap:1.5rem;">
+								<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer">
+									<input type="radio" name="export-biletowanie-format" value="excel" checked style="accent-color:var(--primary-color)">
+									<strong>Excel (.xlsx)</strong>
+								</label>
+								<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer">
+									<input type="radio" name="export-biletowanie-format" value="pdf" style="accent-color:var(--primary-color)">
+									<strong>PDF</strong>
+								</label>
+							</div>
+						</div>
+						<div style="border-top:1px solid var(--border-color);padding-top:1rem;">
+							<label style="display:flex;align-items:center;gap:0.65rem;font-size:0.9rem;cursor:pointer">
+								<input type="checkbox" id="export-biletowanie-no-polish" style="accent-color:var(--primary-color);width:18px;height:18px;">
+								<span style="color:var(--text-main)">Bez polskich znaków</span>
+							</label>
+						</div>
+					</div>
+					<div class="demo-modal-footer">
+						<button class="btn btn-outline" type="button" data-no-demo="true" onclick="document.getElementById('export-biletowanie-modal').classList.remove('show')">Anuluj</button>
+						<button class="btn btn-primary" type="button" onclick="window.exportBiletowanie()"><i class="fa-solid fa-download" style="margin-right:0.5rem;"></i>Pobierz</button>
+					</div>
+				</div>
+			</div>`,
+
+			/* ==== EXPORT ALL BILETOWANIE MODAL ==== */
+			`<div id="export-all-biletowanie-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove('show')">
+				<div class="demo-modal" style="max-width:500px;width:95%;">
+					<div class="demo-modal-header">
+						<h2><i class="fa-solid fa-file-export" style="margin-right:0.5rem;color:var(--success-color)"></i>Eksport wszystkich rezerwacji</h2>
+						<button class="demo-modal-close" type="button" onclick="document.getElementById('export-all-biletowanie-modal').classList.remove('show')"><i class="fa-solid fa-xmark"></i></button>
+					</div>
+					<div class="demo-modal-body" style="padding:1.5rem;max-height:70vh;overflow-y:auto;">
+						<p style="margin-bottom:1rem;color:var(--text-muted);font-size:0.85rem;">Wybierz kolumny, które mają zostać zawarte w pliku:</p>
+						<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.5rem;">
+							<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--primary-color)"> <strong>PNR</strong></label>
+							<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--primary-color)"> <strong>Linia lotnicza</strong></label>
+							<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--primary-color)"> <strong>Trasa</strong></label>
+							<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--primary-color)"> <strong>Data lotu</strong></label>
+							<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" style="accent-color:var(--primary-color)"> <strong>Impreza</strong></label>
+							<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" style="accent-color:var(--primary-color)"> <strong>Miejsca</strong></label>
+							<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" style="accent-color:var(--primary-color)"> <strong>Depozyt</strong></label>
+							<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" style="accent-color:var(--primary-color)"> <strong>Deadline</strong></label>
+							<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer"><input type="checkbox" style="accent-color:var(--primary-color)"> <strong>Status</strong></label>
+						</div>
+						<div style="margin-bottom:1.5rem;">
+							<p style="margin-bottom:0.75rem;color:var(--text-muted);font-size:0.85rem;">Format eksportu:</p>
+							<div style="display:flex;gap:1.5rem;">
+								<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer">
+									<input type="radio" name="export-all-biletowanie-format" value="excel" checked style="accent-color:var(--primary-color)">
+									<strong>Excel (.xlsx)</strong>
+								</label>
+								<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;cursor:pointer">
+									<input type="radio" name="export-all-biletowanie-format" value="pdf" style="accent-color:var(--primary-color)">
+									<strong>PDF</strong>
+								</label>
+							</div>
+						</div>
+						<div style="border-top:1px solid var(--border-color);padding-top:1rem;">
+							<label style="display:flex;align-items:center;gap:0.65rem;font-size:0.9rem;cursor:pointer">
+								<input type="checkbox" id="export-all-biletowanie-no-polish" style="accent-color:var(--primary-color);width:18px;height:18px;">
+								<span style="color:var(--text-main)">Bez polskich znaków</span>
+							</label>
+						</div>
+					</div>
+					<div class="demo-modal-footer">
+						<button class="btn btn-outline" type="button" data-no-demo="true" onclick="document.getElementById('export-all-biletowanie-modal').classList.remove('show')">Anuluj</button>
+						<button class="btn btn-primary" type="button" onclick="window.exportAllBiletowanie()"><i class="fa-solid fa-download" style="margin-right:0.5rem;"></i>Pobierz</button>
 					</div>
 				</div>
 			</div>`
@@ -480,6 +572,37 @@
 			})
 		].join('');
 	}
+
+	/* ===== EKSPORT LISTY DO BILETOWANIA ===== */
+	window.exportBiletowanie = function() {
+		var selectedFormat = document.querySelector('input[name="export-biletowanie-format"]:checked');
+		var noPolish = document.getElementById('export-biletowanie-no-polish').checked;
+		var format = selectedFormat ? selectedFormat.value : 'excel';
+		
+		// Symulacja eksportu - w rzeczywistej aplikacji tutaj byłby wywołanie API
+		var msg = 'Eksportuję do formatu: ' + (format === 'excel' ? 'Excel (.xlsx)' : 'PDF');
+		if (noPolish) {
+			msg += '\nBez polskich znaków';
+		}
+		
+		window.showToast && window.showToast('Eksport listy biletowania', msg, 'success');
+		document.getElementById('export-biletowanie-modal').classList.remove('show');
+	};
+
+	window.exportAllBiletowanie = function() {
+		var selectedFormat = document.querySelector('input[name="export-all-biletowanie-format"]:checked');
+		var noPolish = document.getElementById('export-all-biletowanie-no-polish').checked;
+		var format = selectedFormat ? selectedFormat.value : 'excel';
+		
+		// Symulacja eksportu - w rzeczywistej aplikacji tutaj byłby wywołanie API
+		var msg = 'Eksportuję wszystkie rezerwacje do formatu: ' + (format === 'excel' ? 'Excel (.xlsx)' : 'PDF');
+		if (noPolish) {
+			msg += '\nBez polskich znaków';
+		}
+		
+		window.showToast && window.showToast('Eksport rezerwacji lotniczych', msg, 'success');
+		document.getElementById('export-all-biletowanie-modal').classList.remove('show');
+	};
 
 	window.BiletyView = { renderBilety };
 	window.HoteleView = { renderHotele };

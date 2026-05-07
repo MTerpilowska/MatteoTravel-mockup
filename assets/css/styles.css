@@ -3373,3 +3373,13 @@ label.form-field { display: flex; flex-direction: column; gap: 0.35rem; }
 	border-color: var(--primary-color) !important;
 	background: var(--primary-light);
 }
+
+/* ========================================
+   HIDE FEEDBACK SYSTEM (Uwagi do widoku)
+   ======================================== */
+.feedback-tab,
+.feedback-panel,
+.feedback-capture-hint,
+.feedback-draft-modal {
+	display: none !important;
+}
