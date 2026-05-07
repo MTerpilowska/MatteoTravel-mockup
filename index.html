@@ -12,7 +12,7 @@
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-	<link rel="stylesheet" href="assets/css/styles.css">
+	<link rel="stylesheet" href="assets/css/styles.css?v=2.20">
 </head>
 
 <body>
@@ -428,8 +428,8 @@
 	<script src="src/views/placeholders.js"></script>
 	<script src="src/views/crm.js"></script>
 	<script src="src/views/zapytania.js?v=1.8"></script>
-	<script src="src/views/grupy.js?v=1.8"></script>
-    <script src="src/views/szczegoly_grupy.js?v=1.8"></script>
+	<script src="src/views/grupy.js?v=2.21"></script>
+    <script src="src/views/szczegoly_grupy.js?v=2.0"></script>
 	<script src="src/views/rezerwacje.js"></script>
 	<script src="src/views/finanse.js"></script>
 	<script src="src/views/operacje.js"></script>
@@ -449,7 +449,7 @@
 	<script src="src/views/restauracje.js?v=2.0"></script>
 	<script src="src/views/platnosci_kontakty.js?v=2.0"></script>
         <script src="src/features/views/registry.js?v=2.0"></script>
-	<script src="src/features/demo/interactions.js"></script>
+	<script src="src/features/demo/interactions.js?v=2.20"></script>
 	<script src="src/features/layout/controller.js"></script>
 	<script src="src/features/navigation/controller.js"></script>
 	<script src="src/features/search/controller.js"></script>
@@ -458,6 +458,85 @@
 	<script src="src/features/feedback/toast.js"></script>
 	<script src="src/features/feedback/controller.js"></script>
 	<script src="src/app/bootstrap.js"></script>
+
+<!-- Modal: Edycja statusu lotu pilota -->
+<div id="edit-pilot-flight-modal" class="modal-overlay" onclick="if(event.target===this)this.classList.remove('show')">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-header">
+      <h3 style="margin:0;font-size:1.1rem;font-weight:600">Status lotu pilota</h3>
+      <button class="modal-close" onclick="document.getElementById('edit-pilot-flight-modal').classList.remove('show')" type="button" title="Zamknij okno"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body" style="padding:1.5rem">
+      <input type="hidden" id="pilot-flight-group-id">
+      <p style="margin:0 0 1rem;font-size:0.9rem">Pilot: <strong id="pilot-flight-name"></strong></p>
+      
+      <div style="margin-bottom:1rem">
+        <label style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.65rem;cursor:pointer">
+          <input type="radio" name="pilot-flight-status" value="leci_z_grupa" onchange="document.getElementById('pilot-flight-numbers-group').style.display='none'">
+          <span style="font-size:0.88rem"><i class="fa-solid fa-plane-up" style="color:#166534;margin-right:0.3rem"></i><strong>Leci z grupą</strong></span>
+        </label>
+        <label style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.65rem;cursor:pointer">
+          <input type="radio" name="pilot-flight-status" value="nie_leci" onchange="document.getElementById('pilot-flight-numbers-group').style.display='none'">
+          <span style="font-size:0.88rem"><i class="fa-solid fa-xmark" style="color:#6b7280;margin-right:0.3rem"></i><strong>Nie leci</strong></span>
+        </label>
+        <label style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.65rem;cursor:pointer">
+          <input type="radio" name="pilot-flight-status" value="dolatuje" onchange="document.getElementById('pilot-flight-numbers-group').style.display='block'">
+          <span style="font-size:0.88rem"><i class="fa-solid fa-plane-arrival" style="color:#92400e;margin-right:0.3rem"></i><strong>Dolatuje</strong> (inny lot)</span>
+        </label>
+      </div>
+      
+      <div id="pilot-flight-numbers-group" style="display:none">
+        <label style="display:block;font-size:0.82rem;font-weight:600;margin-bottom:0.4rem;color:var(--text-color)">Numery lotów <span style="font-weight:400;color:var(--text-muted)">(np. LO123, LO456)</span></label>
+        <input type="text" id="pilot-flight-numbers" placeholder="np. LO123, LO456" style="width:100%;padding:0.6rem;border:1px solid var(--border-color);border-radius:var(--radius-sm);font-size:0.9rem">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="document.getElementById('edit-pilot-flight-modal').classList.remove('show')">Anuluj</button>
+      <button class="btn btn-primary" onclick="window.savePilotFlightStatus()"><i class="fa-solid fa-check"></i> Zapisz</button>
+    </div>
+  </div>
+</div>
+
+<!-- Menu kontekstowe: Kolor komórki i notatki -->
+<div id="cell-context-menu" class="cell-context-menu" style="display:none">
+  <div id="context-menu-notes-section" style="padding: 0.5rem 1rem; border-bottom: 1px solid var(--border-color); background: var(--bg-card); cursor: default;">
+    <div style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.4rem; text-transform: uppercase">Notatki</div>
+    <div id="context-menu-notes-list" style="display:flex;flex-direction:column;gap:0.4rem;margin-bottom:0.6rem"></div>
+    <div style="display:flex;gap:0.3rem">
+      <textarea id="context-menu-new-note" rows="2" placeholder="Nowa notatka..." style="flex:1;padding:0.4rem;border:1px solid var(--border-color);border-radius:4px;font-size:0.8rem;resize:none"></textarea>
+      <button class="btn btn-primary" onclick="window.addInlineNote()" style="padding:0 0.6rem" title="Dodaj notatkę"><i class="fa-solid fa-plus"></i></button>
+    </div>
+  </div>
+  <div class="context-menu-item" onclick="window.setCellColor('#dcfce7')">
+    <span class="color-preview" style="background:#dcfce7"></span>
+    Zielony
+  </div>
+  <div class="context-menu-item" onclick="window.setCellColor('#fef3c7')">
+    <span class="color-preview" style="background:#fef3c7"></span>
+    Żółty
+  </div>
+  <div class="context-menu-item" onclick="window.setCellColor('#fecaca')">
+    <span class="color-preview" style="background:#fecaca"></span>
+    Czerwony
+  </div>
+  <div class="context-menu-item" onclick="window.setCellColor('#e0e7ff')">
+    <span class="color-preview" style="background:#e0e7ff"></span>
+    Niebieski
+  </div>
+  <div class="context-menu-item" onclick="window.setCellColor('#fce7f3')">
+    <span class="color-preview" style="background:#fce7f3"></span>
+    Różowy
+  </div>
+  <div class="context-menu-item" onclick="window.setCellColor('#f3f4f6')">
+    <span class="color-preview" style="background:#f3f4f6"></span>
+    Szary
+  </div>
+  <div class="context-menu-separator"></div>
+  <div class="context-menu-item" onclick="window.setCellColor(null)">
+    <i class="fa-solid fa-xmark" style="margin-right:0.4rem"></i>
+    Usuń kolor
+  </div>
+</div>
 
 <!-- Nowa Karta Imprezy — modal globalny (dostępny z listy i ze szczegółów zapytania) -->
 <div id="nowa-karta-imprezy-modal" class="demo-modal-overlay" onclick="if(event.target===this)this.classList.remove('show')">

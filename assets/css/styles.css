@@ -3267,3 +3267,109 @@ label.form-field { display: flex; flex-direction: column; gap: 0.35rem; }
 #doc-checklist-wrap[data-editing='1'] #doc-add-row { display: flex !important; }
 
 .tab-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 18px; height: 18px; padding: 0 4px; border-radius: 9px; font-size: 0.68rem; font-weight: 700; background: var(--primary-color); color: white; }
+
+/* === Cell Notes & Colors (Grupy) === */
+.modal-footer {
+	padding: 1rem 1.5rem;
+	border-top: 1px solid var(--border-color);
+	display: flex;
+	gap: 0.5rem;
+	justify-content: flex-end;
+}
+
+/* Cell with note indicator - tooltip on hover */
+.data-table td[data-tooltip]:hover::after {
+	content: attr(data-tooltip);
+	position: absolute;
+	bottom: 100%;
+	left: 50%;
+	transform: translateX(-50%);
+	background: rgba(0, 0, 0, 0.9);
+	color: white;
+	padding: 0.5rem 0.75rem;
+	border-radius: 6px;
+	font-size: 0.75rem;
+	white-space: pre-wrap;
+	width: max-content;
+	max-width: 250px;
+	z-index: 1000;
+	margin-bottom: 0.5rem;
+	pointer-events: none;
+	text-align: left;
+}
+
+/* Note icon tooltip */
+.fa-note-sticky[data-tooltip]:hover::before {
+	content: attr(data-tooltip);
+	position: absolute;
+	bottom: 100%;
+	right: 0;
+	background: rgba(0, 0, 0, 0.9);
+	color: white;
+	padding: 0.5rem 0.75rem;
+	border-radius: 6px;
+	font-size: 0.75rem;
+	white-space: pre-wrap;
+	width: max-content;
+	max-width: 250px;
+	z-index: 1000;
+	margin-bottom: 0.5rem;
+	pointer-events: none;
+	font-family: 'Inter', sans-serif;
+	font-weight: 400;
+	text-align: left;
+}
+
+/* Context menu hover effects */
+.cell-context-menu {
+	position: absolute;
+	z-index: 10000;
+	background: white;
+	border-radius: 8px;
+	box-shadow: var(--shadow-lg);
+	border: 1px solid var(--border-color);
+	padding: 0.5rem 0;
+	min-width: 160px;
+}
+
+.context-menu-item {
+	padding: 0.5rem 1rem;
+	font-size: 0.85rem;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	color: var(--text-main);
+	transition: background 0.15s;
+}
+
+.context-menu-item:hover {
+	background: var(--bg-main);
+}
+
+.context-menu-separator {
+	height: 1px;
+	background: var(--border-color);
+	margin: 0.25rem 0;
+}
+
+.color-preview {
+	width: 16px;
+	height: 16px;
+	border-radius: 4px;
+	margin-right: 0.5rem;
+	border: 1px solid rgba(0,0,0,0.1);
+}
+
+#cell-context-menu button:focus {
+	outline: none;
+}
+
+/* Radio button label hover */
+.modal-body label:has(input[type="radio"]):hover {
+	background: var(--bg-main);
+}
+
+.modal-body label:has(input[type="radio"]:checked) {
+	border-color: var(--primary-color) !important;
+	background: var(--primary-light);
+}

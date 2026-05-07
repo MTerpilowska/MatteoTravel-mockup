@@ -1017,10 +1017,10 @@
 
 			// --- Table row (but not if clicking a button inside) ---
 			var row = target.closest('tbody tr');
-			if (row && !target.closest('button') && !target.closest('a')) {
+			if (row && !target.closest('button') && !target.closest('a') && !target.closest('.no-row-click') && !target.closest('.edit-pilot-btn') && !row.classList.contains('terminarz-section-row')) {
 				if (row.closest('.terminarz-table') || row.getAttribute('onclick')) {
-					window.AppNavigation && window.AppNavigation.setActivePage('szczegoly_grupy');
-					return;
+//					window.AppNavigation && window.AppNavigation.setActivePage('szczegoly_grupy');
+//
 				}
 				handleTableRowClick(row);
 				return;

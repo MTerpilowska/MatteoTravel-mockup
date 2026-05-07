@@ -364,7 +364,7 @@ button({ label: 'Historia zmian', icon: 'fa-solid fa-clock-rotate-left', variant
 '<div class="group-card-tabs">' +
 '<button class="group-tab active" data-tab="przeglad">Ogólne</button>' +
 '<button class="group-tab" data-tab="karta-imprezy">Karta Imprezy <span class="tab-badge" style="background:#f59e0b;color:#fff;font-weight:700">!</span></button>' +
-'<button class="group-tab" data-tab="rezerwacje">Rezerwacje <span class="tab-badge">8</span></button>' +
+'<button class="group-tab" data-tab="rezerwacje">Uczestnicy <span class="tab-badge">8</span></button>' +
 '<button class="group-tab" data-tab="platnosci">Płatności i faktury</button>' +
 '<button class="group-tab" data-tab="plan">Plan</button>' +
 '<button class="group-tab" data-tab="hotele">Hotele</button>' +
@@ -383,7 +383,7 @@ button({ label: 'Historia zmian', icon: 'fa-solid fa-clock-rotate-left', variant
 '<div class="group-info-col">' +
 panel({ title: 'Informacje ogólne', body:
 '<div class="info-table">' +
-'<div class="info-row"><span>Organizatorzy</span><strong>Izabela Żebrowska + ks. Wojciech Lipka</strong></div>' +
+'<div class="info-row"><span>Organizatorzy</span><strong style="display:flex;align-items:center;gap:0.3rem">Izabela Żebrowska + ks. Wojciech Lipka<i class="fa-solid fa-circle-info" style="font-size:0.75rem;color:var(--primary-color);cursor:help" title="Tel: +48 601 123 456&#10;Email: izabela.zebrowska@example.com"></i></strong></div>' +
 '<div class="info-row"><span>Pilot</span><strong style="display:flex;align-items:center;gap:0.3rem">Alicja Aziz<i class="fa-solid fa-circle-info" style="font-size:0.75rem;color:var(--primary-color);cursor:help" title="Tel: +48 501 234 567&#10;Email: alicja.aziz@example.com"></i></strong></div>' +
 '<div class="info-row"><span>Kontrahent (in-dest.)</span><strong>Iza Strzelak (SENT)</strong></div>' +
 '<div class="info-row"><span>Kierunek</span><strong>Egipt — Kair · Luksur · Hurghada</strong></div>' +
@@ -1104,11 +1104,21 @@ panel({
       '<div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.2rem">Kamila W. \u00b7 17.04.2026 g. 09:43</div>' +
     '</div>' +
 
-    /* Biletowanie — potwierdzone */
+    /* Booking — potwierdzone */
+    '<div style="border:1px solid #bbf7d0;border-radius:var(--radius-md);padding:1rem;background:#f0fdf4">' +
+      '<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">' +
+        '<div style="width:30px;height:30px;background:#dcfce7;color:#166534;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-bed" style="font-size:0.78rem"></i></div>' +
+        '<strong style="font-size:0.85rem">Booking</strong>' +
+      '</div>' +
+      '<div style="color:var(--success-color);font-weight:700;font-size:0.82rem"><i class="fa-solid fa-circle-check"></i> Potwierdzono</div>' +
+      '<div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.2rem">Anna K. \u00b7 17.04.2026 g. 10:45</div>' +
+    '</div>' +
+
+    /* Bilety lotnicze — potwierdzone */
     '<div style="border:1px solid #bbf7d0;border-radius:var(--radius-md);padding:1rem;background:#f0fdf4">' +
       '<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">' +
         '<div style="width:30px;height:30px;background:#dcfce7;color:#166534;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-plane-departure" style="font-size:0.78rem"></i></div>' +
-        '<strong style="font-size:0.85rem">Biletowanie</strong>' +
+        '<strong style="font-size:0.85rem">Bilety lotnicze</strong>' +
       '</div>' +
       '<div style="color:var(--success-color);font-weight:700;font-size:0.82rem"><i class="fa-solid fa-circle-check"></i> Potwierdzono</div>' +
       '<div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.2rem">Edyta M. \u00b7 17.04.2026 g. 10:15</div>' +
@@ -1786,7 +1796,8 @@ panel({
         '<div style="background:var(--bg-hover);border-radius:var(--radius-md);padding:0.75rem;display:flex;flex-direction:column;gap:0.5rem">' +
           '<p style="margin:0 0 0.25rem;font-size:0.8rem;color:var(--text-muted)">Po zapisaniu zostanie wys\u0142ane powiadomienie pod dzwonkiem do wybranych dzia\u0142\u00f3w. Dzia\u0142 musi potwierdzi\u0107 zapoznanie si\u0119 z kart\u0105.</p>' +
           '<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--primary-color)"> <strong>BOK</strong> \u2014 Biuro Obs\u0142ugi Klienta</label>' +
-          '<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--primary-color)"> <strong>Biletowanie</strong> \u2014 dzia\u0142 bilet\u00f3w lotniczych</label>' +
+          '<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--primary-color)"> <strong>Booking</strong> \u2014 rezerwacje nocleg\u00f3w</label>' +
+          '<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--primary-color)"> <strong>Bilety lotnicze</strong> \u2014 dzia\u0142 bilet\u00f3w lotniczych</label>' +
           '<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--primary-color)"> <strong>Marketing</strong> \u2014 sprzeda\u017c i promocja</label>' +
         '</div>' +
 

@@ -3,121 +3,178 @@ const { button, dashboardHeader, panel, statCard, statusBadge, escapeHtml } = wi
 
 function renderGrupy() {
 
+/* ===== CELL NOTES & COLORS STORAGE ===== */
+// Format: cellNotes['groupId:colName'] = 'note text'
+// Format: cellColors['groupId:colName'] = '#colorCode'
+window.CellNotesStore = window.CellNotesStore || {};
+window.CellColorsStore = window.CellColorsStore || {};
+
+// Demo notes and colors
+if (Object.keys(window.CellNotesStore).length === 0) {
+  window.CellNotesStore['MT-2026-EG-01:pax'] = ['Brakuje 1 osoby do pełnej grupy'];
+  window.CellNotesStore['MT-2026-KE-01:umowy'] = ['Czeka na podpis ks. Antosiaka', 'Przypomnienie wysłane sms-em'];
+  window.CellNotesStore['MT-2026-IT-01:bilety_nr'] = ['Bilety wystawione, czeka na odbiór'];
+  window.CellColorsStore['MT-2026-EG-01:pax'] = '#fef3c7';
+  window.CellColorsStore['MT-2026-KE-01:umowy'] = '#fecaca';
+  window.CellColorsStore['MT-2026-IT-01:status'] = '#dcfce7';
+}
+
+// Helper function to create a cell with note/color support
+function makeEditableCell(groupId, colName, content, extraStyles, stopPropagation) {
+  var cellKey = groupId + ':' + colName;
+  var rawNote = window.CellNotesStore[cellKey];
+  var notesArr = Array.isArray(rawNote) ? rawNote : (rawNote ? [rawNote] : []);
+  var hasNote = notesArr.length > 0;
+  
+  var noteText = '';
+  if (hasNote) {
+    if (notesArr.length === 1) {
+      noteText = escapeHtml(notesArr[0]);
+    } else {
+      noteText = escapeHtml('• ' + notesArr.join('\n• '));
+    }
+  }
+
+  var color = window.CellColorsStore[cellKey] || '';
+  var hasColor = color.length > 0;
+  
+  var bgStyle = hasColor ? 'background:' + color + ';' : '';
+  var paddingStyle = 'padding:0.5rem;';
+  var noteIcon = hasNote ? '<i class="fa-solid fa-note-sticky" style="position:absolute;top:2px;right:2px;font-size:0.6rem;color:var(--warning-color);opacity:0.7" data-tooltip="' + noteText + '"></i>' : '';
+  var onclickHandler = stopPropagation ? ' onclick="event.stopPropagation()"' : '';
+  
+  return '<td' + onclickHandler + ' oncontextmenu="event.stopPropagation();window.showCellContextMenu(event,\'' + groupId + '\',\'' + colName + '\');return false" style="position:relative;' + bgStyle + paddingStyle + (extraStyles || '') + '"' + (hasNote ? ' data-tooltip="' + noteText + '"' : '') + '>' +
+    noteIcon +
+    content +
+    '</td>';
+}
+
 /* ===== TERMINARZ DATA ===== */
 const groups = [
 /* styczeń 2026 */
 {
 section: 'Styczeń 2026', id: 'MT-2026-EG-00', anulowana: true,
 name: 'EGIPT — na sprzedaż (anulacja 29.10.2025)',
-org: 'brak — nie ma nikogo', autor: 'Ania', bok: '—', bilety: '—',
+org: 'brak — nie ma nikogo', orgPhone: '', orgEmail: '', autor: 'Ania', bok: '—', booking: '—', bilety: '—',
 dest: 'Egipt', from: '22.01.2026', to: '29.01.2026',
 pilot: '—', pilotPhone: '', pilotEmail: '', kontrahent: 'Iza SENT', transport: 'samolot LOT', trans_ico: 'fa-plane',
 trans_lotnisko: 'nie', msza: '—', bilety_nr: 'ZVEQA4', pax: 0, paxMax: 45,
 umowy: '—', gratisy: '—', status: 'Anulowana', statusTone: 'neutral',
-prowizja: '—'
+prowizja: '—',
+pilotFlightStatus: 'nie_leci', pilotFlightNumbers: ''
 },
 {
 section: null, id: 'MT-2026-EG-01', anulowana: false,
 name: 'Egipt — Piramidy, pociąg, Hurghada',
-org: 'Izabela Żebrowska / ks. Wojciech Lipka', autor: 'Ania', bok: 'K', bilety: 'E',
+org: 'Izabela Żebrowska / ks. Wojciech Lipka', orgPhone: '+48 601 123 456', orgEmail: 'izabela.zebrowska@example.com', autor: 'Ania', bok: 'K', booking: 'A', bilety: 'E',
 dest: 'Egipt', from: '24.01.2026', to: '31.01.2026',
 pilot: 'Alicja Aziz', pilotPhone: '+48 501 234 567', pilotEmail: 'alicja.aziz@example.com', kontrahent: 'Iza Strzelak SENT', transport: 'samolot LOT + autokar (Regency)', trans_ico: 'fa-plane',
 trans_lotnisko: 'nie', msza: '24.01 g. 14:00 — WAW', bilety_nr: '44×W6Y73A / 1×TD236Z', pax: 44, paxMax: 45,
 umowy: 'wysłana', gratisy: '80 USD/os. (karta)', status: 'Zakończona', statusTone: 'success',
-prowizja: '2%'
+prowizja: '2%',
+pilotFlightStatus: 'leci_z_grupa', pilotFlightNumbers: ''
 },
 {
 section: null, id: 'MT-2026-KE-01', anulowana: false,
 name: 'Kenia — Nairobi, Subukia, Watamu',
-org: 'ks. Paweł Antosiak / ks. Wojciech Iwanicki', autor: 'Natalia', bok: 'P', bilety: 'M',
+org: 'ks. Paweł Antosiak / ks. Wojciech Iwanicki', orgPhone: '+48 602 987 654', orgEmail: 'antosiak@example.com', autor: 'Natalia', bok: 'P', booking: 'A', bilety: 'M',
 dest: 'Kenia', from: '25.01.2026', to: '08.02.2026',
 pilot: 'Radosław Malinowski', pilotPhone: '+48 602 345 678', pilotEmail: 'radoslaw.malinowski@example.com', kontrahent: 'ks. Antosiak (sam organizuje)', transport: 'samolot Ethiopian Airlines', trans_ico: 'fa-plane',
 trans_lotnisko: 'nie', msza: '—', bilety_nr: '11×WLJENV / 1×8IAKUH', pax: 11, paxMax: 12,
 umowy: 'wysłana 17.10.2025', gratisy: '150 PLN/os.', status: 'Zakończona', statusTone: 'success',
-prowizja: '2%'
+prowizja: '2%',
+pilotFlightStatus: 'dolatuje', pilotFlightNumbers: 'ET701, ET702'
 },
 /* luty 2026 */
 {
 section: 'Luty 2026', id: 'MT-2026-EG-02', anulowana: false,
 name: 'Egipt — Kair, Sharm el Sheikh, Krzysiak',
-org: 'Józefa Krzysiak / ks. Michał Nędza', autor: 'Ania', bok: 'P', bilety: 'E',
+org: 'Józefa Krzysiak / ks. Michał Nędza', orgPhone: '+48 603 456 789', orgEmail: 'krzysiak@example.com', autor: 'Ania', bok: 'P', booking: 'A', bilety: 'E',
 dest: 'Egipt', from: '31.01.2026', to: '07.02.2026',
 pilot: 'Alicja Aziz', pilotPhone: '+48 501 234 567', pilotEmail: 'alicja.aziz@example.com', kontrahent: 'Iza Strzelak SENT', transport: 'samolot LOT + autokar (Regency)', trans_ico: 'fa-plane',
 trans_lotnisko: 'nie', msza: '31.01 g. 15:00 — lotnisko Chopina', bilety_nr: '33×73QAVQ', pax: 33, paxMax: 33,
 umowy: 'wysłana 28.02.2025', gratisy: '—', status: 'Zakończona', statusTone: 'success',
-prowizja: '2%'
+prowizja: '2%',
+pilotFlightStatus: 'leci_z_grupa', pilotFlightNumbers: ''
 },
 {
 section: null, id: 'MT-2026-PT-01', anulowana: false,
 name: 'Portugalia — Braga, Fatima, Santiago',
-org: 'ks. Henryk Hendzel', autor: 'Zuzia', bok: 'K', bilety: 'E',
+org: 'ks. Henryk Hendzel', orgPhone: '+48 604 111 222', orgEmail: 'h.hendzel@example.com', autor: 'Zuzia', bok: 'K', booking: 'A', bilety: 'E',
 dest: 'Portugalia / Hiszpania', from: '03.02.2026', to: '10.02.2026',
 pilot: 'TBD', pilotPhone: '', pilotEmail: '', kontrahent: 'Zuzia SENT', transport: 'samolot', trans_ico: 'fa-plane',
 trans_lotnisko: 'tak', msza: '—', bilety_nr: 'TBD', pax: 35, paxMax: 40,
 umowy: 'wysłana', gratisy: '—', status: 'Zakończona', statusTone: 'success',
-prowizja: '2%'
+prowizja: '2%',
+pilotFlightStatus: 'nie_leci', pilotFlightNumbers: ''
 },
 {
 section: null, id: 'MT-2026-WL-01', anulowana: false,
 name: 'Ziemia Święta — ks. Maciej Gierula',
-org: 'ks. Maciej Gierula', autor: 'Anna', bok: 'P', bilety: 'M',
+org: 'ks. Maciej Gierula', orgPhone: '', orgEmail: '', autor: 'Anna', bok: 'P', booking: 'A', bilety: 'M',
 dest: 'Izrael / Palestyna', from: '08.02.2026', to: '16.02.2026',
 pilot: 'Peter', pilotPhone: '+972 54 123 4567', pilotEmail: 'peter.pilot@example.com', kontrahent: 'Peter rooming sent 11.12', transport: 'samolot', trans_ico: 'fa-plane',
 trans_lotnisko: 'nie', msza: '—', bilety_nr: 'TBD', pax: 18, paxMax: 25,
 umowy: 'wysłana', gratisy: '—', status: 'Zakończona', statusTone: 'success',
-prowizja: '2%'
+prowizja: '2%',
+pilotFlightStatus: 'nie_leci', pilotFlightNumbers: ''
 },
 {
 section: null, id: 'MT-2026-WL-02', anulowana: false,
 name: 'Ziemia Święta — ks. Tomasz Radliński',
-org: 'ks. Tomasz Radliński', autor: 'Anna', bok: 'P', bilety: 'M',
+org: 'ks. Tomasz Radliński', orgPhone: '', orgEmail: '', autor: 'Anna', bok: 'P', booking: 'A', bilety: 'M',
 dest: 'Izrael / Palestyna', from: '13.02.2026', to: '20.02.2026',
 pilot: 'Peter', pilotPhone: '+972 54 123 4567', pilotEmail: 'peter.pilot@example.com', kontrahent: 'Peter sent 13.01', transport: 'samolot', trans_ico: 'fa-plane',
 trans_lotnisko: 'nie', msza: '—', bilety_nr: 'TBD', pax: 22, paxMax: 30,
 umowy: 'wysłana', gratisy: '—', status: 'Zakończona', statusTone: 'success',
-prowizja: '2%'
+prowizja: '2%',
+pilotFlightStatus: 'leci_z_grupa', pilotFlightNumbers: ''
 },
 /* kwiecień–maj 2026 */
 {
 section: 'Kwiecień 2026', id: 'MT-2026-IT-01', anulowana: false,
 name: 'Rzym, Asyż, Watykan — Parafia Bożego Ciała',
-org: 'Parafia Bożego Ciała, Poznań', autor: 'Marek', bok: 'K', bilety: 'E',
+org: 'Parafia Bożego Ciała, Poznań', orgPhone: '+48 61 875 4321', orgEmail: 'parafia@bozegociala.pl', autor: 'Marek', bok: 'K', booking: 'A', bilety: 'E',
 dest: 'Włochy', from: '12.04.2026', to: '19.04.2026',
 pilot: 'Monika B.', pilotPhone: '+48 606 789 012', pilotEmail: 'monika.b@example.com', kontrahent: 'Kontrahent IT', transport: 'samolot', trans_ico: 'fa-plane',
 trans_lotnisko: 'tak', msza: '—', bilety_nr: '45×GRP-IT-03', pax: 45, paxMax: 45,
 umowy: 'wysłana', gratisy: '—', status: 'Gotowy do wyjazdu', statusTone: 'success',
-prowizja: '2%'
+prowizja: '2%',
+pilotFlightStatus: 'leci_z_grupa', pilotFlightNumbers: ''
 },
 {
 section: null, id: 'MT-2026-WL-03', anulowana: false,
 name: 'Pielgrzymka jubileuszowa Ziemia Święta',
-org: 'ks. Jan Wiśniewski', autor: 'Anna', bok: 'K', bilety: 'E',
+org: 'ks. Jan Wiśniewski', orgPhone: '', orgEmail: '', autor: 'Anna', bok: 'K', booking: 'A', bilety: 'E',
 dest: 'Izrael / Palestyna', from: '25.04.2026', to: '02.05.2026',
 pilot: 'Krzysztof T.', pilotPhone: '+48 505 678 901', pilotEmail: 'krzysztof.t@example.com', kontrahent: 'Peter', transport: 'samolot LOT', trans_ico: 'fa-plane',
 trans_lotnisko: 'tak', msza: '—', bilety_nr: '42×LO4KL2', pax: 42, paxMax: 50,
 umowy: 'wysłana', gratisy: '2 miejsca (co 20 os.)', status: 'Potwierdzony', statusTone: 'success',
-prowizja: '2%'
+prowizja: '2%',
+pilotFlightStatus: 'leci_z_grupa', pilotFlightNumbers: ''
 },
 /* maj 2026 */
 {
 section: 'Maj 2026', id: 'MT-2026-ES-01', anulowana: false,
 name: 'Santiago de Compostela — LO Pijarów',
-org: 'Liceum Pijarów Kraków', autor: 'Piotr', bok: 'P', bilety: 'M',
+org: 'Liceum Pijarów Kraków', orgPhone: '', orgEmail: '', autor: 'Piotr', bok: 'P', booking: 'A', bilety: 'M',
 dest: 'Hiszpania', from: '05.05.2026', to: '12.05.2026',
 pilot: 'TBD', pilotPhone: '', pilotEmail: '', kontrahent: '—', transport: 'samolot', trans_ico: 'fa-plane',
 trans_lotnisko: 'nie', msza: '—', bilety_nr: 'opcja (30 miejsc)', pax: 20, paxMax: 30,
 umowy: 'w przygotowaniu', gratisy: '—', status: 'W trakcie zbierania', statusTone: 'info',
-prowizja: '—'
+prowizja: '—',
+pilotFlightStatus: 'nie_leci', pilotFlightNumbers: ''
 },
 {
 section: null, id: 'MT-2026-PT-02', anulowana: false,
 name: 'Fatima i Lizbona — pielgrzymka maryjna',
-org: 'ks. Marek Kowalski', autor: 'Anna', bok: 'K', bilety: 'E',
+org: 'ks. Marek Kowalski', orgPhone: '', orgEmail: '', autor: 'Anna', bok: 'K', booking: 'A', bilety: 'E',
 dest: 'Portugalia', from: '18.05.2026', to: '25.05.2026',
 pilot: 'TBD', pilotPhone: '', pilotEmail: '', kontrahent: '—', transport: 'samolot', trans_ico: 'fa-plane',
 trans_lotnisko: 'nie', msza: '—', bilety_nr: '—', pax: 18, paxMax: 35,
 umowy: 'w przygotowaniu', gratisy: '—', status: 'W trakcie zbierania', statusTone: 'info',
-prowizja: '—'
+prowizja: '—',
+pilotFlightStatus: 'nie_leci', pilotFlightNumbers: ''
 },
 ];
 
@@ -127,57 +184,90 @@ var terminarzRows = groups.map(function(g) {
 var sectionRow = '';
 if (g.section && g.section !== lastSection) {
 lastSection = g.section;
-sectionRow = '<tr><td colspan="13" class="terminarz-section"><i class="fa-solid fa-calendar-days" style="margin-right:0.4rem"></i>' + escapeHtml(g.section) + '</td></tr>';
+sectionRow = '<tr class="terminarz-section-row" style="cursor:default"><td colspan="13" class="terminarz-section"><i class="fa-solid fa-calendar-days" style="margin-right:0.4rem"></i>' + escapeHtml(g.section) + '</td></tr>';
 }
 var pct = g.paxMax ? Math.round(g.pax / g.paxMax * 100) : 0;
 var paxCol = pct >= 100 ? 'var(--success-color)' : pct >= 70 ? 'var(--primary-color)' : pct >= 40 ? 'var(--warning-color)' : 'var(--danger-color)';
 var rowCls = g.anulowana ? ' class="terminarz-anulowana"' : '';
-var bikona = '<i class="fa-solid ' + g.trans_ico + '" style="color:var(--text-muted);margin-right:0.3rem"></i>';
+var bikona = '<i class="fa-solid ' + g.trans_ico + '" style="color:var(--primary-color);font-size:1rem"></i>';
 var bokOk = !g.anulowana && (g.status === 'Zako\u0144czona' || g.id === 'MT-2026-IT-01' || g.id === 'MT-2026-WL-03');
+var bkgOk = !g.anulowana && (g.status === 'Zako\u0144czona' || g.id === 'MT-2026-IT-01');
 var bilOk = !g.anulowana && (g.status === 'Zako\u0144czona' || g.id === 'MT-2026-IT-01');
 var mktOk = !g.anulowana && (g.status === 'Zako\u0144czona');
 var _p = function(l, ok) { return '<span style="font-size:0.62rem;padding:0.08rem 0.3rem;border-radius:3px;font-weight:700;white-space:nowrap;background:' + (ok ? '#dcfce7' : '#fef3c7') + ';color:' + (ok ? '#166534' : '#92400e') + '">' + l + (ok ? ' \u2713' : ' \u23f3') + '</span>'; };
 var deptPills = g.anulowana ? '' :
-  '<div style="display:flex;gap:0.2rem;flex-wrap:wrap;margin-top:0.3rem">' + _p('BOK', bokOk) + _p('Bil.', bilOk) + _p('Mkt', mktOk) + '</div>';
-var dataRow = '<tr' + rowCls + ' onclick="window.AppNavigation.setActivePage(\'szczegoly_grupy\', {groupId: \'' + g.id + '\'})" style="cursor:pointer">' +
-'<td><code style="font-size:0.7rem">' + escapeHtml(g.id) + '</code></td>' +
-'<td><strong style="font-size:0.82rem">' + escapeHtml(g.org) + '</strong>' +
-(g.anulowana ? '<br><small style="color:var(--danger-color)"><i class="fa-solid fa-ban"></i> anulowana ' + escapeHtml(g.notes || '') + '</small>' : '') +
-'</td>' +
-'<td style="text-align:center"><span style="font-size:0.75rem;background:#e0e7ff;color:#4338ca;padding:0.1rem 0.4rem;border-radius:4px;font-weight:700">' + escapeHtml(g.autor) + '</span></td>' +
-'<td style="text-align:center">' +
-'<span style="font-size:0.72rem;background:#dcfce7;color:#166534;padding:0.1rem 0.35rem;border-radius:3px;font-weight:700">' + escapeHtml(g.bok) + '</span>' +
-' <span style="font-size:0.72rem;background:#fef3c7;color:#92400e;padding:0.1rem 0.35rem;border-radius:3px;font-weight:700">' + escapeHtml(g.bilety) + '</span>' +
-'</td>' +
-'<td><strong style="font-size:0.82rem">' + escapeHtml(g.dest) + '</strong><br><small style="white-space:nowrap">' + escapeHtml(g.from) + ' – ' + escapeHtml(g.to) + '</small></td>' +
-'<td>' + 
-(function() {
+  '<div style="display:flex;gap:0.2rem;flex-wrap:wrap;margin-top:0.3rem">' + _p('BOK', bokOk) + _p('Book.', bkgOk) + _p('Bil.', bilOk) + _p('Mkt', mktOk) + '</div>';
+
+// Cell contents
+var kodContent = '<div style="display:flex;flex-direction:column;gap:0.4rem;align-items:flex-start">' +
+  '<code style="font-size:0.7rem">' + escapeHtml(g.id) + '</code>' +
+  statusBadge(g.status, g.statusTone) +
+  '</div>';
+var orgContent = (function() {
+  var tooltipParts = [];
+  if (g.orgPhone) tooltipParts.push('Tel: ' + escapeHtml(g.orgPhone));
+  if (g.orgEmail) tooltipParts.push('Email: ' + escapeHtml(g.orgEmail));
+  var tooltipText = tooltipParts.join('&#10;');
+  return '<div style="font-size:0.82rem;font-weight:600;display:flex;align-items:center;gap:0.3rem">' + 
+    '<strong>' + escapeHtml(g.org) + '</strong>' +
+    (tooltipText ? '<i class="fa-solid fa-circle-info" style="font-size:0.75rem;color:var(--primary-color);cursor:help" title="' + tooltipText + '"></i>' : '') +
+    '</div>' +
+    (g.anulowana ? '<br><small style="color:var(--danger-color)"><i class="fa-solid fa-ban"></i> anulowana ' + escapeHtml(g.notes || '') + '</small>' : '');
+})();
+var autorContent = '<span style="font-size:0.75rem;background:#e0e7ff;color:#4338ca;padding:0.1rem 0.4rem;border-radius:4px;font-weight:700">' + escapeHtml(g.autor) + '</span>';
+var bokContent = '<span style="font-size:0.72rem;background:#dcfce7;color:#166534;padding:0.1rem 0.35rem;border-radius:3px;font-weight:700" title="BOK">' + escapeHtml(g.bok) + '</span>' +
+  (g.booking ? ' <span style="font-size:0.72rem;background:#e0e7ff;color:#4338ca;padding:0.1rem 0.35rem;border-radius:3px;font-weight:700" title="Booking">' + escapeHtml(g.booking) + '</span>' : '') +
+  ' <span style="font-size:0.72rem;background:#fef3c7;color:#92400e;padding:0.1rem 0.35rem;border-radius:3px;font-weight:700" title="Bilety lotnicze">' + escapeHtml(g.bilety) + '</span>';
+var destContent = '<strong style="font-size:0.82rem">' + escapeHtml(g.dest) + '</strong><br><small style="white-space:nowrap">' + escapeHtml(g.from) + ' – ' + escapeHtml(g.to) + '</small>';
+var pilotContent = (function() {
   var tooltipParts = [];
   if (g.pilotPhone) tooltipParts.push('Tel: ' + escapeHtml(g.pilotPhone));
   if (g.pilotEmail) tooltipParts.push('Email: ' + escapeHtml(g.pilotEmail));
   var tooltipText = tooltipParts.join('&#10;');
-  return '<div style="font-size:0.82rem;font-weight:600;display:flex;align-items:center;gap:0.3rem">' + 
+  
+  // Flight status tag
+  var flightTag = '';
+  if (g.pilotFlightStatus === 'leci_z_grupa') {
+    flightTag = '<span style="font-size:0.68rem;background:#dcfce7;color:#166534;padding:0.15rem 0.4rem;border-radius:3px;font-weight:600;margin-top:0.25rem;display:inline-block"><i class="fa-solid fa-plane-up" style="font-size:0.6rem;margin-right:0.2rem"></i>leci z grupą</span>';
+  } else if (g.pilotFlightStatus === 'nie_leci') {
+    flightTag = '<span style="font-size:0.68rem;background:#f3f4f6;color:#6b7280;padding:0.15rem 0.4rem;border-radius:3px;font-weight:600;margin-top:0.25rem;display:inline-block"><i class="fa-solid fa-xmark" style="font-size:0.6rem;margin-right:0.2rem"></i>nie leci</span>';
+  } else if (g.pilotFlightStatus === 'dolatuje') {
+    flightTag = '<span style="font-size:0.68rem;background:#fef3c7;color:#92400e;padding:0.15rem 0.4rem;border-radius:3px;font-weight:600;margin-top:0.25rem;display:inline-block"><i class="fa-solid fa-plane-arrival" style="font-size:0.6rem;margin-right:0.2rem"></i>dolatuje: ' + escapeHtml(g.pilotFlightNumbers) + '</span>';
+  }
+  
+  return '<div>' +
+    '<div style="font-size:0.82rem;font-weight:600;display:flex;align-items:center;gap:0.3rem">' + 
     escapeHtml(g.pilot) +
     (tooltipText ? '<i class="fa-solid fa-circle-info" style="font-size:0.75rem;color:var(--primary-color);cursor:help" title="' + tooltipText + '"></i>' : '') +
+    '<button class="edit-pilot-btn" data-no-demo="true" data-group-id="' + g.id + '" data-pilot-name="' + escapeHtml(g.pilot) + '" data-flight-status="' + g.pilotFlightStatus + '" data-flight-numbers="' + escapeHtml(g.pilotFlightNumbers) + '" style="border:none;background:transparent;cursor:pointer;padding:0.15rem;margin-left:0.1rem" title="Edytuj status lotu pilota"><i class="fa-solid fa-pen-to-square" style="font-size:0.7rem;color:var(--text-muted)"></i></button>' +
+    '</div>' +
+    (flightTag ? '<div>' + flightTag + '</div>' : '') +
     '</div>';
-})() +
-'</td>' +
-'<td><small>' + bikona + escapeHtml(g.transport) + '</small></td>' +
-'<td>' +
-'<div class="pax-cell"><span style="font-weight:700;color:' + paxCol + ';font-size:0.9rem">' + g.pax + '/' + g.paxMax + '</span>' +
-'<div class="mini-progress" style="margin-top:3px"><div class="mini-progress-fill" style="width:' + pct + '%;background:' + paxCol + '"></div></div></div>' +
-'</td>' +
-'<td><small style="font-family:monospace;font-size:0.72rem">' + escapeHtml(g.bilety_nr) + '</small></td>' +
-'<td><small>' + (g.msza !== '—' ? '<span style="color:var(--primary-color)"><i class="fa-solid fa-church"></i> ' + escapeHtml(g.msza) + '</span>' : '<span style="color:var(--text-muted)">—</span>') + '</small></td>' +
-'<td><span style="font-size:0.78rem;' + (g.umowy === 'wysłana' || g.umowy === 'wysłana 17.10.2025' || g.umowy === 'wysłana 28.02.2025' ? 'color:var(--success-color);font-weight:600' : g.umowy === 'w przygotowaniu' ? 'color:var(--warning-color)' : 'color:var(--text-muted)') + '">' + escapeHtml(g.umowy) + '</span></td>' +
-'<td>' + statusBadge(g.status, g.statusTone) + '</td>' +
-'<td>' +
-'<div style="display:flex;gap:0.25rem">' +
-button({ label: 'Karta', variant: 'outline', attrs: { 'data-action': 'karta_grupy' } }) +
-button({ label: '', icon: 'fa-solid fa-clock-rotate-left', variant: 'ghost', attrs: { title: 'Historia zmian' } }) +
-'</div>' +
-deptPills +
-'</td>' +
+})();
+var transportContent = bikona;
+var paxContent = '<div class="pax-cell"><span style="font-weight:700;color:' + paxCol + ';font-size:0.9rem">' + g.pax + '/' + g.paxMax + '</span>' +
+  '<div class="mini-progress" style="margin-top:3px"><div class="mini-progress-fill" style="width:' + pct + '%;background:' + paxCol + '"></div></div></div>';
+var biletyNrContent = '<small style="font-family:monospace;font-size:0.72rem">' + escapeHtml(g.bilety_nr) + '</small>';
+var mszaContent = '<small>' + (g.msza !== '—' ? '<span style="color:var(--success-color);font-weight:600">Tak</span>' : '<span style="color:var(--text-muted)">Nie</span>') + '</small>';
+var umowyContent = '<span style="font-size:0.78rem;' + (g.umowy === 'wysłana' || g.umowy === 'wysłana 17.10.2025' || g.umowy === 'wysłana 28.02.2025' ? 'color:var(--success-color);font-weight:600' : g.umowy === 'w przygotowaniu' ? 'color:var(--warning-color)' : 'color:var(--text-muted)') + '">' + escapeHtml(g.umowy) + '</span>';
+var statusContent = statusBadge(g.status, g.statusTone);
+var akcjeContent = '<div style="display:flex;gap:0.25rem">' +
+  button({ label: '', icon: 'fa-solid fa-clock-rotate-left', variant: 'ghost', attrs: { title: 'Historia zmian' } }) +
+  '</div>' + deptPills;
+
+var dataRow = '<tr' + rowCls + ' class="group-row" data-group-id="' + g.id + '" style="cursor:pointer">' +
+makeEditableCell(g.id, 'kod', kodContent) +
+makeEditableCell(g.id, 'organizator', orgContent) +
+makeEditableCell(g.id, 'autor', autorContent, 'text-align:center') +
+makeEditableCell(g.id, 'bok', bokContent, 'text-align:center') +
+makeEditableCell(g.id, 'kierunek', destContent) +
+makeEditableCell(g.id, 'pilot', pilotContent) +
+makeEditableCell(g.id, 'transport', transportContent, 'text-align:center') +
+makeEditableCell(g.id, 'pax', paxContent) +
+makeEditableCell(g.id, 'bilety_nr', biletyNrContent) +
+makeEditableCell(g.id, 'msza', mszaContent, 'text-align:center') +
+makeEditableCell(g.id, 'umowy', umowyContent) +
+makeEditableCell(g.id, 'akcje', akcjeContent, '', true) +
 '</tr>';
 return sectionRow + dataRow;
 }).join('');
@@ -487,7 +577,7 @@ body: '<div class="table-container" style="overflow-x:auto"><table class="data-t
 '<th>Kod</th>' +
 '<th style="min-width:180px">Organizator</th>' +
 '<th>Autor</th>' +
-'<th title="BOK / Bilety">BOK/B</th>' +
+'<th title="BOK / Booking / Bilety lotnicze">BOK / BKG / BIL</th>' +
 '<th>Kierunek / Termin</th>' +
 '<th>Pilot</th>' +
 '<th>Transport</th>' +
@@ -495,7 +585,6 @@ body: '<div class="table-container" style="overflow-x:auto"><table class="data-t
 '<th>Nr biletów</th>' +
 '<th>Msza lotn.</th>' +
 '<th>Umowy</th>' +
-'<th>Status</th>' +
 '<th></th>' +
 '</tr></thead>' +
 '<tbody>' + terminarzRows + '</tbody>' +
@@ -505,6 +594,227 @@ calendarHtml,
 
 ].join('');
 }
+
+/* ===== MODAL FUNCTIONS ===== */
+window.currentCellKey = '';
+
+window.showEditPilotFlightModal = function(event, groupId, pilotName, status, flightNumbers) {
+  if (event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+  document.getElementById('pilot-flight-group-id').value = groupId;
+  document.getElementById('pilot-flight-name').textContent = pilotName;
+  document.getElementById('pilot-flight-numbers').value = flightNumbers || '';
+  
+  var radios = document.querySelectorAll('input[name="pilot-flight-status"]');
+  radios.forEach(function(r) {
+    r.checked = r.value === status;
+    if (r.checked && r.value === 'dolatuje') {
+      document.getElementById('pilot-flight-numbers-group').style.display = 'block';
+    }
+  });
+  
+  document.getElementById('edit-pilot-flight-modal').classList.add('show');
+};
+
+window.savePilotFlightStatus = function() {
+  var groupId = document.getElementById('pilot-flight-group-id').value;
+  var status = document.querySelector('input[name="pilot-flight-status"]:checked').value;
+  var flightNumbers = document.getElementById('pilot-flight-numbers').value;
+  
+  // Find and update the group
+  groups.forEach(function(g) {
+    if (g.id === groupId) {
+      g.pilotFlightStatus = status;
+      g.pilotFlightNumbers = flightNumbers;
+    }
+  });
+  
+  document.getElementById('edit-pilot-flight-modal').classList.remove('show');
+  window.AppNavigation && window.AppNavigation.setActivePage('grupy');
+};
+
+window.editingNoteIdx = null;
+
+window.renderInlineNotes = function() {
+  var key = window.currentCellKey;
+  var rawNote = window.CellNotesStore[key];
+  var notesArr = Array.isArray(rawNote) ? rawNote : (rawNote ? [rawNote] : []);
+  
+  var listHtml = '';
+  if (notesArr.length === 0) {
+    listHtml = '<div style="font-size:0.75rem;color:var(--text-muted);font-style:italic">Brak notatek...</div>';
+  } else {
+    notesArr.forEach(function(note, idx) {
+      if (window.editingNoteIdx === idx) {
+        listHtml += '<div style="display:flex;flex-direction:column;gap:0.4rem;background:var(--bg-main);padding:0.4rem;border-radius:4px;font-size:0.78rem">' +
+          '<textarea id="context-menu-edit-note-' + idx + '" style="width:100%;min-height:40px;font-size:0.75rem;padding:0.3rem;border:1px solid var(--border-color);border-radius:4px;resize:vertical">' + escapeHtml(note) + '</textarea>' +
+          '<div style="display:flex;justify-content:flex-end;gap:0.3rem">' +
+            '<button onclick="window.cancelEditInlineNote()" style="background:var(--bg-main);border:1px solid var(--border-color);padding:0.2rem 0.5rem;border-radius:3px;font-size:0.7rem;cursor:pointer">Anuluj</button>' +
+            '<button onclick="window.saveInlineNote(' + idx + ')" style="background:var(--primary-color);color:white;border:none;padding:0.2rem 0.5rem;border-radius:3px;font-size:0.7rem;cursor:pointer"><i class="fa-solid fa-check" style="margin-right:0.2rem"></i>Zapisz</button>' +
+          '</div>' +
+        '</div>';
+      } else {
+        listHtml += '<div style="display:flex;justify-content:space-between;align-items:flex-start;background:var(--bg-main);padding:0.4rem;border-radius:4px;font-size:0.78rem">' +
+          '<span style="word-break:break-word;flex:1">' + escapeHtml(note) + '</span>' +
+          '<div style="display:flex;gap:0.3rem">' +
+            '<button onclick="window.editInlineNote(' + idx + ')" style="background:none;border:none;color:var(--primary-color);cursor:pointer;padding:0;margin-left:0.4rem" title="Edytuj"><i class="fa-solid fa-pen" style="font-size:0.7rem"></i></button>' +
+            '<button onclick="window.deleteInlineNote(' + idx + ')" style="background:none;border:none;color:var(--danger-color);cursor:pointer;padding:0;margin-left:0.2rem" title="Usuń"><i class="fa-solid fa-trash" style="font-size:0.7rem"></i></button>' +
+          '</div>' +
+        '</div>';
+      }
+    });
+  }
+  document.getElementById('context-menu-notes-list').innerHTML = listHtml;
+  
+  if (window.editingNoteIdx === null) {
+      document.getElementById('context-menu-new-note').value = '';
+  }
+};
+
+window.showCellContextMenu = function(event, groupId, colName) {
+  window.currentCellKey = groupId + ':' + colName;
+  var menu = document.getElementById('cell-context-menu');
+  menu.style.display = 'block';
+  
+  var cx = event.pageX;
+  var cy = event.pageY;
+  var rect = menu.getBoundingClientRect();
+  
+  if (cx + rect.width > window.innerWidth + window.scrollX) {
+      cx = window.innerWidth + window.scrollX - rect.width - 10;
+  }
+  if (cy + rect.height > window.innerHeight + window.scrollY) {
+      cy = window.innerHeight + window.scrollY - rect.height - 10;
+  }
+  
+  menu.style.left = cx + 'px';
+  menu.style.top = cy + 'px';
+  
+  window.editingNoteIdx = null; // Zresetuj edycję przy nowym otwarciu
+  window.renderInlineNotes();
+  
+  // Close on click outside
+  if (window._currentCloseMenu) {
+      window.removeEventListener('click', window._currentCloseMenu, true);
+  }
+  window._currentCloseMenu = function closeMenu(e) {
+      if (menu.style.display !== 'none' && !menu.contains(e.target)) {
+        e.stopPropagation();
+        e.preventDefault();
+        menu.style.display = 'none';
+        window.removeEventListener('click', window._currentCloseMenu, true);
+        window._currentCloseMenu = null;
+      }
+  };
+  setTimeout(function() {
+    window.addEventListener('click', window._currentCloseMenu, true);
+  }, 10);
+};
+
+window.addInlineNote = function() {
+  var key = window.currentCellKey;
+  var text = document.getElementById('context-menu-new-note').value.trim();
+  if (text) {
+    var rawNote = window.CellNotesStore[key];
+    var notesArr = Array.isArray(rawNote) ? rawNote : (rawNote ? [rawNote] : []);
+    notesArr.push(text);
+    window.CellNotesStore[key] = notesArr;
+    window.editingNoteIdx = null;
+    window.renderInlineNotes();
+    window.AppNavigation && window.AppNavigation.setActivePage('grupy'); // odświeża widok by ikona się pojawiła
+  }
+};
+
+window.deleteInlineNote = function(idx) {
+  var key = window.currentCellKey;
+  var rawNote = window.CellNotesStore[key];
+  var notesArr = Array.isArray(rawNote) ? rawNote : (rawNote ? [rawNote] : []);
+  notesArr.splice(idx, 1);
+  if (notesArr.length === 0) {
+    delete window.CellNotesStore[key];
+  } else {
+    window.CellNotesStore[key] = notesArr;
+  }
+  window.renderInlineNotes();
+  window.AppNavigation && window.AppNavigation.setActivePage('grupy'); // odświeża widok by ikona zniknęła
+};
+
+window.editInlineNote = function(idx) {
+  window.editingNoteIdx = idx;
+  window.renderInlineNotes();
+  setTimeout(function() {
+      var ta = document.getElementById('context-menu-edit-note-' + idx);
+      if (ta) {
+          ta.focus();
+          ta.setSelectionRange(ta.value.length, ta.value.length);
+      }
+  }, 10);
+};
+
+window.cancelEditInlineNote = function() {
+  window.editingNoteIdx = null;
+  window.renderInlineNotes();
+};
+
+window.saveInlineNote = function(idx) {
+  var ta = document.getElementById('context-menu-edit-note-' + idx);
+  if (!ta) return;
+  var text = ta.value.trim();
+  if (text) {
+      var key = window.currentCellKey;
+      var rawNote = window.CellNotesStore[key];
+      var notesArr = Array.isArray(rawNote) ? rawNote : (rawNote ? [rawNote] : []);
+      if (notesArr[idx] !== undefined) {
+          notesArr[idx] = text;
+          window.CellNotesStore[key] = notesArr;
+      }
+  } else {
+      window.deleteInlineNote(idx);
+      return; 
+  }
+  window.editingNoteIdx = null;
+  window.renderInlineNotes();
+  window.AppNavigation && window.AppNavigation.setActivePage('grupy');
+};
+
+window.setCellColor = function(color) {
+  document.getElementById('cell-context-menu').style.display = 'none';
+  
+  if (color) {
+    window.CellColorsStore[window.currentCellKey] = color;
+  } else {
+    delete window.CellColorsStore[window.currentCellKey];
+  }
+  
+  window.AppNavigation && window.AppNavigation.setActivePage('grupy');
+};
+
+// Event delegation for row clicks and buttons
+document.addEventListener('click', function(e) {
+  // Handle edit pilot flight button
+  var editPilotBtn = e.target.closest('.edit-pilot-btn');
+  if (editPilotBtn) {
+    e.stopPropagation();
+    e.preventDefault();
+    var groupId = editPilotBtn.getAttribute('data-group-id');
+    var pilotName = editPilotBtn.getAttribute('data-pilot-name');
+    var status = editPilotBtn.getAttribute('data-flight-status');
+    var flightNumbers = editPilotBtn.getAttribute('data-flight-numbers');
+    window.showEditPilotFlightModal(null, groupId, pilotName, status, flightNumbers);
+    return;
+  }
+  
+  // Handle group row click
+  var row = e.target.closest('.group-row');
+  if (row && !row.classList.contains('terminarz-section-row') && !e.target.closest('button') && !e.target.closest('.no-row-click') && !e.target.closest('.edit-pilot-btn')) {
+    var groupId = row.getAttribute('data-group-id');
+    if (groupId) {
+        window.AppNavigation && window.AppNavigation.setActivePage('szczegoly_grupy', {groupId: groupId});
+    }
+  }
+}, true); // capture phase - execute BEFORE demo/interactions.js
 
 window.GrupyView = { renderGrupy };
 })();
