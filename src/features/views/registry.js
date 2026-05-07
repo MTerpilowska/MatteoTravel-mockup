@@ -16,6 +16,7 @@
 			platnosci:   function () { return window.PlatnosciView.renderPlatnosci(); },
 			ksiegowosc:  function () { return window.KsiegowoscView.renderKsiegowosc(); },
 			bilety:      function () { return window.BiletyView.renderBilety(); },
+			szczegoly_biletow: function () { return window.SzczegolyBiletowView.renderSzczegolyBiletow(); },
 			hotele:      function () { return window.HoteleView.renderHotele(); },
 			msze:        function () { return window.MszeView.renderMsze(); },
 			piloci:      function () { return window.PilociView.renderPiloci(); },

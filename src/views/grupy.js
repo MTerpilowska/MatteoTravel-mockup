@@ -20,7 +20,7 @@ if (Object.keys(window.CellNotesStore).length === 0) {
 }
 
 // Helper function to create a cell with note/color support
-function makeEditableCell(groupId, colName, content, extraStyles, stopPropagation) {
+window.makeEditableCell = function(groupId, colName, content, extraStyles, stopPropagation) {
   var cellKey = groupId + ':' + colName;
   var rawNote = window.CellNotesStore[cellKey];
   var notesArr = Array.isArray(rawNote) ? rawNote : (rawNote ? [rawNote] : []);
@@ -73,6 +73,17 @@ trans_lotnisko: 'nie', msza: '24.01 g. 14:00 — WAW', bilety_nr: '44×W6Y73A / 
 umowy: 'wysłana', gratisy: '80 USD/os. (karta)', status: 'Zakończona', statusTone: 'success',
 prowizja: '2%',
 pilotFlightStatus: 'leci_z_grupa', pilotFlightNumbers: ''
+},
+{
+section: null, id: 'FL-2026-001', anulowana: false, type: 'loty',
+name: '[Bilety Lotnicze] Grupa prywatna - Madryt',
+org: 'Jan Kowalski (Grupa prywatna)', orgPhone: '+48 500 123 456', orgEmail: 'jan@kowalski.pl', autor: 'Dział Biletów', bok: '—', booking: '—', bilety: 'E', marketing: '—',
+dest: 'Madryt', from: '10.08.2026', to: '17.08.2026',
+pilot: '—', pilotPhone: '', pilotEmail: '', kontrahent: '—', transport: 'samolot LOT', trans_ico: 'fa-plane',
+trans_lotnisko: 'nie', msza: '—', bilety_nr: 'W trakcie', pax: 12, paxMax: 12,
+umowy: '—', gratisy: '—', status: 'Zaakceptowane', statusTone: 'success',
+prowizja: '—',
+pilotFlightStatus: 'nie_leci', pilotFlightNumbers: ''
 },
 {
 section: null, id: 'MT-2026-KE-01', anulowana: false,
@@ -194,9 +205,10 @@ var bokOk = !g.anulowana && (g.status === 'Zako\u0144czona' || g.id === 'MT-2026
 var bkgOk = !g.anulowana && (g.status === 'Zako\u0144czona' || g.id === 'MT-2026-IT-01');
 var bilOk = !g.anulowana && (g.status === 'Zako\u0144czona' || g.id === 'MT-2026-IT-01');
 var mktOk = !g.anulowana && (g.status === 'Zako\u0144czona');
+var ksiOk = !g.anulowana && (g.status === 'Zako\u0144czona');
 var _p = function(l, ok) { return '<span style="font-size:0.62rem;padding:0.08rem 0.3rem;border-radius:3px;font-weight:700;white-space:nowrap;background:' + (ok ? '#dcfce7' : '#fef3c7') + ';color:' + (ok ? '#166534' : '#92400e') + '">' + l + (ok ? ' \u2713' : ' \u23f3') + '</span>'; };
 var deptPills = g.anulowana ? '' :
-  '<div style="display:flex;gap:0.2rem;flex-wrap:wrap;margin-top:0.3rem">' + _p('BOK', bokOk) + _p('Book.', bkgOk) + _p('Bil.', bilOk) + _p('Mkt', mktOk) + '</div>';
+  '<div style="display:flex;gap:0.2rem;flex-wrap:wrap;margin-top:0.3rem">' + _p('BOK', bokOk) + _p('Book.', bkgOk) + _p('Bil.', bilOk) + _p('Mkt', mktOk) + _p('Kseg.', ksiOk) + '</div>';
 
 // Cell contents
 var kodContent = '<div style="display:flex;flex-direction:column;gap:0.4rem;align-items:flex-start">' +
@@ -269,7 +281,7 @@ var akcjeContent = '<div style="display:flex;gap:0.25rem">' +
   button({ label: '', icon: 'fa-solid fa-clock-rotate-left', variant: 'ghost', attrs: { title: 'Historia zmian' } }) +
   '</div>' + deptPills;
 
-var dataRow = '<tr' + rowCls + ' class="group-row" data-group-id="' + g.id + '" style="cursor:pointer">' +
+var dataRow = '<tr' + rowCls + ' class="group-row" data-group-id="' + g.id + '" data-group-type="' + (g.type || 'wycieczka') + '" style="cursor:pointer">' +
 makeEditableCell(g.id, 'kod', kodContent) +
 makeEditableCell(g.id, 'organizator', orgContent) +
 makeEditableCell(g.id, 'autor_bok', autorBokContent, 'text-align:center') +
@@ -640,7 +652,7 @@ window.savePilotFlightStatus = function() {
   });
   
   document.getElementById('edit-pilot-flight-modal').classList.remove('show');
-  window.AppNavigation && window.AppNavigation.setActivePage('grupy');
+  window.AppNavigation && window.AppNavigation.refresh();
 };
 
 window.editingNoteIdx = null;
@@ -731,7 +743,7 @@ window.addInlineNote = function() {
     window.CellNotesStore[key] = notesArr;
     window.editingNoteIdx = null;
     window.renderInlineNotes();
-    window.AppNavigation && window.AppNavigation.setActivePage('grupy'); // odświeża widok by ikona się pojawiła
+    window.AppNavigation && window.AppNavigation.refresh(); // odświeża widok by ikona się pojawiła
   }
 };
 
@@ -746,7 +758,7 @@ window.deleteInlineNote = function(idx) {
     window.CellNotesStore[key] = notesArr;
   }
   window.renderInlineNotes();
-  window.AppNavigation && window.AppNavigation.setActivePage('grupy'); // odświeża widok by ikona zniknęła
+  window.AppNavigation && window.AppNavigation.refresh(); // odświeża widok by ikona zniknęła
 };
 
 window.editInlineNote = function(idx) {
@@ -784,7 +796,7 @@ window.saveInlineNote = function(idx) {
   }
   window.editingNoteIdx = null;
   window.renderInlineNotes();
-  window.AppNavigation && window.AppNavigation.setActivePage('grupy');
+  window.AppNavigation && window.AppNavigation.refresh();
 };
 
 window.setCellColor = function(color) {
@@ -796,7 +808,7 @@ window.setCellColor = function(color) {
     delete window.CellColorsStore[window.currentCellKey];
   }
   
-  window.AppNavigation && window.AppNavigation.setActivePage('grupy');
+  window.AppNavigation && window.AppNavigation.refresh();
 };
 
 // Event delegation for row clicks and buttons
@@ -818,8 +830,10 @@ document.addEventListener('click', function(e) {
   var row = e.target.closest('.group-row');
   if (row && !row.classList.contains('terminarz-section-row') && !e.target.closest('button') && !e.target.closest('.no-row-click') && !e.target.closest('.edit-pilot-btn')) {
     var groupId = row.getAttribute('data-group-id');
+    var groupType = row.getAttribute('data-group-type');
     if (groupId) {
-        window.AppNavigation && window.AppNavigation.setActivePage('szczegoly_grupy', {groupId: groupId});
+        var targetPage = (groupType === 'loty') ? 'szczegoly_biletow' : 'szczegoly_grupy';
+        window.AppNavigation && window.AppNavigation.setActivePage(targetPage, {groupId: groupId});
     }
   }
 }, true); // capture phase - execute BEFORE demo/interactions.js

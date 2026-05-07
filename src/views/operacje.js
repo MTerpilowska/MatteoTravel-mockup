@@ -23,6 +23,7 @@
 					{ name: 'Anna Zielińska', passport: 'DE8801234', passportExp: '08.09.2027', seat: '11A', ticketNo: '080-4521378904', status: 'Zbiletowany', statusTone: 'success' },
 					{ name: 'Tomasz Lewandowski', passport: 'EF3347712', passportExp: '30.04.2029', seat: '11B', ticketNo: '080-4521378905', status: 'Zbiletowany', statusTone: 'success' },
 					{ name: 'Katarzyna Wójcik', passport: '—', passportExp: '—', seat: '11C', ticketNo: '—', status: 'Brak dokumentów', statusTone: 'danger' },
+					{ name: 'Izabela Żebrowska (pilot)', passport: 'AB1234567', passportExp: '12.12.2030', seat: '12A', ticketNo: '080-4521378906', status: 'Zbiletowany', statusTone: 'success' },
 				],
 				history: [
 					{ date: '10.01.2026', event: 'Złożono zapytanie o 50 miejsc', user: 'A. Kowalski' },
@@ -48,6 +49,7 @@
 					{ name: 'Zofia Malinowska', passport: 'KL1100223', passportExp: '25.10.2027', seat: '15A', ticketNo: 'WZ-981215A', status: 'Zbiletowany', statusTone: 'success' },
 					{ name: 'Robert Szymański', passport: 'MN4456891', passportExp: '17.08.2031', seat: '15B', ticketNo: 'WZ-981215B', status: 'Zbiletowany', statusTone: 'success' },
 					{ name: 'Dorota Wojciechowska', passport: 'OP7789012', passportExp: '20.01.2028', seat: '15C', ticketNo: 'WZ-981215C', status: 'Zbiletowany', statusTone: 'success' },
+					{ name: 'Jan Nowak (pilot)', passport: 'ZA1122334', passportExp: '01.01.2032', seat: '15D', ticketNo: 'WZ-981215D', status: 'Zbiletowany', statusTone: 'success' },
 				],
 				history: [
 					{ date: '05.11.2025', event: 'Zakup 45 biletów (booking grupowy online)', user: 'M. Wiśniewska' },
@@ -72,6 +74,7 @@
 					{ name: 'Mikołaj Wróbel', passport: 'ST5567123', passportExp: '28.11.2028', seat: '—', ticketNo: '—', status: 'Do biletowania', statusTone: 'warning' },
 					{ name: 'Beata Kwiatkowska', passport: '—', passportExp: '—', seat: '—', ticketNo: '—', status: 'Brak dokumentów', statusTone: 'danger' },
 					{ name: 'Adam Piotrowski', passport: 'UV8890345', passportExp: '07.03.2027', seat: '—', ticketNo: '—', status: 'Do biletowania', statusTone: 'warning' },
+					{ name: 'Katarzyna Wiśniewska (pilot)', passport: 'ZA1122335', passportExp: '02.02.2032', seat: '—', ticketNo: '—', status: 'Do biletowania', statusTone: 'warning' },
 				],
 				history: [
 					{ date: '20.02.2026', event: 'Złożono opcję na 30 miejsc', user: 'A. Kowalski' },
@@ -94,6 +97,7 @@
 					{ name: 'Joanna Grabowska', passport: 'WX1123456', passportExp: '09.07.2029', seat: '—', ticketNo: '—', status: 'Do biletowania', statusTone: 'warning' },
 					{ name: 'Krzysztof Nowakowski', passport: '—', passportExp: '—', seat: '—', ticketNo: '—', status: 'Brak dokumentów', statusTone: 'danger' },
 					{ name: 'Magdalena Pawlak', passport: 'YZ4456789', passportExp: '21.12.2030', seat: '—', ticketNo: '—', status: 'Do biletowania', statusTone: 'warning' },
+					{ name: 'Anna Kowalska (pilot)', passport: 'ZA1122336', passportExp: '03.03.2032', seat: '—', ticketNo: '—', status: 'Do biletowania', statusTone: 'warning' },
 				],
 				history: [
 					{ date: '15.03.2026', event: 'Złożono wstępne zapytanie na 35 miejsc', user: 'A. Kowalski' },
@@ -228,6 +232,7 @@
 					</div>
 					<div class="demo-modal-footer">
 						<button class="btn btn-outline" data-no-demo="true" onclick="this.closest('.demo-modal-overlay').classList.remove('show')">Zamknij</button>
+						${button({ label: 'Wyślij bilety', icon: 'fa-solid fa-paper-plane', variant: 'primary', attrs: { 'data-no-demo': 'true', onclick: "window.showToast('Bilety zostały wysłane do uczestników.', 'success')" } })}
 						${button({ label: 'Export', icon: 'fa-solid fa-download', variant: 'outline', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('export-biletowanie-modal').classList.add('show')" } })}
 					</div>
 				</div>

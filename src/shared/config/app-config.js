@@ -11,11 +11,11 @@
         ];
 
         const ROLE_PAGES = {
-                admin: ['dashboard', 'crm', 'zapytania', 'grupy', 'rezerwacje', 'umowy', 'platnosci', 'ksiegowosc', 'bilety', 'hotele', 'msze', 'piloci', 'lokalni', 'hotele_kontakty', 'autokary', 'atrakcje', 'msze_kontakty', 'kontrahenci', 'restauracje', 'platnosci_kontakty', 'wysylki', 'teczka', 'poczta', 'sms', 'czat', 'kalendarz', 'leady', 'kampanie', 'social', 'raporty', 'ustawienia'],
-                ofertowanie: ['dashboard', 'crm', 'zapytania', 'grupy', 'rezerwacje', 'umowy', 'poczta', 'czat', 'kalendarz'],
-                bok: ['dashboard', 'crm', 'zapytania', 'rezerwacje', 'umowy', 'poczta', 'sms', 'czat', 'kalendarz'],
+                admin: ['dashboard', 'crm', 'zapytania', 'szczegoly_zapytania', 'grupy', 'szczegoly_grupy', 'szczegoly_biletow', 'rezerwacje', 'umowy', 'platnosci', 'ksiegowosc', 'bilety', 'hotele', 'msze', 'piloci', 'lokalni', 'hotele_kontakty', 'autokary', 'atrakcje', 'msze_kontakty', 'kontrahenci', 'restauracje', 'platnosci_kontakty', 'wysylki', 'teczka', 'poczta', 'sms', 'czat', 'kalendarz', 'leady', 'kampanie', 'social', 'raporty', 'ustawienia'],
+                ofertowanie: ['dashboard', 'crm', 'zapytania', 'szczegoly_zapytania', 'grupy', 'szczegoly_grupy', 'rezerwacje', 'umowy', 'poczta', 'czat', 'kalendarz'],
+                bok: ['dashboard', 'crm', 'zapytania', 'szczegoly_zapytania', 'rezerwacje', 'umowy', 'poczta', 'sms', 'czat', 'kalendarz'],
                 booking: ['dashboard', 'rezerwacje', 'hotele', 'umowy', 'platnosci', 'poczta', 'czat', 'msze', 'piloci', 'lokalni', 'hotele_kontakty', 'autokary', 'atrakcje', 'msze_kontakty', 'kontrahenci', 'restauracje', 'platnosci_kontakty'],
-                bilety: ['dashboard', 'rezerwacje', 'bilety', 'poczta', 'czat', 'wysylki'],
+                bilety: ['dashboard', 'rezerwacje', 'bilety', 'szczegoly_biletow', 'poczta', 'czat', 'wysylki'],
                 ksiegowosc: ['dashboard', 'platnosci', 'ksiegowosc', 'umowy', 'raporty', 'ustawienia'],
                 marketing: ['dashboard', 'crm', 'leady', 'kampanie', 'social', 'raporty'],
                 pilot: ['dashboard', 'rezerwacje', 'teczka', 'poczta', 'czat', 'kalendarz']

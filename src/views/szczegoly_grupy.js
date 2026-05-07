@@ -1,22 +1,86 @@
 (function () {
   const { button, panel, statusBadge, escapeHtml, statCard } = window.SharedUI;
   function renderSzczegolyGrupy() {
+    var activeTab = window.activeGroupTabState || 'przeglad';
+    
+    function tabClass(key) { return activeTab === key ? 'group-tab active' : 'group-tab'; }
+    function panelClass(key) { return activeTab === key ? 'group-tab-panel active' : 'group-tab-panel'; }
+
 /* ===== HOTELS — Egipt Żebrowska ===== */
 var hotels = [
-{ id: "h1", nights: '3 noce', dates: '24–27.01', miejsce: 'Kair', hotel: 'Azal Pyramids Hotel', adres: 'Al Haram Giza, 12511 Cairo', typ: 'HB', usd: '$7 000', status: 'Wpłacono częściowo', statusTone: 'warning', note: 'Zaliczki w toku', payments: [
+{ id: "h1", nights: '3 noce', dates: '24–27.01', miejsce: 'Kair', hotel: 'Azal Pyramids Hotel', adres: 'Al Haram Giza, 12511 Cairo', typ: 'HB', usd: '$7 000', status: 'Wpłacono częściowo', statusTone: 'warning', note: 'Zaliczki w toku', pliki: '2', payments: [
     { type: 'Depozyt 1', amount: '$2 000', date: '25.09.2025', method: 'Przelew', status: 'Rozliczone', statusTone: 'success', note: 'Transza I wpłacona' },
     { type: 'Depozyt 2', amount: '$5 000', date: '12.11.2025', method: 'Przelew', status: 'Rozliczone', statusTone: 'success', note: 'Transza II wpłacona' }
 ]},
-{ id: "h2", nights: '1 noc', dates: '27–28.01', miejsce: 'pociąg nocny', hotel: 'Wagon sypialny — trasa Kair–Luksur', adres: '—', typ: '—', usd: '$5 000', status: 'Wpłacono', statusTone: 'success', note: 'Obejmuje prowizję i koszty', payments: [
+{ id: "h2", nights: '1 noc', dates: '27–28.01', miejsce: 'pociąg nocny', hotel: 'Wagon sypialny — trasa Kair–Luksur', adres: '—', typ: '—', usd: '$5 000', status: 'Wpłacono', statusTone: 'success', note: 'Obejmuje prowizję i koszty', pliki: '1', payments: [
     { type: 'Dopłata 100%', amount: '$5 000', date: '27.01.2026', method: 'Przelew', status: 'Rozliczone', statusTone: 'success', note: 'Koszty przelewu +40 USD' }
 ]},
-{ id: "h3", nights: '2 noce', dates: '28–30.01', miejsce: 'Hurghada', hotel: 'Bella Vista Hurghada Hotel', adres: 'Sheraton Rd, Hurghada, Red Sea', typ: 'HB', usd: '$15 120', status: 'Oczekuje', statusTone: 'neutral', note: 'Czeka na przelew z biura', payments: [
+{ id: "h3", nights: '2 noce', dates: '28–30.01', miejsce: 'Hurghada', hotel: 'Bella Vista Hurghada Hotel', adres: 'Sheraton Rd, Hurghada, Red Sea', typ: 'HB', usd: '$15 120', status: 'Oczekuje', statusTone: 'neutral', note: 'Czeka na przelew z biura', pliki: '0', payments: [
     { type: 'Reszta kwoty', amount: '$15 120', date: '21.01.2026', method: 'Przelew', status: 'Oczekujące', statusTone: 'neutral', note: 'Dopłata — przelew zaplanowany na 21.01.2026' }
 ]},
-{ id: "h4", nights: '1 noc', dates: '30–31.01', miejsce: 'Kair', hotel: 'Azal Pyramids + wstępy', adres: 'Al Haram, Giza', typ: 'HB', usd: '$9 000', status: 'Cash na miejscu', statusTone: 'warning', note: 'Płatność pilotowi w gotówce', payments: [
+{ id: "h4", nights: '1 noc', dates: '30–31.01', miejsce: 'Kair', hotel: 'Azal Pyramids + wstępy', adres: 'Al Haram, Giza', typ: 'HB', usd: '$9 000', status: 'Cash na miejscu', statusTone: 'warning', note: 'Płatność pilotowi w gotówce', pliki: '3', payments: [
     { type: 'Płatność końcowa', amount: '$9 000', date: '30.01.2026', method: 'Gotówka', status: 'Cash na miejscu', statusTone: 'warning', note: 'Rozliczenie w Kairze u pilota' }
 ]},
 ];
+
+var flightTickets = [
+{ id: "t1", pnr: 'W6Y73A', typ: 'Grupowy', typTone: 'info', przewoznik: 'LOT', trasa: 'WAW → CAI → WAW', data_lotu: '24.01 / 31.01.2026', pax: '44', pliki: '3', kwota: '84 406 zł', payments: [
+    { type: 'Depozyt', amount: '8 800 zł', date: '10.05.2025', method: 'Przelew', status: 'Rozliczone', statusTone: 'success', note: 'I wpłata gwarancyjna' },
+    { type: 'Płatność końcowa', amount: '75 606 zł', date: '01.12.2025', method: 'Przelew', status: 'Rozliczone', statusTone: 'success', note: 'Rozliczenie po tickentingu' }
+]},
+{ id: "t2", pnr: 'TD236Z', typ: 'Indywidualny', typTone: 'neutral', przewoznik: 'LOT', trasa: 'WAW → CAI → WAW', data_lotu: '24.01 / 31.01.2026', pax: '1', pliki: '1', kwota: '0 zł', payments: [
+    { type: 'W cenie gr.', amount: '0 zł', date: '—', method: '—', status: 'Rozliczone', statusTone: 'success', note: 'W f. głównej' }
+]},
+{ id: "t3", pnr: 'ZVEQA4', typ: 'Grupowy', typTone: 'neutral', przewoznik: 'LOT', trasa: 'WAW → CAI → WAW', data_lotu: '24.01 / 31.01.2026', pax: '40', pliki: '0', kwota: '0 zł', payments: [
+    { type: 'Anulacja', amount: '0 zł', date: '—', method: '—', status: 'Anulowany', statusTone: 'danger', note: 'Rezygnacja bezkosztowa' }
+]}
+];
+
+var ticketRows = flightTickets.map(function(t) {
+  var platnosciInfo = '';
+  if (t.payments && t.payments.length > 0) {
+    platnosciInfo = '<div style="font-size:0.75rem;display:flex;flex-direction:column;gap:0.4rem">';
+    t.payments.forEach(function(p) {
+      platnosciInfo += '<div style="display:flex;flex-direction:column;gap:0.15rem;padding:0.35rem 0.5rem;background:var(--surface-secondary);border-radius:4px;border-left:3px solid ' + 
+        (p.statusTone === 'success' ? 'var(--success-color)' : p.statusTone === 'warning' ? '#f59e0b' : p.statusTone === 'danger' ? 'var(--danger-color)' : 'var(--text-muted)') + '">' +
+        '<div style="display:flex;align-items:center;gap:0.4rem">' +
+          '<span style="font-weight:700;color:var(--primary-color)">' + escapeHtml(p.amount) + '</span>' +
+          '<span style="color:var(--text-muted);font-size:0.7rem">' + escapeHtml(p.type) + '</span>' +
+        '</div>' +
+        '<div style="display:flex;align-items:center;gap:0.35rem;flex-wrap:wrap">' +
+          statusBadge(p.status, p.statusTone) +
+          '<span style="color:var(--text-muted);font-size:0.7rem">' + escapeHtml(p.method) + '</span>' +
+        '</div>' +
+      '</div>';
+    });
+    platnosciInfo += '</div>';
+  } else {
+    platnosciInfo = '<span style="color:var(--text-muted);font-size:0.75rem">—</span>';
+  }
+
+  var c_pnr = '<strong style="font-family:monospace;font-size:0.95rem">' + escapeHtml(t.pnr) + '</strong><br><span class="status-badge ' + t.typTone + '" style="margin-top:0.25rem">' + escapeHtml(t.typ) + '</span>';
+  var c_przewoznik = escapeHtml(t.przewoznik);
+  var c_trasa = escapeHtml(t.trasa);
+  var c_data = escapeHtml(t.data_lotu);
+  var c_pax = escapeHtml(t.pax);
+  var c_pliki = '<div style="display:flex;gap:0.25rem;">' + (t.pliki > 0 ? '<button class="btn btn-ghost" style="padding:0.2rem 0.4rem;font-size:0.8rem;color:var(--primary-color)" title="Zobacz pliki"><i class="fa-solid fa-file-pdf"></i> ' + t.pliki + '</button>' : '<button class="btn btn-ghost" style="padding:0.2rem 0.4rem;font-size:0.8rem;opacity:0.5" title="Brak plików"><i class="fa-solid fa-upload"></i></button>') + '</div>';
+  var c_kwota = '<div style="font-weight:700;font-size:1rem;margin-bottom:0.5rem">' + escapeHtml(t.kwota) + '</div>' + platnosciInfo;
+  var c_akcje = '<div style="white-space:nowrap;text-align:right">' +
+      '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem" data-no-demo="true" title="Szczegóły" onclick="document.getElementById(\\\'szczegoly-bilet-modal\\\').classList.add(\\\'show\\\')"><i class="fa-solid fa-eye"></i></button>' +
+      '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem" data-no-demo="true" title="Edytuj" onclick="document.getElementById(\\\'edytuj-bilet-modal\\\').classList.add(\\\'show\\\')"><i class="fa-solid fa-pen"></i></button>' +
+    '</div>';
+
+  return '<tr' + (t.typTone === 'danger' || t.pnr === 'ZVEQA4' ? ' style="opacity:0.6"' : '') + '>' +
+    (window.makeEditableCell ? window.makeEditableCell(t.id, 'pnr', c_pnr) : '<td>' + c_pnr + '</td>') +
+    (window.makeEditableCell ? window.makeEditableCell(t.id, 'przewoznik', c_przewoznik) : '<td>' + c_przewoznik + '</td>') +
+    (window.makeEditableCell ? window.makeEditableCell(t.id, 'trasa', c_trasa) : '<td>' + c_trasa + '</td>') +
+    (window.makeEditableCell ? window.makeEditableCell(t.id, 'data', c_data) : '<td>' + c_data + '</td>') +
+    (window.makeEditableCell ? window.makeEditableCell(t.id, 'pax', c_pax, 'text-align:center;') : '<td style="text-align:center;">' + c_pax + '</td>') +
+    (window.makeEditableCell ? window.makeEditableCell(t.id, 'kwota', c_kwota, 'vertical-align:top;min-width:180px;') : '<td style="vertical-align:top;min-width:180px;">' + c_kwota + '</td>') +
+    (window.makeEditableCell ? window.makeEditableCell(t.id, 'pliki', c_pliki, 'text-align:center;', true) : '<td style="text-align:center;">' + c_pliki + '</td>') +
+    (window.makeEditableCell ? window.makeEditableCell(t.id, 'akcje', c_akcje, 'text-align:right;', true) : '<td style="text-align:right;">' + c_akcje + '</td>') +
+  '</tr>';
+}).join('');
 
 
 var hotelRows = hotels.map(function(h) {
@@ -90,6 +154,7 @@ return '<tr>' +
 '<td style="font-weight:700;color:var(--text-main);">' + escapeHtml(h.usd) + '</td>' +
 '<td>' + platnosciInfo + '</td>' +
 '<td>' + statusBadge(h.status, h.statusTone) + '</td>' +
+'<td style="text-align:center"><button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.75rem" title="Pliki/Umowy" data-no-demo="true"><i class="fa-solid fa-paperclip"></i> ' + (h.pliki || '0') + '</button></td>' +
 '<td><small style="color:var(--text-muted)">' + escapeHtml(h.note) + '</small></td>' +
 '</tr>';
 }).join('');
@@ -362,23 +427,23 @@ button({ label: 'Historia zmian', icon: 'fa-solid fa-clock-rotate-left', variant
 '</div>' +
 '</div>' +
 '<div class="group-card-tabs">' +
-'<button class="group-tab active" data-tab="przeglad">Ogólne</button>' +
-'<button class="group-tab" data-tab="karta-imprezy">Karta Imprezy <span class="tab-badge" style="background:#f59e0b;color:#fff;font-weight:700">!</span></button>' +
-'<button class="group-tab" data-tab="rezerwacje">Uczestnicy <span class="tab-badge">8</span></button>' +
-'<button class="group-tab" data-tab="platnosci">Płatności i faktury</button>' +
-'<button class="group-tab" data-tab="plan">Plan</button>' +
-'<button class="group-tab" data-tab="hotele">Hotele</button>' +
-'<button class="group-tab" data-tab="dod-rezerwacje">Dod. rezerwacje <span class="tab-badge">5</span></button>' +
-'<button class="group-tab" data-tab="msze">Msze <span class="tab-badge">1</span></button>' +
-'<button class="group-tab" data-tab="bilety">Bilety lotnicze</button>' +
-'<button class="group-tab" data-tab="transport">Transport</button>' +
-'<button class="group-tab" data-tab="teczka-pilota">Teczka pilota</button>' +
-'<button class="group-tab" data-tab="rooming">Rooming list</button>' +
-'<button class="group-tab" data-tab="dokumenty">Checklista</button>' +
+'<button class="' + tabClass('przeglad') + '" data-tab="przeglad">Ogólne</button>' +
+'<button class="' + tabClass('karta-imprezy') + '" data-tab="karta-imprezy">Karta Imprezy <span class="tab-badge" style="background:#f59e0b;color:#fff;font-weight:700">!</span></button>' +
+'<button class="' + tabClass('rezerwacje') + '" data-tab="rezerwacje">Uczestnicy <span class="tab-badge">8</span></button>' +
+'<button class="' + tabClass('platnosci') + '" data-tab="platnosci">Płatności i faktury</button>' +
+'<button class="' + tabClass('plan') + '" data-tab="plan">Plan</button>' +
+'<button class="' + tabClass('hotele') + '" data-tab="hotele">Hotele</button>' +
+'<button class="' + tabClass('dod-rezerwacje') + '" data-tab="dod-rezerwacje">Dod. rezerwacje <span class="tab-badge">5</span></button>' +
+'<button class="' + tabClass('msze') + '" data-tab="msze">Msze <span class="tab-badge">1</span></button>' +
+'<button class="' + tabClass('bilety') + '" data-tab="bilety">Bilety lotnicze</button>' +
+'<button class="' + tabClass('transport') + '" data-tab="transport">Transport</button>' +
+'<button class="' + tabClass('teczka-pilota') + '" data-tab="teczka-pilota">Teczka pilota</button>' +
+'<button class="' + tabClass('rooming') + '" data-tab="rooming">Rooming list</button>' +
+'<button class="' + tabClass('dokumenty') + '" data-tab="dokumenty">Checklista</button>' +
 '</div>' +
 '</div>' +
 '<div class="group-card-body">' +
-'<div class="group-tab-panel active" data-panel="przeglad">' +
+'<div class="' + panelClass('przeglad') + '" data-panel="przeglad">' +
 '<div class="group-overview-grid">' +
 '<div class="group-info-col">' +
 panel({ title: 'Informacje ogólne', body:
@@ -449,7 +514,7 @@ panel({ title: 'Umowy i dokumentacja', body:
 '</div>' +  /* end przegląd tab panel */
 
 /* ==== PLAN tab ==== */
-'<div class="group-tab-panel" data-panel="plan">' +
+'<div class="' + panelClass('plan') + '" data-panel="plan">' +
 panel({
   title: 'Plan imprezy (Podgląd i edycja)',
   action: '<div style="display:flex;gap:0.5rem">' +
@@ -464,7 +529,7 @@ panel({
 '</div>' +
 
 /* ==== HOTELE tab ==== */
-'<div class="group-tab-panel" data-panel="hotele">' +
+'<div class="' + panelClass('hotele') + '" data-panel="hotele">' +
 panel({
   title: 'Hotele i noclegi — Egipt Żebrowska / Lipka · 24–31.01.2026',
   action: '<div style="display:flex;gap:0.5rem">' +
@@ -473,9 +538,9 @@ panel({
     button({ label: 'Dodaj nocleg', icon: 'fa-solid fa-plus', variant: 'primary', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('dodaj-nocleg-modal').classList.add('show')" } }) +
     '</div>',
   body: '<div class="table-container"><table class="data-table">' +
-    '<thead><tr><th>Daty</th><th>Noce</th><th>Miejscowość</th><th>Hotel / Sposób noclegu</th><th>Typ</th><th>Kwota (USD)</th><th>Płatności</th><th>Status</th><th>Uwagi</th></tr></thead>' +
+    '<thead><tr><th>Daty</th><th>Noce</th><th>Miejscowość</th><th>Hotel / Sposób noclegu</th><th>Typ</th><th>Kwota (USD)</th><th>Płatności</th><th>Status</th><th>Pliki</th><th>Uwagi</th></tr></thead>' +
     '<tbody>' + hotelRows + '</tbody>' +
-    '<tfoot><tr><td colspan="4" style="font-weight:700;text-align:right;padding-top:0.75rem">Suma (przelewem + cash)</td><td></td><td style="font-weight:700;color:var(--primary-color)">$36 120 USD</td><td colspan="2"></td></tr></tfoot>' +
+    '<tfoot><tr><td colspan="4" style="font-weight:700;text-align:right;padding-top:0.75rem">Suma (przelewem + cash)</td><td></td><td style="font-weight:700;color:var(--primary-color)">$36 120 USD</td><td colspan="4"></td></tr></tfoot>' +
     '</table></div>'
 }) +
 panel({
@@ -485,64 +550,31 @@ panel({
 '</div>' +
 
 /* ==== BILETY tab ==== */
-'<div class="group-tab-panel" data-panel="bilety">' +
+'<div class="' + panelClass('bilety') + '" data-panel="bilety">' +
 panel({
   title: 'Bilety lotnicze — MT-2026-EG-01',
   action: '<div style="display:flex;gap:0.5rem">' +
+    button({ label: 'Wyślij bilety', icon: 'fa-solid fa-paper-plane', variant: 'outline', attrs: { 'data-no-demo': 'true', onclick: "window.showToast('Bilety zostały wysłane do uczestników.', 'success')" } }) +
     button({ label: 'Eksport PDF', icon: 'fa-solid fa-file-pdf', variant: 'outline' }) +
     '<button class="btn btn-ghost" data-no-demo="true" onclick="document.getElementById(\'bilety-historia-modal\').classList.add(\'show\')"><i class="fa-solid fa-clock-rotate-left"></i> Historia</button>' +
     button({ label: 'Dodaj bilet', icon: 'fa-solid fa-plus', variant: 'primary', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('nowy-bilet-modal').classList.add('show')" } }) +
   '</div>',
   body:
-  '<div class="table-container"><table class="data-table">' +
-  '<thead><tr><th>PNR</th><th>Typ</th><th>Przewoźnik</th><th>Trasa</th><th>Data lotu</th><th>Miejsc</th><th>Faktura</th><th>Status</th><th style="width:90px"></th></tr></thead>' +
-  '<tbody>' +
-  '<tr>' +
-    '<td><strong style="font-family:monospace;font-size:0.95rem">W6Y73A</strong></td>' +
-    '<td><span class="status-badge info">Grupowy</span></td>' +
-    '<td>LOT</td>' +
-    '<td>WAW → CAI → WAW</td>' +
-    '<td>24.01 / 31.01.2026</td>' +
-    '<td>44</td>' +
-    '<td><span style="font-size:0.8rem">84\u202f406\u202fzł<br><span style="color:var(--success-color);font-size:0.75rem">op\u0142acona ✓</span></span></td>' +
-    '<td>' + statusBadge('Aktywny', 'success') + '</td>' +
-    '<td style="white-space:nowrap">' +
-      '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem" data-no-demo="true" title="Szczegóły" onclick="document.getElementById(\'szczegoly-bilet-modal\').classList.add(\'show\')"><i class="fa-solid fa-eye"></i></button>' +
-      '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem" data-no-demo="true" title="Edytuj" onclick="document.getElementById(\'edytuj-bilet-modal\').classList.add(\'show\')"><i class="fa-solid fa-pen"></i></button>' +
-      '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem;color:var(--danger-color)" title="Anuluj PNR"><i class="fa-solid fa-ban"></i></button>' +
-    '</td>' +
-  '</tr>' +
-  '<tr>' +
-    '<td><strong style="font-family:monospace;font-size:0.95rem">TD236Z</strong></td>' +
-    '<td><span class="status-badge neutral">Indywidualny</span></td>' +
-    '<td>LOT</td>' +
-    '<td>WAW → CAI → WAW</td>' +
-    '<td>24.01 / 31.01.2026</td>' +
-    '<td>1</td>' +
-    '<td><span style="font-size:0.8rem;color:var(--text-muted)">w f. g\u0142\u00f3wnej</span></td>' +
-    '<td>' + statusBadge('Aktywny', 'success') + '</td>' +
-    '<td style="white-space:nowrap">' +
-      '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem" data-no-demo="true" title="Szczeg\u00f3\u0142y" onclick="document.getElementById(\'szczegoly-bilet-modal\').classList.add(\'show\')"><i class="fa-solid fa-eye"></i></button>' +
-      '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem" data-no-demo="true" title="Edytuj" onclick="document.getElementById(\'edytuj-bilet-modal\').classList.add(\'show\')"><i class="fa-solid fa-pen"></i></button>' +
-      '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem;color:var(--danger-color)" title="Anuluj PNR"><i class="fa-solid fa-ban"></i></button>' +
-    '</td>' +
-  '</tr>' +
-  '<tr style="opacity:0.5">' +
-    '<td><strong style="font-family:monospace;font-size:0.95rem">ZVEQA4</strong></td>' +
-    '<td><span class="status-badge neutral">Grupowy</span></td>' +
-    '<td>LOT</td>' +
-    '<td>WAW → CAI → WAW</td>' +
-    '<td>24.01 / 31.01.2026</td>' +
-    '<td>40</td>' +
-    '<td><span style="font-size:0.8rem;color:var(--text-muted)">anulowana</span></td>' +
-    '<td>' + statusBadge('Anulowany', 'danger') + '</td>' +
-    '<td style="white-space:nowrap">' +
-      '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem" data-no-demo="true" title="Szczeg\u00f3\u0142y" onclick="document.getElementById(\'szczegoly-bilet-modal\').classList.add(\'show\')"><i class="fa-solid fa-eye"></i></button>' +
-      '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem;opacity:0.4" title="Edytuj" disabled><i class="fa-solid fa-pen"></i></button>' +
-      '<button class="btn btn-ghost" style="padding:0.25rem 0.5rem;font-size:0.78rem;color:var(--text-muted)" title="Ju\u017c anulowany" disabled><i class="fa-solid fa-ban"></i></button>' +
-    '</td>' +
-  '</tr>' +
-  '</tbody>' +
+  '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;padding:0.75rem 1rem;background:var(--bg-main);border:1px solid var(--border-color);border-radius:var(--radius-md);">' +
+    '<div>' +
+      '<span style="font-size:0.8rem;color:var(--text-muted);display:block;margin-bottom:0.25rem">Bilet dla pilota (Izabela Żebrowska)</span>' +
+      '<div style="display:flex;align-items:center;gap:0.75rem">' +
+        '<span style="display:inline-block;font-size:0.75rem;padding:0.2rem 0.4rem;background:#dcfce7;color:#166534;border-radius:3px;font-weight:600;"><i class="fa-solid fa-plane"></i> Leci z grupą</span>' +
+        '<span style="font-size:0.85rem;color:var(--text-main);font-weight:500;">Bilet wliczony w główny PNR grupowy (W6Y73A)</span>' +
+      '</div>' +
+    '</div>' +
+    '<button class="btn btn-ghost" style="font-size:0.8rem" data-no-demo="true"><i class="fa-solid fa-pen"></i> Edytuj status</button>' +
+  '</div>' +
+  '<div class="table-container" style="overflow:-moz-hidden-unscrollable;overflow-x:auto;">' +
+  '<table class="data-table" style="width:100%;">' +
+  '<thead><tr><th>PNR / Typ</th><th>Przewoźnik</th><th>Trasa</th><th>Data lotu</th><th style="text-align:center;">PAX</th><th>Kwota (Cena i wpłaty)</th><th style="text-align:center;">Pliki</th><th style="width:70px"></th></tr></thead>' +
+  '<tbody>' + ticketRows + '</tbody>' +
+  '<tfoot><tr><td colspan="5" style="font-weight:700;text-align:right;padding-top:0.75rem">Suma brutto</td><td style="font-weight:700;color:var(--primary-color)">84 406 zł</td><td colspan="2"></td></tr></tfoot>' +
   '</table></div>' +
   '<div style="margin-top:0.75rem;padding:0.75rem;background:var(--bg-hover);border-radius:var(--radius-sm);font-size:0.8rem;color:var(--text-muted);display:flex;gap:2rem;flex-wrap:wrap">' +
     '<span><i class="fa-solid fa-circle-info" style="color:var(--primary-color)"></i> Potwierdzenie grupy: <strong style="color:var(--text-default)">430\u202fz\u0142/gr \u2014 f.\u202f250400486 (14.04.2025)</strong></span>' +
@@ -552,6 +584,8 @@ panel({
 panel({ title: 'Uwagi specjalne (Bilety lotnicze)', body:
 '<div class="notes-list">' +
 '<div class="note-item"><span class="note-group" style="font-size:0.72rem;font-weight:700;color:var(--primary-color);background:var(--primary-light);padding:0.1rem 0.45rem;border-radius:4px">Miejsca</span><p style="margin:0;font-size:0.82rem">Zg\u0142oszono pro\u015bb\u0119 o miejsce przy oknie dla wybranych uczestnik\u00f3w.</p></div>' +
+'<div class="note-item"><span class="note-group" style="font-size:0.72rem;font-weight:700;color:var(--primary-color);background:var(--primary-light);padding:0.1rem 0.45rem;border-radius:4px">Dieta</span><p style="margin:0;font-size:0.82rem">1 uczestnik \u2014 alergia na gluten (posi\u0142ek GFML).</p></div>' +
+'<div class="note-item"><span class="note-group" style="font-size:0.72rem;font-weight:700;color:var(--primary-color);background:var(--primary-light);padding:0.1rem 0.45rem;border-radius:4px">Asysta</span><p style="margin:0;font-size:0.82rem">1 uczestnik \u2014 pro\u015bba o asyst\u0119 w\u00f3zkow\u0105 na lotnisku (WCHR).</p></div>' +
 '</div>' +
 '<button class="btn btn-ghost" style="margin-top:0.75rem;font-size:0.8rem" data-no-demo="true"><i class="fa-solid fa-plus"></i> Dodaj uwag\u0119</button>'
 }) +
@@ -772,7 +806,7 @@ panel({ title: 'Uwagi specjalne (Bilety lotnicze)', body:
 '</div>' +
 
 /* ==== TRANSPORT tab ==== */
-'<div class="group-tab-panel" data-panel="transport">' +
+'<div class="' + panelClass('transport') + '" data-panel="transport">' +
 panel({ title: 'Transport — szczegóły Egipt 24–31.01.2026',
   action: '<div style="display:flex;gap:0.5rem">' +
     button({ label: 'Dodaj element', icon: 'fa-solid fa-plus', variant: 'primary', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('dodaj-transport-modal').classList.add('show')" } }) +
@@ -791,7 +825,7 @@ panel({ title: 'Transport — szczegóły Egipt 24–31.01.2026',
 '</div>' +
 
 /* ==== REZERWACJE tab ==== */
-'<div class="group-tab-panel" data-panel="rezerwacje">' +
+'<div class="' + panelClass('rezerwacje') + '" data-panel="rezerwacje">' +
 (function(button, panel, statCard, statusBadge, escapeHtml) {
 	var rez_participants = [
 		{ lp: 1, name: 'Wiśniewski Adam',         pesel: '75010***** (Ppkt 37)', room: 'DBL 101',  flight: 'LO4KL2', paid: 4990, total: 4990, foreignPaid: 100, foreignTotal: 100, foreignCurrency: "USD", balance: 0,     contract: 'Podpisana', docs: 'OK',             status: 'Kompletny',   statusTone: 'success' },
@@ -865,7 +899,7 @@ panel({ title: 'Transport — szczegóły Egipt 24–31.01.2026',
 '</div>' +
 
 /* ==== TECZKA PILOTA tab ==== */
-'<div class="group-tab-panel" data-panel="teczka-pilota">' +
+'<div class="' + panelClass('teczka-pilota') + '" data-panel="teczka-pilota">' +
 '<div style="display:grid;grid-template-columns:1fr 2fr;gap:1.5rem">' +
 '<div style="display:flex;flex-direction:column;gap:1.25rem">' +
 panel({ 
@@ -931,7 +965,7 @@ panel({
 '</div>' +
 
 /* ==== PŁATNOŚCI I FAKTURY tab ==== */
-'<div class="group-tab-panel" data-panel="platnosci">' +
+'<div class="' + panelClass('platnosci') + '" data-panel="platnosci">' +
 panel({
 	title: 'Płatności i faktury',
 	action: '<div style="display:flex;gap:0.5rem">' +
@@ -945,7 +979,7 @@ panel({
 '</div>' +
 
 /* ==== ROOMING LIST tab ==== */
-'<div class="group-tab-panel" data-panel="rooming">' +
+'<div class="' + panelClass('rooming') + '" data-panel="rooming">' +
 panel({
 	title: 'Rooming list',
 	action: '<div style="display:flex;gap:0.5rem">' +
@@ -1024,7 +1058,7 @@ panel({ title: 'Uwagi specjalne (Rooming & Dieta)', body:
 '</div>' +
 
 /* ==== DODATKOWE REZERWACJE tab ==== */
-'<div class="group-tab-panel" data-panel="dod-rezerwacje">' +
+'<div class="' + panelClass('dod-rezerwacje') + '" data-panel="dod-rezerwacje">' +
 panel({
   title: 'Dodatkowe rezerwacje (poza hotelami)',
   action: button({ label: 'Dodaj rezerwację', icon: 'fa-solid fa-plus', variant: 'primary', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('dodaj-rez-modal').classList.add('show')" } }),
@@ -1065,7 +1099,7 @@ panel({
 '</div>' +
 
 /* ==== MSZE tab ==== */
-'<div class="group-tab-panel" data-panel="msze">' +
+'<div class="' + panelClass('msze') + '" data-panel="msze">' +
 panel({
   title: 'Msze Święte',
   action: button({ label: 'Dodaj mszę', icon: 'fa-solid fa-plus', variant: 'primary', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('dodaj-msza-modal').classList.add('show')" } }),
@@ -1077,7 +1111,7 @@ panel({
 '</div>' +
 
 /* ==== DOKUMENTY tab ==== */
-'<div class="group-tab-panel" data-panel="dokumenty">' +
+'<div class="' + panelClass('dokumenty') + '" data-panel="dokumenty">' +
 panel({
   title: 'Checklista — lista kontrolna',
   action: '<span style="font-size:0.8rem;color:var(--text-muted);font-weight:600;margin-right:0.75rem"><i class="fa-solid fa-circle-check" style="color:var(--success-color)"></i> ' + doneCount + ' / ' + docs.length + '</span>' +
@@ -1087,7 +1121,7 @@ panel({
 '</div>' +
 
 /* ==== KARTA IMPREZY tab ==== */
-'<div class="group-tab-panel" data-panel="karta-imprezy">' +
+'<div class="' + panelClass('karta-imprezy') + '" data-panel="karta-imprezy">' +
 
 panel({
   title: 'Status potwierdze\u0144 dzia\u0142\u00f3w',

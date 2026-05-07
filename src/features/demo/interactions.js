@@ -730,6 +730,7 @@
 				{ lp: 6,  name: 'Zieliński Marek',         pesel: '88093*****', paszport: 'EF4567890', exp: '2031-07-01', lot: 'LO4KL2', seat: '22C', uwagi: 'Weryfikacja' },
 				{ lp: 7,  name: 'Malczewski Tomasz',       pesel: '95060*****', paszport: 'GH2345678', exp: '2027-02-14', lot: 'LO4KL3', seat: '10D', uwagi: '' },
 				{ lp: 8,  name: 'Malczewska Ewa',          pesel: '97110*****', paszport: 'GH2345679', exp: '2027-02-14', lot: 'LO4KL3', seat: '10E', uwagi: '' },
+				{ lp: 9,  name: 'Aziz Alicja (pilot)',     pesel: '80020*****', paszport: 'WX8899001', exp: '2028-09-10', lot: 'LO4KL2', seat: '1B',  uwagi: 'Pilot' },
 			];
 			var brakPaszportu = bilRows.filter(function(r) { return r.paszport === '—'; });
 			var okCount = bilRows.filter(function(r) { return r.paszport !== '—'; }).length;
@@ -798,6 +799,7 @@
 		// Switch tab panels inside the closest group-card-detail (or card body)
 		var panelKey = tab.getAttribute('data-tab');
 		if (panelKey) {
+			window.activeGroupTabState = panelKey;
 			var cardDetail = tab.closest('.group-card-detail');
 			if (cardDetail) {
 				var body = cardDetail.querySelector('.group-card-body');

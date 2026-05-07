@@ -85,10 +85,21 @@ function setActivePage(pageKey, params) {
                         setActivePage(state.currentPage);
                 }
 
+                function getCurrentPage() {
+                        return state.currentPage;
+                }
+                
+                function refresh() {
+                        onChange();
+                }
+
                 return {
                         init,
                         setActiveRole,
-                        setActivePage
+                        setActivePage,
+                        getCurrentPage,
+                        refresh,
+                        getState: () => state
                 };
         }
 

@@ -5,14 +5,19 @@ function renderZapytania() {
 const items = [
 { id: 'ZAP-2026-041', date: 'Dziś, 09:14', org: 'ks. Tomasz Błaszczyk', parish: 'Parafia MB Loretańskiej, Łódź', dest: 'Ziemia Święta', when: 'Październik 2026', pax: '40–50 os.', budget: '4 500–5 500 zł/os.', type: 'Pielgrzymka', opiekun: 'Anna K.', status: 'Nowe', statusTone: 'warning', source: 'Strona WWW' },
 { id: 'ZAP-2026-040', date: 'Wczoraj, 16:32', org: 'Liceum Ogólnokształcące nr 3', parish: 'Szkoła, Kraków', dest: 'Rzym', when: 'Czerwiec 2026', pax: '50 os.', budget: '3 200–3 800 zł/os.', type: 'Wycieczka szkolna', opiekun: 'Marek W.', status: 'W opracowaniu', statusTone: 'info', source: 'Formularz WWW' },
+{ id: 'FL-2026-001', date: 'Wczoraj, 10:15', org: 'Jan Kowalski (Grupa prywatna)', parish: 'Osoba Prywatna', dest: 'Madryt (Tylko Loty)', when: 'Sierpień 2026', pax: '12 os.', budget: '1 200 zł/os.', type: 'Same bilety lotnicze', opiekun: 'Dział Biletów', status: 'Zaakceptowane', statusTone: 'success', source: 'Mail' },
 { id: 'ZAP-2026-038', date: '25.03.2026', org: 'ks. Henryk Hendzel', parish: 'Parafia MB Różańcowej, Rzeszów', dest: 'Fatima + Santiago', when: 'Maj 2026', pax: '35 os.', budget: '5 200 zł/os.', type: 'Pielgrzymka', opiekun: 'Anna K.', status: 'Zaakceptowane', statusTone: 'success', source: 'Polecenie' },
 { id: 'ZAP-2026-035', date: '22.03.2026', org: 'ZHP Hufiec Gdańsk', parish: 'Organizacja harcerska', dest: 'Włochy — Rzym/Asyż', when: 'Lipiec 2026', pax: '60 os.', budget: '2 800–3 200 zł/os.', type: 'Obóz/Wycieczka', opiekun: 'Piotr S.', status: 'Wysłane', statusTone: 'purple', source: 'Polecenie' },
 { id: 'ZAP-2026-030', date: '18.03.2026', org: 'ks. Marek Nowak', parish: 'Parafia Narodzenia Pańskiego, Wrocław', dest: 'Lourdes', when: 'Sierpień 2026', pax: '30 os.', budget: '4 100 zł/os.', type: 'Pielgrzymka', opiekun: 'Anna K.', status: 'W opracowaniu', statusTone: 'info', source: 'CRM — retencja' },
 { id: 'ZAP-2026-025', date: '12.03.2026', org: 'Parafia Wniebowzięcia', parish: 'Parafia, Katowice', dest: 'Grecja — Meteory', when: 'Wrzesień 2026', pax: '45 os.', budget: '3 700 zł/os.', type: 'Pielgrzymka', opiekun: 'Marek W.', status: 'Odrzucone', statusTone: 'neutral', source: 'Strona WWW' },
 ];
 
-const rows = items.map(item => `
-<tr style="cursor:pointer" data-no-demo="true" data-page="szczegoly_zapytania" onclick="window.AppNavigation.setActivePage('szczegoly_zapytania')">
+const rows = items.map(item => {
+const isFlight = item.type === 'Same bilety lotnicze';
+const targetPage = isFlight ? 'szczegoly_biletow' : 'szczegoly_zapytania';
+const pillStyle = isFlight ? 'background-color: var(--warning-color); color: var(--text-color); font-weight: bold; border-radius: 4px; padding: 2px 6px;' : '';
+return `
+<tr style="cursor:pointer" data-no-demo="true" data-page="${targetPage}" onclick="window.AppNavigation.setActivePage('${targetPage}')">
 <td><strong>${escapeHtml(item.id)}</strong><br><small style="color:var(--text-muted)">${escapeHtml(item.date)}</small></td>
 <td>
 <strong>${escapeHtml(item.org)}</strong><br>
@@ -20,7 +25,7 @@ const rows = items.map(item => `
 </td>
 <td><strong>${escapeHtml(item.dest)}</strong><br><small>${escapeHtml(item.when)}</small></td>
 <td>${escapeHtml(item.pax)}</td>
-<td><span class="type-pill">${escapeHtml(item.type)}</span></td>
+<td><span class="type-pill" style="${pillStyle}">${escapeHtml(item.type)}</span></td>
 <td><small style="color:var(--text-muted)">${escapeHtml(item.source)}</small></td>
 <td>${escapeHtml(item.opiekun)}</td>
 <td>${statusBadge(item.status, item.statusTone)}</td>
@@ -28,11 +33,11 @@ const rows = items.map(item => `
 <div style="display:flex;gap:0.4rem;flex-wrap:wrap" onclick="event.stopPropagation()">
 ${button({ label: 'Kalkulator', variant: 'outline' })}
 ${item.statusTone === 'warning' ? button({ label: '→ CRM', variant: 'ghost' }) : ''}
-${item.statusTone === 'success' ? button({ label: 'Zam\u0144 w imprez\u0119', icon: 'fa-solid fa-rocket', variant: 'ghost', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('nowa-karta-imprezy-modal').classList.add('show')" } }) : ''}
+${item.statusTone === 'success' ? button({ label: 'Zamień w imprezę', icon: 'fa-solid fa-rocket', variant: 'ghost', attrs: { 'data-no-demo': 'true', onclick: "document.getElementById('nowa-karta-imprezy-modal').classList.add('show')" } }) : ''}
 </div>
 </td>
 </tr>
-`).join('');
+`}).join('');
 
 const pipeline = [
 { label: 'Nowe', count: 5, icon: 'fa-solid fa-envelope-open-text', color: '#f59e0b', bg: '#fef3c7' },
@@ -76,6 +81,7 @@ title: 'Lista zapytań',
 action: `<div style="display:flex;gap:0.5rem;align-items:center">
 <input type="text" class="inline-select" style="width:160px" placeholder="Szukaj..." />
 <select class="inline-select"><option>Wszystkie statusy</option><option>Nowe</option><option>W opracowaniu</option><option>Wysłane</option><option>Zaakceptowane</option></select>
+<select class="inline-select"><option>Wszystkie typy</option><option>Pielgrzymka</option><option>Wycieczka szkolna</option><option>Obóz/Wycieczka</option><option>Same bilety lotnicze</option></select>
 <select class="inline-select"><option>Wszyscy opiekunowie</option><option>Anna K.</option><option>Marek W.</option><option>Piotr S.</option></select>
 <select class="inline-select"><option>Wszystkie źródła</option><option>Strona WWW</option><option>Polecenie</option><option>CRM — retencja</option><option>Facebook Ads</option></select>
 </div>`,
